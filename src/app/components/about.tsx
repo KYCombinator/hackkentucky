@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 
 export function About() {
@@ -30,7 +31,7 @@ export function About() {
             <h3 className="text-2xl font-semibold mb-4">$10,000 in Prizes</h3>
             <p>Rewarding innovation and creativity</p>
             <div className="mt-4">
-              <Link href="/about#bounty" className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
+              <Link href="/competition" className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
                 Learn More About Prizes →
               </Link>
             </div>
@@ -39,7 +40,14 @@ export function About() {
             <h3 className="text-2xl font-semibold mb-4">Industry Leaders</h3>
             <p>Network with top engineers and companies</p>
             <div className="mt-4">
-              <Link href="/speakers" className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
+              <Link 
+                href="#speakers"
+                className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('speakers')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
                 Meet Our Speakers →
               </Link>
             </div>
