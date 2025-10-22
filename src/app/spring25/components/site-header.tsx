@@ -51,7 +51,7 @@ export function SiteHeader() {
               ))}
               <ThemeToggle />
               <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                <Link href="https://lu.ma/s9igbhj9" target="_blank">
+                <Link href="https://luma.com/hackkentucky" target="_blank">
                   Sign-Up
                 </Link>
               </Button>
@@ -93,7 +93,7 @@ export function SiteHeader() {
                   ))}
                   <ThemeToggle />
                   <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                    <Link href="https://lu.ma/s9igbhj9" target="_blank">
+                    <Link href="https://luma.com/hackkentucky" target="_blank">
                       Sign-Up
                     </Link>
                   </Button>

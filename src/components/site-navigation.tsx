@@ -183,7 +183,7 @@ export function SiteNavigation() {
         <div className="flex items-center gap-6">
 
           <NavigationActions>
-            <Link href="https://lu.ma/2sbx2imc" target="_blank">
+            <Link href="https://luma.com/hackkentucky" target="_blank">
               <div className="px-4 py-2 bg-orange-500 text-white text-sm font-bold relative hover:bg-orange-600 transition-all"
                    style={{ 
                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'

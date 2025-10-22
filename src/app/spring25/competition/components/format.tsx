@@ -60,7 +60,7 @@ export function Format() {
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
-                  <span>Register for the event <a href="https://lu.ma/s9igbhj9" className="text-primary hover:underline">here</a></span>
+                  <span>Register for the event <a href="https://luma.com/hackkentucky" className="text-primary hover:underline">here</a></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>

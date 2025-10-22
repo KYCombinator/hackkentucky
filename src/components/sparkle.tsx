@@ -12,11 +12,11 @@ interface SceneNode {
 }
 
 // Create a static hash for caching
-const TILES_HASH = "a1b232c76723d2dy6";
+const SPARKLE_HASH = "a1b27d33d3d3y7";
 
-const Tiles = memo(({ className }: { className?: string }) => {
+const Sparkle = memo(({ className }: { className?: string }) => {
   // Use a static URL with hash for proper caching
-  const jsonUrl = useMemo(() => `/tiles.json?v=${TILES_HASH}`, []);
+  const jsonUrl = useMemo(() => `/sparkle.json?v=${SPARKLE_HASH}`, []);
 
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
@@ -80,6 +80,6 @@ const Tiles = memo(({ className }: { className?: string }) => {
   );
 });
 
-Tiles.displayName = "Tiles";
+Sparkle.displayName = "Sparkle";
 
-export default Tiles;
+export default Sparkle;

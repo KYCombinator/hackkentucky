@@ -108,7 +108,7 @@ export function EmployersSection() {
             
             <div className="mt-4 flex justify-center">
               <Button asChild size="lg" variant="outline" className="bg-purple-100 text-purple-900 hover:bg-purple-200 border-purple-300">
-                <Link href="https://lu.ma/s9igbhj9" target="_blank">
+                <Link href="https://luma.com/hackkentucky" target="_blank">
                   Register as Employer
                 </Link>
               </Button>

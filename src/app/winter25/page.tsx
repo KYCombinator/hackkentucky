@@ -39,7 +39,7 @@ export default function Winter25Page() {
               </Link>
             </div>
             <div className="flex flex-col gap-4">
-              <Link href="https://lu.ma/s9igbhj9" target="_blank">
+              <Link href="https://luma.com/hackkentucky" target="_blank">
                 <Button variant="outline" className="border-2 border-gray-800 px-8 py-3 text-lg hover:bg-gray-100">
                   Register Now
                 </Button>
@@ -153,7 +153,7 @@ export default function Winter25Page() {
                 Submit Resume
               </Button>
             </Link>
-            <Link href="https://lu.ma/s9igbhj9" target="_blank">
+            <Link href="https://luma.com/hackkentucky" target="_blank">
               <Button variant="outline" className="w-full border-blue-700 text-blue-700 hover:bg-blue-50">
                 Register Now
               </Button>

@@ -91,7 +91,7 @@ export function Hero() {
           </div>
           <div className="flex flex-col gap-4">
             <Button asChild size="lg" variant="outline" className="bg-purple-100 text-purple-900 hover:bg-purple-200 border-purple-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:border-white">
-              <Link href="https://lu.ma/s9igbhj9" target="_blank">
+              <Link href="https://luma.com/hackkentucky" target="_blank">
                 Register Now
               </Link>
             </Button>
