@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SiteNavigation } from "@/components/site-navigation"
 import Tiles from "@/components/tiles"
@@ -129,7 +130,30 @@ const testimonials = [
   }
 ]
 
-const sponsors = ["Chainlink", "TRON", "BNB", "OKX", "Filecoin", "Polygon", "AWS Activate", "Muzzle"]
+const sponsorTiers = {
+  title: [
+    { file: "1.svg", scale: 0.3 },
+    { file: "datavue.png", scale: 1.0 },
+    { file: "papajohns.png", scale: 1.0 }
+  ],
+  highVelocity: [
+    { file: "5.svg", scale: 1.2 },
+    { file: "2.svg", scale: 1.0 },
+    { file: "localsfoodandpub.png", scale: 0.8 }
+  ],
+  kyCombinator: [
+    { file: "sedrinologo.png", scale: 1.5 },
+    { file: "Swell.svg", scale: 1.0 },
+    { file: "7.svg", scale: 1.0 }
+  ],
+  community: [
+    { file: "6.svg", scale: 1.3 },
+    { file: "8.svg", scale: 1.0 },
+    { file: "9.svg", scale: 1.0 },
+    { file: "10.svg", scale: 1.0 },
+    { file: "11.svg", scale: 0.85 }
+  ]
+}
 
 const gridPattern = {
   backgroundImage:
@@ -190,7 +214,7 @@ export default function HomePage() {
         {/* <ProgramSection /> */}
         {/* <ScheduleSection /> */}
         {/* <TestimonialsSection /> */}
-        {/* <SponsorsSection /> */}
+         <SponsorsSection />
         <FinalCallout />
       </main>
     </div>
@@ -417,22 +441,114 @@ function SponsorsSection() {
         <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">Partners</span>
         <h2 className="text-3xl font-semibold uppercase text-white md:text-4xl">Fueling the build floor</h2>
       </header>
-      <div
-        className="overflow-hidden rounded-[28px] border border-white/10 bg-[#080808]/80"
-        style={{ clipPath: CUT_CORNER }}
-      >
-        <div className="grid grid-cols-2 gap-[1px] bg-white/10 sm:grid-cols-4">
-          {sponsors.map((sponsor) => (
-            <div
-              key={sponsor}
-              className="flex h-28 items-center justify-center bg-[#050505] text-lg font-semibold text-white"
-              style={{ fontFamily: "bc-novatica-cyr" }}
-            >
-              {sponsor}
-            </div>
-          ))}
+      
+       {/* Title Sponsors */}
+       <div className="border border-white/10 rounded-[28px] p-4 ">
+        <div className="mt-4 mb-8">
+          <h3 className="text-center text-2xl uppercase tracking-[0.3em] text-zinc-500" style={{ fontFamily: "bc-novatica-cyr" }}>
+            Title Sponsors
+          </h3>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            {sponsorTiers.title.map((sponsor) => (
+              <div 
+                key={sponsor.file} 
+                className="flex items-center justify-center p-6"
+                style={{ width: `${sponsor.scale * 100}%`, maxWidth: '400px', minWidth: '200px' }}
+              >
+                <Image
+                  src={`/sponsors-fall-2025/${sponsor.file}`}
+                  alt={sponsor.file.replace(/\.(svg|png)$/i, "")}
+                  width={500}
+                  height={300}
+                  className="w-full h-auto object-contain"
+                  style={sponsor.file.endsWith('.svg') ? { filter: 'brightness(0) invert(1)' } : {}}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+
+      {/* High Velocity Sponsors */}
+        <div className="">
+          <h3 className="text-center text-lg uppercase tracking-[0.3em] text-zinc-500" style={{ fontFamily: "bc-novatica-cyr" }}>
+            High Velocity Sponsors
+          </h3>
+          <div className="grid grid-cols-1 gap-0 sm:grid-cols-3">
+            {sponsorTiers.highVelocity.map((sponsor) => (
+              <div
+                key={sponsor.file}
+                className="flex items-center justify-center p-2"
+                style={{ minHeight: '140px' }}
+              >
+                <div style={{ width: `${sponsor.scale * 50}%`, maxWidth: '200px' }}>
+                  <Image
+                    src={`/sponsors-fall-2025/${sponsor.file}`}
+                    alt={sponsor.file.replace(/\.(svg|png)$/i, "")}
+                    width={200}
+                    height={100}
+                    className="w-full h-auto object-contain"
+                    style={sponsor.file.endsWith('.svg') ? { filter: 'brightness(0) invert(1)' } : {}}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      {/* KYCombinator Sponsors */}
+        <div className="  ">
+          <h3 className="text-center text-lg uppercase tracking-[0.3em] text-zinc-500" style={{ fontFamily: "bc-novatica-cyr" }}>
+            KYCombinator Sponsors
+          </h3>
+          <div className="grid grid-cols-1 gap-0 sm:grid-cols-3">
+            {sponsorTiers.kyCombinator.map((sponsor) => (
+              <div
+                key={sponsor.file}
+                className="flex items-center justify-center p-2"
+                style={{ minHeight: '110px' }}
+              >
+                <div style={{ width: `${sponsor.scale * 50}%`, maxWidth: '200px' }}>
+                  <Image
+                    src={`/sponsors-fall-2025/${sponsor.file}`}
+                    alt={sponsor.file.replace(/\.(svg|png)$/i, "")}
+                    width={150}
+                    height={80}
+                    className="w-full h-auto object-contain"
+                    style={sponsor.file.endsWith('.svg') ? { filter: 'brightness(0) invert(1)' } : {}}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      {/* Community Sponsors */}
+        <div className="">
+          <h3 className="text-center text-md uppercase tracking-[0.3em] text-zinc-500" style={{ fontFamily: "bc-novatica-cyr" }}>
+            Community Sponsors
+          </h3>
+          <div className="grid grid-cols-2 gap-0 sm:grid-cols-5">
+            {sponsorTiers.community.map((sponsor) => (
+              <div
+                key={sponsor.file}
+                className="flex items-center justify-center p-3"
+                style={{ minHeight: '80px' }}
+              >
+                <div style={{ width: `${sponsor.scale * 80}%`, maxWidth: '180px' }}>
+                  <Image
+                    src={`/sponsors-fall-2025/${sponsor.file}`}
+                    alt={sponsor.file.replace(/\.(svg|png)$/i, "")}
+                    width={100}
+                    height={60}
+                    className="w-full h-auto object-contain"
+                    style={sponsor.file.endsWith('.svg') ? { filter: 'brightness(0) invert(1)' } : {}}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        </div>
     </section>
   )
 }
