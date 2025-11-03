@@ -152,7 +152,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/#logistics" className="relative">
+              <Link href="/logistics" className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -242,7 +242,7 @@ export function SiteNavigation() {
               Sponsors
             </Link>
             <Link 
-              href="/#logistics" 
+              href="/logistics" 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
