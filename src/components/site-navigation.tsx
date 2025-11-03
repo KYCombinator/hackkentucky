@@ -1,8 +1,8 @@
 "use client"
 
-import { Navigation, NavigationBrand, NavigationActions } from "@/components/ui/navigation"
+import { Navigation, NavigationBrand, NavigationActions, NavigationMenu, NavigationMenuItem } from "@/components/ui/navigation"
 import Link from "next/link"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 
 // Component for individual flickering text
@@ -26,35 +26,23 @@ function FlickerText({ children, className, style }: { children: string, classNa
     text.innerHTML = ''
     chars.forEach(span => text.appendChild(span))
 
-    // Create timeline for flickering animation
+    // Create timeline for flickering animation - more subtle and quick
     const tl = gsap.timeline({ paused: true })
     
     //at ramdom flicker not in the same order
     const randomOrder = [...chars].sort(() => Math.random() - 0.5)
     randomOrder.forEach((char, index) => {
       tl.to(char, {
-        duration: 0.01,
-        opacity: 0,
+        duration: 0.03,
+        opacity: 0.7,
         ease: "power2.inOut",
-        delay: index * 0.02
+        delay: index * 0.008
       }, 0)
       .to(char, {
-        duration: 0.01,
+        duration: 0.03,
         opacity: 1,
         ease: "power2.inOut",
-        delay: index * 0.02 + 0.1
-      }, 0)
-      .to(char, {
-        duration: 0.01,
-        opacity: 0,
-        ease: "power2.inOut",
-        delay: index * 0.02 + 0.2
-      }, 0)
-      .to(char, {
-        duration: 0.01,
-        opacity: 1,
-        ease: "power2.inOut",
-        delay: index * 0.02 + 0.25
+        delay: index * 0.008 + 0.04
       }, 0)
     })
 
@@ -99,13 +87,22 @@ function FlickerText({ children, className, style }: { children: string, classNa
 
 export function SiteNavigation() {
   const navRef = useRef<HTMLDivElement>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
 
   return (
-    <div ref={navRef} className="bg-black">
+    <div ref={navRef} className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-white/10">
       <Navigation className="bg-transparent">
         <NavigationBrand>
           <div className="flex items-center gap-2">
-            <Link href="/">
+            <Link href="/" onClick={closeMobileMenu}>
               <div className="px-4 py-2 bg-transparent text-white font-bold relative font-atamiga">
                 HCK KNTKY
                 <div className="absolute top-0 right-0 w-2 h-2"
@@ -115,22 +112,23 @@ export function SiteNavigation() {
           </div>
         </NavigationBrand>
         
-        {/* <div className="flex-1 flex justify-center">
+        {/* Desktop Menu */}
+        <div className="flex-1 flex justify-center">
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuItem>
-              <Link href="/winter25/about" className="relative">
+              <Link href="/#rules" className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
                     style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
                   >
-                    About
+                    Rules
                   </FlickerText>
                 </div>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/spring25/schedule" className="relative">
+              <Link href="/#schedule" className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -142,19 +140,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/spring25/speakers" className="relative">
-                <div className="px-3 py-2 text-white text-sm">
-                  <FlickerText 
-                    className=""
-                    style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
-                  >
-                    Speakers
-                  </FlickerText>
-                </div>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/spring25/sponsors" className="relative">
+              <Link href="/#sponsors" className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -166,23 +152,23 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/spring25/competition" className="relative">
+              <Link href="/#logistics" className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
                     style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
                   >
-                    Competition
+                    Logistics
                   </FlickerText>
                 </div>
               </Link>
             </NavigationMenuItem>
           </NavigationMenu>
-        </div> */}
+        </div>
         
-        <div className="flex items-center gap-6">
-
-          <NavigationActions>
+        <div className="flex items-center gap-4">
+          {/* Register Button - Hidden on mobile, visible on desktop */}
+          <NavigationActions className="hidden md:flex">
             <Link href="https://luma.com/hackkentucky" target="_blank">
               <div className="px-4 py-2 bg-orange-500 text-white text-sm font-bold relative hover:bg-orange-600 transition-all"
                    style={{ 
@@ -201,8 +187,86 @@ export function SiteNavigation() {
               </div>
             </Link>
           </NavigationActions>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMobileMenu}
+            className="md:hidden p-2 text-white hover:text-orange-400 transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
       </Navigation>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-black/98 border-t border-white/10">
+          <nav className="flex flex-col py-4 px-6 space-y-2">
+            <Link 
+              href="/#rules" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Rules
+            </Link>
+            <Link 
+              href="/#schedule" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Schedule
+            </Link>
+            <Link 
+              href="/#sponsors" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Sponsors
+            </Link>
+            <Link 
+              href="/#logistics" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Logistics
+            </Link>
+            <Link 
+              href="https://luma.com/hackkentucky" 
+              target="_blank"
+              onClick={closeMobileMenu}
+              className="mt-4"
+            >
+              <div className="px-4 py-3 bg-orange-500 text-white text-sm font-bold text-center hover:bg-orange-600 transition-all"
+                   style={{ 
+                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
+                     fontFamily: 'bc-novatica-cyr',
+                     fontWeight: '600'
+                   }}>
+                REGISTER
+              </div>
+            </Link>
+          </nav>
+        </div>
+      )}
     </div>
   )
 } 
