@@ -11,82 +11,6 @@ import { useState, useEffect } from "react"
 
 
 const CUT_CORNER = "polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px))"
-
-const heroStats = [
-  {
-    label: "Builders",
-    value: "150+",
-    detail: "developers, designers, and founders from across the region"
-  },
-  {
-    label: "Prize Pool",
-    value: "$5K+",
-    detail: "cash, credits, and venture opportunities for standout teams"
-  },
-  {
-    label: "Mentors",
-    value: "15+",
-    detail: "operators, investors, and product leaders on-site all weekend"
-  }
-]
-
-const featureHighlights = [
-  {
-    id: "support",
-    title: "End-to-end support",
-    subtitle: "From first commit to demo day",
-    description: "We pair every team with a dedicated mentor pod, provide 24/7 workspace, and guide your story for judges and investors."
-  },
-  {
-    id: "approach",
-    title: "Unique approach",
-    subtitle: "Beyond the hackathon",
-    description: "HackKentucky blends incubation-style programming with a pressure-cooker sprint so you leave with momentum, not burnout."
-  },
-  {
-    id: "partners",
-    title: "Partner ecosystem",
-    subtitle: "Strategic access",
-    description: "Top funds, cloud partners, and web3 networks are on deck for fast-tracked intros, grants, and hiring pipelines."
-  }
-]
-
-const programTracks = [
-  {
-    label: "Incubation",
-    title: "Launch Track",
-    description: "Ship a new product in 48 hours with hands-on venture support and technical advisors embedded in your build squad.",
-    metrics: [
-      { label: "Funding Ready", value: "$25K" },
-      { label: "Mentor Pods", value: "12" },
-      { label: "Pitch Slots", value: "Top 8" },
-      { label: "Accelerator Passes", value: "4" }
-    ]
-  },
-  {
-    label: "Scale",
-    title: "Growth Track",
-    description: "Already live? Focus on traction, partnerships, and GTM with curated sessions from seasoned operators and investors.",
-    metrics: [
-      { label: "Advisors", value: "18" },
-      { label: "Enterprise Pilots", value: "6" },
-      { label: "Market Sprints", value: "3" },
-      { label: "Demo Partners", value: "15" }
-    ]
-  },
-  {
-    label: "Frontier",
-    title: "AI x Web3 Track",
-    description: "Push the edge of intelligent infrastructure, agent tooling, and trustless compute with bleeding-edge workshops.",
-    metrics: [
-      { label: "GPU Hours", value: "2,500" },
-      { label: "Research Labs", value: "5" },
-      { label: "Special Prizes", value: "8" },
-      { label: "Protocol Grants", value: "$150K" }
-    ]
-  }
-]
-
 interface ScheduleEvent {
   time: string
   title: string
@@ -160,26 +84,6 @@ const scheduleData = {
   }
 }
 
-const testimonials = [
-  {
-    name: "Asha Patel",
-    role: "Founder, Mesh Labs",
-    quote: "HackKentucky gave us the clarity we needed to reposition our product. We left with a refined story, a pilot partner, and investors following up the next week.",
-    initials: "AP"
-  },
-  {
-    name: "Miguel Sanders",
-    role: "CTO, BeaconPay",
-    quote: "The mentor pods were unreal. Having engineers, operators, and GTM leaders in the same corner accelerated decisions we had been stuck on for months.",
-    initials: "MS"
-  },
-  {
-    name: "Leila Zhou",
-    role: "Principal, Horizon Ventures",
-    quote: "We scout hackathons globally and HackKentucky stands out for founder quality and polish. Teams are ready to pitch, not just demo.",
-    initials: "LZ"
-  }
-]
 
 const sponsorTiers = {
   title: [
@@ -205,23 +109,6 @@ const sponsorTiers = {
     { file: "11.svg", scale: 0.85 }
   ]
 }
-
-const marqueeImages = [
-  "/sponsors-fall-2025/1.svg",
-  "/sponsors-fall-2025/2.svg",
-  "/sponsors-fall-2025/5.svg",
-  "/sponsors-fall-2025/6.svg",
-  "/sponsors-fall-2025/7.svg",
-  "/sponsors-fall-2025/8.svg",
-  "/sponsors-fall-2025/9.svg",
-  "/sponsors-fall-2025/10.svg",
-  "/sponsors-fall-2025/11.svg",
-  "/sponsors-fall-2025/datavue.png",
-  "/sponsors-fall-2025/papajohns.png",
-  "/sponsors-fall-2025/localsfoodandpub.png",
-  "/sponsors-fall-2025/sedrinologo.png",
-  "/sponsors-fall-2025/Swell.svg",
-]
 
 const gridPattern = {
   backgroundImage:
