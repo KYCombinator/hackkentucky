@@ -61,7 +61,7 @@ export default function FormatPage() {
                 </div>
               </div>
               <h3 className="text-lg font-bold mb-2">Build a Solution</h3>
-              <p className="text-sm text-gray-600">48 hours to build, test, and refine your solution</p>
+              <p className="text-sm text-gray-600">24 hours to build, test, and refine your solution</p>
             </div>
 
             <div className="border-[1px] border-zinc-900/40 p-6 bg-white">

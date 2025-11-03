@@ -9,7 +9,7 @@ import { TechBackground } from "@/app/spring25/components/tech-background"
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Hack Kentucky 2025",
-  description: "Kentucky's Premier Hackathon Event - Join us for 48 hours of coding, learning, and building with top tech companies",
+  description: "Kentucky's Premier Hackathon Event - Join us for 24 hours of coding, learning, and building with top tech companies",
   keywords: ["hackathon", "kentucky", "programming", "coding", "tech", "students"],
   authors: [{ name: "KYC" }],
   openGraph: {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: "https://hackkentucky.com",
     siteName: "Hack Kentucky 2025",
     title: "Hack Kentucky 2025",
-    description: "Kentucky's Premier Hackathon Event - Join us for 48 hours of coding, learning, and building with top tech companies",
+    description: "Kentucky's Premier Hackathon Event - Join us for 24 hours of coding, learning, and building with top tech companies",
     images: [{
       url: '/hackkentuckyposter.jpg',
       width: 1200,

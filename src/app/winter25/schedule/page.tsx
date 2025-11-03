@@ -8,7 +8,7 @@ export default function SchedulePage() {
         
         {/* Hero Title Section */}
         <div className="col-span-4 border-[1px] border-zinc-900/40 p-8 flex flex-col justify-center">
-          <h1 className="text-4xl md:text-[120px] font-bold tracking-wider mb-8 font-atamiga">48 HOUR</h1>
+          <h1 className="text-4xl md:text-[120px] font-bold tracking-wider mb-8 font-atamiga">24 HOUR</h1>
           <h1 className="text-4xl md:text-[120px] font-bold tracking-wider mb-4 font-atamiga">SCHEDULE</h1>
           <p className="text-xl text-gray-600 mt-8">Your complete hackathon timeline</p>
         </div>
@@ -280,7 +280,7 @@ export default function SchedulePage() {
 
         {/* Call to Action */}
         <div className="col-span-4 border-[1px] border-zinc-900/40 p-8 flex flex-col items-center justify-center">
-          <h2 className="text-3xl font-bold tracking-wider mb-4 font-atamiga">READY FOR 48 HOURS?</h2>
+          <h2 className="text-3xl font-bold tracking-wider mb-4 font-atamiga">READY FOR 24 HOURS?</h2>
           <p className="text-lg text-gray-600 mb-6 text-center">Join us for an intensive weekend of coding, learning, and building</p>
           <Button className="bg-black text-white px-8 py-3 text-lg hover:bg-gray-800">
             Register Now

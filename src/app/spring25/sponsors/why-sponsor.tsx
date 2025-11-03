@@ -9,7 +9,7 @@ export function WhySponsor() {
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold">Hire and Attract the Best Talent</h3>
               <p className="text-muted-foreground">
-                We&apos;re asking hackers to come on a weekend and work really hard for 48 hours…
+                We&apos;re asking hackers to come on a weekend and work really hard for 24 hours…
                 These will be the most talented and motivated individuals in Kentucky.
               </p>
             </div>
@@ -17,7 +17,7 @@ export function WhySponsor() {
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold">Rapid Problem Solving</h3>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Get multiple innovative solutions to your real business challenges in just 48 hours</li>
+                <li>• Get multiple innovative solutions to your real business challenges in just 24 hours</li>
                 <li>• Access diverse perspectives from talented developers, designers, and entrepreneurs</li>
                 <li>• Receive working prototypes and proof-of-concepts at a fraction of traditional R&D costs</li>
               </ul>

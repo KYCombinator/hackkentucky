@@ -22,7 +22,7 @@ export default function SponsorshipPage() {
             <div className="space-y-6">
               <div className="bg-white p-6 rounded-lg border border-gray-200">
                 <h3 className="text-xl font-semibold mb-3">Hire & Attract Top Talent</h3>
-                <p className="text-gray-600">We&apos;re asking hackers to work intensively for 48 hours. These will be the most talented and motivated individuals in Kentucky.</p>
+                <p className="text-gray-600">We&apos;re asking hackers to work intensively for 24 hours. These will be the most talented and motivated individuals in Kentucky.</p>
               </div>
               
               <div className="bg-white p-6 rounded-lg border border-gray-200">
@@ -34,7 +34,7 @@ export default function SponsorshipPage() {
             <div className="space-y-6">
               <div className="bg-white p-6 rounded-lg border border-gray-200">
                 <h3 className="text-xl font-semibold mb-3">Rapid Problem Solving</h3>
-                <p className="text-gray-600">Get multiple innovative solutions to your real business challenges in just 48 hours from diverse, talented developers and entrepreneurs.</p>
+                <p className="text-gray-600">Get multiple innovative solutions to your real business challenges in just 24 hours from diverse, talented developers and entrepreneurs.</p>
               </div>
               
               <div className="bg-white p-6 rounded-lg border border-gray-200">

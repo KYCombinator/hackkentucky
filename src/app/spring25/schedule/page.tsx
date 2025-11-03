@@ -24,13 +24,13 @@ export default function SchedulePage() {
               Event Schedule
             </h1>
             <p className="text-xl leading-relaxed text-gray-300 mb-8">
-              Your complete guide to 48 hours of innovation, learning, and collaboration. 
+              Your complete guide to 24 hours of innovation, learning, and collaboration. 
               From keynote speeches to workshops, every moment is an opportunity to grow.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-gray-300">
               <div className="flex items-center">
                 <Clock className="w-6 h-6 mr-2" />
-                <span>48 Hours</span>
+                <span>24 Hours</span>
               </div>
               <div className="flex items-center">
                 <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">

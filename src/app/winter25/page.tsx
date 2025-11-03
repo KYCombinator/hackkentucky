@@ -58,7 +58,7 @@ export default function Winter25Page() {
           <h2 className="text-3xl font-bold tracking-wider mb-6 font-atamiga text-center">ABOUT HACK KENTUCKY</h2>
           <p className="text-lg text-gray-600 text-center max-w-4xl mx-auto mb-8">
             HackKentucky is Kentucky&apos;s premier hackathon, bringing together the brightest minds in technology and innovation. 
-            Join us for 48 hours of coding, creativity, and collaboration!
+            Join us for 24 hours of coding, creativity, and collaboration!
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,7 +97,7 @@ export default function Winter25Page() {
         {/* How It Works */}
         <div className="col-span-4 border-[1px] border-zinc-900/40 p-8">
           <h2 className="text-3xl font-bold tracking-wider mb-6 font-atamiga text-center">HOW IT WORKS</h2>
-          <p className="text-lg text-gray-600 text-center mb-8">From idea to demo in less than 48 hours</p>
+          <p className="text-lg text-gray-600 text-center mb-8">From idea to demo in less than 24 hours</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="border-[1px] border-zinc-900/40 p-6 bg-white text-center">
@@ -109,7 +109,7 @@ export default function Winter25Page() {
             <div className="border-[1px] border-zinc-900/40 p-6 bg-white text-center">
               <div className="text-4xl mb-4">💡</div>
               <h3 className="text-xl font-bold mb-2">Brainstorm & Build</h3>
-              <p className="text-gray-600">You&apos;ll have 48 hours to turn your idea into reality. Mentors will be available to help you along the way.</p>
+              <p className="text-gray-600">You&apos;ll have 24 hours to turn your idea into reality. Mentors will be available to help you along the way.</p>
             </div>
             
             <div className="border-[1px] border-zinc-900/40 p-6 bg-white text-center">
