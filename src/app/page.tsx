@@ -240,7 +240,7 @@ export default function HomePage() {
           </div>
           {eventStarted ? (
             <>
-              <h1 className="text-4xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
+              <h1 className="text-3xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
                 Welcome to HackKentucky Fall 2025
               </h1>
               <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
@@ -255,6 +255,22 @@ export default function HomePage() {
                     Bounty Projects
                   </Button>
                 </Link>
+                <Link href="/Rubric" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    Judging Rubric
+                  </Button>
+                </Link>
+                <Link href="/how-to-hack" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    How To Hack
+                  </Button>
+                </Link>
                 <Link href="https://hack-kentucky.slack.com/join/shared_invite/zt-2xabg2z38-cVGqVdXPqN2H7_tlpH9TVA#/shared-invite/email" target="_blank" rel="noreferrer">
                   <Button
                     className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
@@ -263,12 +279,13 @@ export default function HomePage() {
                     Join our Slack
                   </Button>
                 </Link>
-                <Link
-                  href="#schedule"
-                  className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-zinc-400 transition hover:text-white"
-                >
-                  View Schedule
-                  <span className="text-xs">↗</span>
+                <Link href="#schedule" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    View Schedule
+                  </Button>
                 </Link>
               </div>
             </>
