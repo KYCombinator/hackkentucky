@@ -98,19 +98,27 @@ function LogisticsSection() {
             Internet
           </div>
           <div className="space-y-4">
-            <div className="flex flex-grid grid-cols-2 gap-2">
-            <div className="bg-black/40 border border-white/10 rounded-lg p-4 w-full">
-              <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">WiFi Network</div>
-              <div className="text-lg font-semibold text-white">SpectrumSetup-4F</div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="flex-1 bg-black/40 border border-white/10 rounded-lg p-4 min-w-0">
+                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">
+                  WiFi Network
+                </div>
+                <div className="text-lg font-semibold text-white break-all">
+                  SpectrumSetup-4F
+                </div>
+              </div>
+              <div className="flex-1 bg-black/40 border border-white/10 rounded-lg p-4 min-w-0">
+                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">
+                  WiFi Network Extension
+                </div>
+                <div className="text-lg font-semibold text-white break-all">
+                  SpectrumSetup-4F_EXT
+                </div>
+              </div>
             </div>
             <div className="bg-black/40 border border-white/10 rounded-lg p-4 w-full">
-              <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">WiFi Network Extension</div>
-              <div className="text-lg font-semibold text-white">SpectrumSetup-4F_EXT</div>
-            </div>
-            </div>
-            <div className="bg-black/40 border border-white/10 rounded-lg p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">Password</div>
-              <div className="text-lg font-semibold text-white">turtleepic576</div>
+              <div className="text-lg font-semibold text-white break-all">turtleepic576</div>
             </div>
           </div>
         </div>
