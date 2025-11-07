@@ -265,14 +265,7 @@ export function SiteNavigation() {
             >
               Sponsors
             </Link>
-            <Link 
-              href="/Rubric" 
-              onClick={closeMobileMenu}
-              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
-              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
-            >
-              Rubric
-            </Link>
+            
             <Link 
               href="/logistics" 
               onClick={closeMobileMenu}
@@ -280,6 +273,14 @@ export function SiteNavigation() {
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
             >
               Logistics
+            </Link>
+            <Link 
+              href="/Rubric" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Rubric
             </Link>
             <Link 
               href="/how-to-hack" 
