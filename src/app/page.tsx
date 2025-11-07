@@ -4,13 +4,46 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SiteNavigation } from "@/components/site-navigation"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Tiles from "@/components/tiles"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TilesSM from "@/components/tilessm"
+import Sparkle from "@/components/sparkle"
 import { useState, useEffect } from "react"
 
 
 
+type CountdownState = {
+  days: string
+  hours: string
+  minutes: string
+  seconds: string
+}
+
+const EVENT_START = new Date("2025-11-07T22:00:00Z").getTime()
+
 const CUT_CORNER = "polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px))"
+
+function computeTimeLeft(): CountdownState {
+  const diff = Math.max(0, EVENT_START - Date.now())
+  const totalSeconds = Math.floor(diff / 1000)
+  const days = Math.floor(totalSeconds / 86400)
+  const hours = Math.floor((totalSeconds % 86400) / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  const format = (value: number) => value.toString().padStart(2, "0")
+
+  return {
+    days: format(days),
+    hours: format(hours),
+    minutes: format(minutes),
+    seconds: format(seconds)
+  }
+}
+
+function hasEventStarted(): boolean {
+  return Date.now() >= EVENT_START
+}
 interface ScheduleEvent {
   time: string
   title: string
@@ -117,9 +150,10 @@ const gridPattern = {
 }
 
 export default function HomePage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [mounted, setMounted] = useState(false)
   const [breakpoint, setBreakpoint] = useState<'sm' | 'md' | 'lg'>('lg')
+  const [timeLeft, setTimeLeft] = useState<CountdownState>(() => computeTimeLeft())
+  const [eventStarted, setEventStarted] = useState(() => hasEventStarted())
 
   useEffect(() => {
     setMounted(true)
@@ -136,10 +170,136 @@ export default function HomePage() {
       window.removeEventListener('resize', updateBreakpoint)
     }
   }, [])
-  
+
+  useEffect(() => {
+    const tick = () => {
+      setTimeLeft(computeTimeLeft())
+      setEventStarted(hasEventStarted())
+    }
+
+    tick()
+    const interval = window.setInterval(tick, 1000)
+
+    return () => {
+      window.clearInterval(interval)
+    }
+  }, [])
+
+  const countdownUnits = [
+    { label: "Days", value: timeLeft.days },
+    { label: "Hours", value: timeLeft.hours },
+    { label: "Minutes", value: timeLeft.minutes },
+    { label: "Seconds", value: timeLeft.seconds }
+  ]
+
+  const heroHeightClass = breakpoint === 'sm' ? 'min-h-[70vh]' : 'min-h-[90vh]'
+
   return (
     <div className="min-h-screen bg-black text-white">
       <SiteNavigation />
+      <section
+        className={`relative flex ${heroHeightClass} flex-col items-center justify-center overflow-hidden border-b border-white/10 px-6 py-16 md:px-10`}
+      >
+        {mounted ? (
+          <div className="pointer-events-none absolute inset-0 opacity-60">
+            <Sparkle />
+          </div>
+        ) : null}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <div
+          className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 text-center"
+          style={{ fontFamily: "bc-novatica-cyr" }}
+        >
+          {eventStarted ? (
+            <>
+              <h1 className="text-4xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
+                Welcome to HackKentucky Fall 2025
+              </h1>
+              <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
+                November 7-8 • Louisville, KY
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link href="https://form.kycombinator.com/form/89ef9a12-411b-44eb-a391-fe7ba0f4d516/responses" target="_blank" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    Bounty Projects
+                  </Button>
+                </Link>
+                <Link href="https://hack-kentucky.slack.com/join/shared_invite/zt-2xabg2z38-cVGqVdXPqN2H7_tlpH9TVA#/shared-invite/email" target="_blank" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    Join our Slack
+                  </Button>
+                </Link>
+                <Link
+                  href="#schedule"
+                  className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-zinc-400 transition hover:text-white"
+                >
+                  View Schedule
+                  <span className="text-xs">↗</span>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">Countdown to the floor</span>
+              <h1 className="text-4xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
+                HackKentucky
+                <h2 className="text-3xl uppercase tracking-[0.15em] text-white md:text-4xl">
+                Fall 2025
+              </h2>
+              </h1>
+              <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
+                November 7-8 • Louisville, KY
+              </p>
+              <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+                {countdownUnits.map((unit) => (
+                  <div
+                    key={unit.label}
+                    className="flex flex-col items-center gap-3 rounded-[24px] border border-white/15 bg-black/60 px-6 py-6 backdrop-blur"
+                  >
+                    <span className="text-4xl font-semibold tabular-nums text-white md:text-5xl lg:text-6xl">
+                      {unit.value}
+                    </span>
+                    <span className="text-[11px] uppercase tracking-[0.35em] text-orange-400">{unit.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link href="https://form.kycombinator.com/form/89ef9a12-411b-44eb-a391-fe7ba0f4d516/responses" target="_blank" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    Bounty Projects
+                  </Button>
+                </Link>
+                <Link href="https://luma.com/hackkentucky" target="_blank" rel="noreferrer">
+                  <Button
+                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                  >
+                    Register Now
+                  </Button>
+                </Link>
+                <Link
+                  href="#schedule"
+                  className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-zinc-400 transition hover:text-white"
+                >
+                  View Schedule
+                  <span className="text-xs">↗</span>
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars -- Legacy tiles hero retained for future reference */}
+      {/*
       <div className="col-span-4 h-[90vh]">
               {breakpoint === 'sm' ? (
                 <TilesSM />
@@ -164,6 +324,7 @@ export default function HomePage() {
               </Link>
               )}
             </div>
+      */}
       <main className="relative mx-auto flex max-w-6xl flex-col gap-24 px-6 pb-24 pt-12 md:px-10 lg:px-0">
         <RulesSection />
         <ScheduleSection />

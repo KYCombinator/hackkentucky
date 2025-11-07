@@ -12,7 +12,7 @@ interface SceneNode {
 }
 
 // Create a static hash for caching
-const SPARKLE_HASH = "a1b27d33d3d3y7";
+const SPARKLE_HASH = "a1b27dd33d3d3y7";
 
 const Sparkle = memo(({ className }: { className?: string }) => {
   // Use a static URL with hash for proper caching
