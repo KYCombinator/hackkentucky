@@ -163,6 +163,30 @@ export function SiteNavigation() {
                 </div>
               </Link>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/Rubric" className="relative">
+                <div className="px-3 py-2 text-white text-sm">
+                  <FlickerText 
+                    className=""
+                    style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+                  >
+                    Rubric
+                  </FlickerText>
+                </div>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/how-to-hack" className="relative">
+                <div className="px-3 py-2 text-white text-sm">
+                  <FlickerText 
+                    className=""
+                    style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+                  >
+                    How to Hack
+                  </FlickerText>
+                </div>
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenu>
         </div>
         
@@ -242,12 +266,28 @@ export function SiteNavigation() {
               Sponsors
             </Link>
             <Link 
+              href="/Rubric" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              Rubric
+            </Link>
+            <Link 
               href="/logistics" 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
             >
               Logistics
+            </Link>
+            <Link 
+              href="/how-to-hack" 
+              onClick={closeMobileMenu}
+              className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
+              style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
+            >
+              How to Hack
             </Link>
             <Link 
               href="https://luma.com/hackkentucky" 
