@@ -210,6 +210,34 @@ export default function HomePage() {
           className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 text-center"
           style={{ fontFamily: "bc-novatica-cyr" }}
         >
+          <div className="pointer-events-auto w-full">
+            <Link
+              href="https://forms.gle/bcZficQBkpriBSb46"
+              target="_blank"
+              rel="noreferrer"
+              className="group block w-full"
+            >
+              <div
+                className="flex flex-col gap-4 rounded-[24px] border border-orange-500/40 bg-black/70 px-6 py-5 transition duration-300 hover:border-orange-400 hover:bg-orange-500/10 md:flex-row md:items-center md:justify-between"
+                style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+              >
+                <div className="flex flex-col gap-1 text-left md:flex-row md:items-center md:gap-4">
+                  <span className="text-xl leading-none text-orange-400 md:text-2xl">⚠</span>
+                  <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">
+                    Liability Form Required
+                  </span>
+                </div>
+                <div className="flex flex-col items-start gap-2 text-sm text-zinc-300 md:items-end md:text-right">
+                  <span>
+                    Sign before you arrive to speed up on-site check-in.
+                  </span>
+                  <span className="text-[11px] uppercase tracking-[0.4em] text-orange-300 transition group-hover:text-white">
+                    Sign Now <span className="text-xs">↗</span>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
           {eventStarted ? (
             <>
               <h1 className="text-4xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
@@ -247,12 +275,13 @@ export default function HomePage() {
           ) : (
             <>
               <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">Countdown to the floor</span>
-              <h1 className="text-4xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
+              <h1 className="text-3xl uppercase tracking-[0.15em] text-white sm:text-4xl md:text-6xl font-atamiga">
                 HackKentucky
-                <h2 className="text-3xl uppercase tracking-[0.15em] text-white md:text-4xl">
+                
+              </h1>
+              <h2 className="text-2xl uppercase tracking-[0.15em] text-white md:text-4xl -mt-8">
                 Fall 2025
               </h2>
-              </h1>
               <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
                 November 7-8 • Louisville, KY
               </p>
