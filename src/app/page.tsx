@@ -20,7 +20,7 @@ type CountdownState = {
   seconds: string
 }
 
-const EVENT_START = new Date("2025-11-07T22:00:00Z").getTime()
+const EVENT_START = new Date("2025-11-08T22:00:00Z").getTime()
 
 const CUT_CORNER = "polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px))"
 
@@ -207,7 +207,7 @@ export default function HomePage() {
         ) : null}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         <div
-          className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 text-center"
+          className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-12 text-center"
           style={{ fontFamily: "bc-novatica-cyr" }}
         >
           <div className="pointer-events-auto w-full">
@@ -238,75 +238,31 @@ export default function HomePage() {
               </div>
             </Link>
           </div>
-          {eventStarted ? (
-            <>
-              <h1 className="text-3xl uppercase tracking-[0.15em] text-white md:text-6xl font-atamiga">
-                Welcome to HackKentucky Fall 2025
-              </h1>
-              <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
-                November 7-8 • Louisville, KY
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link href="https://form.kycombinator.com/form/89ef9a12-411b-44eb-a391-fe7ba0f4d516/responses" target="_blank" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    Bounty Projects
-                  </Button>
-                </Link>
-                <Link href="/Rubric" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    Judging Rubric
-                  </Button>
-                </Link>
-                <Link href="/how-to-hack" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    How To Hack
-                  </Button>
-                </Link>
-                <Link href="https://hack-kentucky.slack.com/join/shared_invite/zt-2xabg2z38-cVGqVdXPqN2H7_tlpH9TVA#/shared-invite/email" target="_blank" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    Join our Slack
-                  </Button>
-                </Link>
-                <Link href="#schedule" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    View Schedule
-                  </Button>
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">Countdown to the floor</span>
-              <h1 className="text-3xl uppercase tracking-[0.15em] text-white sm:text-4xl md:text-6xl font-atamiga">
+
+          <div className="pointer-events-auto flex w-full flex-col items-center gap-10 rounded-[32px] border border-white/10 bg-black/60 px-6 py-10 shadow-2xl backdrop-blur">
+            <div className="flex flex-col items-center gap-4">
+              <span className="text-[11px] uppercase tracking-[0.55em] text-orange-400">
+                Countdown To Stop Coding
+              </span>
+              <h1 className="text-3xl font-atamiga uppercase tracking-[0.15em] text-white md:text-6xl">
                 HackKentucky
-                
               </h1>
-              <h2 className="text-2xl uppercase tracking-[0.15em] text-white md:text-4xl -mt-8">
-                Fall 2025
-              </h2>
-              <p className="text-xs uppercase tracking-[0.35em] text-zinc-400 md:text-sm">
-                November 7-8 • Louisville, KY
+              <p className="max-w-2xl text-sm text-zinc-300 md:text-base">
+                Ship your final commits before the 5:00 PM ET cutoff. Judging begins as soon as submissions close.
               </p>
-              <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] uppercase tracking-[0.35em] text-zinc-400 md:text-[11px]">
+                <span>Saturday · Nov 8 · 5:00 PM ET</span>
+                <span className="hidden text-orange-500 md:inline">•</span>
+                <span>Cinderblock · Louisville</span>
+              </div>
+            </div>
+
+            {!eventStarted ? (
+              <div className="grid w-full max-w-3xl grid-cols-2 gap-4 md:grid-cols-4">
                 {countdownUnits.map((unit) => (
                   <div
                     key={unit.label}
-                    className="flex flex-col items-center gap-3 rounded-[24px] border border-white/15 bg-black/60 px-6 py-6 backdrop-blur"
+                    className="flex flex-col items-center gap-3 rounded-[24px] border border-white/15 bg-white/5 px-6 py-6 text-white shadow-inner backdrop-blur-sm"
                   >
                     <span className="text-4xl font-semibold tabular-nums text-white md:text-5xl lg:text-6xl">
                       {unit.value}
@@ -315,33 +271,60 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-4">
+            ) : (
+              <div className="w-full max-w-3xl rounded-[24px] border border-orange-500/50 bg-orange-500/10 px-6 py-8 text-center shadow-inner">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-orange-200 md:text-base">
+                  Submissions Closed
+                </p>
+                <p className="mt-3 text-xs text-orange-100 md:text-sm">
+                  Head to the presentation space to get into the judging lineup.
+                </p>
+              </div>
+            )}
+
+            <div className="flex w-full flex-wrap items-center justify-center gap-3 md:gap-4">
               <Link href="https://form.kycombinator.com/form/89ef9a12-411b-44eb-a391-fe7ba0f4d516/responses" target="_blank" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    Bounty Projects
-                  </Button>
-                </Link>
-                <Link href="https://luma.com/hackkentucky" target="_blank" rel="noreferrer">
-                  <Button
-                    className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
-                    style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
-                  >
-                    Register Now
-                  </Button>
-                </Link>
-                <Link
-                  href="#schedule"
-                  className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-zinc-400 transition hover:text-white"
+                <Button
+                  className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                  style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                >
+                  Bounty Projects
+                </Button>
+              </Link>
+              <Link href="/Rubric" rel="noreferrer">
+                <Button
+                  className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                  style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                >
+                  Judging Rubric
+                </Button>
+              </Link>
+              <Link href="/how-to-hack" rel="noreferrer">
+                <Button
+                  className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                  style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                >
+                  How To Hack
+                </Button>
+              </Link>
+              <Link href="https://hack-kentucky.slack.com/join/shared_invite/zt-2xabg2z38-cVGqVdXPqN2H7_tlpH9TVA#/shared-invite/email" target="_blank" rel="noreferrer">
+                <Button
+                  className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                  style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
+                >
+                  Join our Slack
+                </Button>
+              </Link>
+              <Link href="#schedule" rel="noreferrer">
+                <Button
+                  className="bg-orange-500 px-10 py-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-orange-500/90"
+                  style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}
                 >
                   View Schedule
-                  <span className="text-xs">↗</span>
-                </Link>
-              </div>
-            </>
-          )}
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
       {/* eslint-disable-next-line @typescript-eslint/no-unused-vars -- Legacy tiles hero retained for future reference */}
