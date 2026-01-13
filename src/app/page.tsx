@@ -47,7 +47,7 @@ export default function HomePage() {
             <Card className="mt-4 bg-zinc-900/50 border-zinc-700 w-full md:max-w-2xl shrink-0">
               <CardContent className="pt-6">
                 <p className="text-zinc-300 text-sm md:text-base google-sans-flex-body leading-relaxed">
-                  "Due to staffing and funding, we're unable to execute on HackKentucky Spring 2026. We look forward to bringing this back in the Fall."  
+                  &ldquo;Due to staffing and funding, we&rsquo;re unable to execute on HackKentucky Spring 2026. We look forward to bringing this back in the Fall.&rdquo;  
                   <Link href="https://kycombinator.beehiiv.com/p/the-distill-locking-in?utm_source=kycombinator.beehiiv.com&utm_medium=newsletter&utm_campaign=the-distill-locking-in" target="_blank" rel="noreferrer" className="text-orange-500 hover:text-orange-400 ml-2">
                     See Blog <ArrowUpRight className="w-4 h-4 inline-block mb-0.5" />
                   </Link>

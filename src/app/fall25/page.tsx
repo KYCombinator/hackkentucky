@@ -4,10 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SiteNavigation } from "@/components/site-navigation"
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Tiles from "@/components/tiles"
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import TilesSM from "@/components/tilessm"
 import Sparkle from "@/components/sparkle"
 import { useState, useEffect } from "react"
 
@@ -327,7 +323,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars -- Legacy tiles hero retained for future reference */}
+      {/* Legacy tiles hero retained for future reference
       {/*
       <div className="col-span-4 h-[90vh]">
               {breakpoint === 'sm' ? (
