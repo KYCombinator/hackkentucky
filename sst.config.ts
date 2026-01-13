@@ -11,6 +11,7 @@ export default $config({
     };
   },
   async run() {
+    const aws = await import("@pulumi/aws");
     new sst.aws.Nextjs("HackKentucky", {
       domain: {
         name: "hackkentucky.com",
