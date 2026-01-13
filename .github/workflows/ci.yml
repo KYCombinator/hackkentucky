@@ -19,12 +19,10 @@ jobs:
       with:
         node-version: '22'
 
-    - name: Install deps & build OpenNext
+    - name: Install dependencies
       env:
         NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
-      run: |
-        npm ci
-        npx open-next build
+      run: npm ci
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
