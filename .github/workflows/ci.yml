@@ -31,5 +31,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: Remove preinstalled pulumi language plugin
+      run: sudo rm -f /usr/local/bin/pulumi-language-nodejs
+
     - name: Deploy with SST
       run: npx sst deploy --stage prod 
