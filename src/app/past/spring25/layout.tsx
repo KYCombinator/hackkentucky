@@ -44,18 +44,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={spaceGrotesk.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <TechBackground />
-          <SiteHeader />
-          <PageTransition>
-            {children}
-          </PageTransition>
-          <SiteFooter />
-        </ThemeProvider>
-      </body>
-    </html>
+    <div className={spaceGrotesk.className}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <TechBackground />
+        <SiteHeader />
+        <PageTransition>
+          {children}
+        </PageTransition>
+        <SiteFooter />
+      </ThemeProvider>
+    </div>
   )
 }
-
