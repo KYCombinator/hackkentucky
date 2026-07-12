@@ -2,6 +2,7 @@
 
 import { Navigation, NavigationBrand, NavigationActions, NavigationMenu, NavigationMenuItem } from "@/components/ui/navigation"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 
@@ -88,6 +89,9 @@ function FlickerText({ children, className, style }: { children: string, classNa
 export function SiteNavigation() {
   const navRef = useRef<HTMLDivElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const basePath = pathname.startsWith("/past/fall25") ? "/past/fall25" : ""
+  const archiveHref = (path = "") => `${basePath}${path}` || "/"
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -102,7 +106,7 @@ export function SiteNavigation() {
       <Navigation className="bg-transparent">
         <NavigationBrand>
           <div className="flex items-center gap-2">
-            <Link href="/" onClick={closeMobileMenu}>
+            <Link href={archiveHref()} onClick={closeMobileMenu}>
               <div className="px-4 py-2 bg-transparent text-white font-bold relative font-atamiga">
                 HCK KNTKY
                 <div className="absolute top-0 right-0 w-2 h-2"
@@ -116,7 +120,7 @@ export function SiteNavigation() {
         <div className="flex-1 flex justify-center">
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuItem>
-              <Link href="/#rules" className="relative">
+              <Link href={archiveHref("/#rules")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -128,7 +132,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/#schedule" className="relative">
+              <Link href={archiveHref("/#schedule")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -140,7 +144,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/#sponsors" className="relative">
+              <Link href={archiveHref("/#sponsors")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -152,7 +156,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/logistics" className="relative">
+              <Link href={archiveHref("/logistics")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -164,7 +168,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/Rubric" className="relative">
+              <Link href={archiveHref("/rubric")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -176,7 +180,7 @@ export function SiteNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/how-to-hack" className="relative">
+              <Link href={archiveHref("/how-to-hack")} className="relative">
                 <div className="px-3 py-2 text-white text-sm">
                   <FlickerText 
                     className=""
@@ -193,7 +197,7 @@ export function SiteNavigation() {
         <div className="flex items-center gap-4">
           {/* Register Button - Hidden on mobile, visible on desktop */}
           <NavigationActions className="hidden md:flex">
-            <Link href="https://luma.com/hackkentucky" target="_blank">
+            <Link href="https://luma.com/hy24ycd1" target="_blank">
               <div className="px-4 py-2 bg-orange-500 text-white text-sm font-bold relative hover:bg-orange-600 transition-all"
                    style={{ 
                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
@@ -242,7 +246,7 @@ export function SiteNavigation() {
         <div className="md:hidden bg-black/98 border-t border-white/10">
           <nav className="flex flex-col py-4 px-6 space-y-2">
             <Link 
-              href="/#rules" 
+              href={archiveHref("/#rules")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -250,7 +254,7 @@ export function SiteNavigation() {
               Rules
             </Link>
             <Link 
-              href="/#schedule" 
+              href={archiveHref("/#schedule")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -258,7 +262,7 @@ export function SiteNavigation() {
               Schedule
             </Link>
             <Link 
-              href="/#sponsors" 
+              href={archiveHref("/#sponsors")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -267,7 +271,7 @@ export function SiteNavigation() {
             </Link>
             
             <Link 
-              href="/logistics" 
+              href={archiveHref("/logistics")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -275,7 +279,7 @@ export function SiteNavigation() {
               Logistics
             </Link>
             <Link 
-              href="/Rubric" 
+              href={archiveHref("/rubric")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -283,7 +287,7 @@ export function SiteNavigation() {
               Rubric
             </Link>
             <Link 
-              href="/how-to-hack" 
+              href={archiveHref("/how-to-hack")} 
               onClick={closeMobileMenu}
               className="py-3 text-white hover:text-orange-400 transition-colors text-sm"
               style={{ fontFamily: 'bc-novatica-cyr', fontWeight: '400' }}
@@ -291,7 +295,7 @@ export function SiteNavigation() {
               How to Hack
             </Link>
             <Link 
-              href="https://luma.com/hackkentucky" 
+              href="https://luma.com/hy24ycd1" 
               target="_blank"
               onClick={closeMobileMenu}
               className="mt-4"

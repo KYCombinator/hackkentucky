@@ -1,6 +1,6 @@
 import UnicornScene from "unicornstudio-react";
-import { UNICORN_SDK_URL } from "./unicorn-sdk";
 import { memo, useEffect, useMemo, useState } from "react";
+import { UNICORN_SDK_URL } from "./unicorn-sdk";
 
 interface Breakpoint {
   name: string;
@@ -13,11 +13,11 @@ interface SceneNode {
 }
 
 // Create a static hash for caching
-const SPARKLE_HASH = "a1b27dd33d3d3y7";
+const GLYPH_WAVES_HASH = "b3f91ce02a7e4k1";
 
-const Sparkle = memo(({ className }: { className?: string }) => {
+const GlyphWaves = memo(({ className }: { className?: string }) => {
   // Use a static URL with hash for proper caching
-  const jsonUrl = useMemo(() => `/sparkle.json?v=${SPARKLE_HASH}`, []);
+  const jsonUrl = useMemo(() => `/glyph_waves_remix_scene.json?v=${GLYPH_WAVES_HASH}`, []);
 
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
@@ -75,13 +75,13 @@ const Sparkle = memo(({ className }: { className?: string }) => {
       width={className ? "100%" : "100%"}
       height={className ? "100%" : "100%"}
       scale={1}
-      dpi={1}
+      dpi={1.5}
       fps={60}
       lazyLoad={true}
     />
   );
 });
 
-Sparkle.displayName = "Sparkle";
+GlyphWaves.displayName = "GlyphWaves";
 
-export default Sparkle;
+export default GlyphWaves;
