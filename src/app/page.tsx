@@ -1,17 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
 import { Space_Grotesk, Space_Mono } from "next/font/google"
 import { ViewportFixed } from "@/components/viewport-fixed"
 import GlyphWaves from "@/components/glyph-waves"
+import { Fall26Sidebar, Fall26MobileHeader, REGISTER_URL, SLACK_INVITE_URL } from "@/components/fall26-sidebar"
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
 const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
-
-const REGISTER_URL = "https://luma.com/hy24ycd1"
-const SLACK_INVITE_URL = "https://join.slack.com/t/kycombinator/shared_invite/zt-2viueybdu-QNv80gAKk~sJZ9paWebGVQ"
 const TARGET = new Date("2026-09-11T16:00:00-04:00").getTime()
 const TICKER =
   "TWO DAYS OF BUILD, CHOOSE WISELY — HACKKENTUCKY 2026 — NOT YOUR AVERAGE HACKATHON — SEP 11–12 · GENUINE WORKS · LOUISVILLE KY — FREE ENTRY, FOOD INCLUDED — "
@@ -69,49 +65,6 @@ const GUIDELINES: [string, string[]][] = [
   ],
 ]
 
-const PARTNER_TIERS: { tier: string; logos: { file: string; scale: number }[] }[] = [
-  {
-    tier: "TITLE PARTNERS",
-    logos: [
-      { file: "1.svg", scale: 0.6 },
-      { file: "datavue.png", scale: 1.0 },
-      { file: "papajohns.png", scale: 1.0 },
-    ],
-  },
-  {
-    tier: "HIGH VELOCITY",
-    logos: [
-      { file: "5.svg", scale: 1.2 },
-      { file: "2.svg", scale: 1.0 },
-      { file: "localsfoodandpub.png", scale: 0.8 },
-    ],
-  },
-  {
-    tier: "KYCOMBINATOR",
-    logos: [
-      { file: "sedrinologo.png", scale: 1.5 },
-      { file: "Swell.svg", scale: 1.0 },
-      { file: "7.svg", scale: 1.0 },
-    ],
-  },
-  {
-    tier: "COMMUNITY",
-    logos: [
-      { file: "6.svg", scale: 1.3 },
-      { file: "8.svg", scale: 1.0 },
-      { file: "9.svg", scale: 1.0 },
-      { file: "10.svg", scale: 1.0 },
-      { file: "11.svg", scale: 0.85 },
-    ],
-  },
-]
-
-const PAGES: [string, string][] = [
-  ["RUBRIC", "/rubric"],
-  ["LOGISTICS", "/logistics"],
-  ["HOW TO HACK", "/how-to-hack"],
-]
-
 const FAQS = [
   ["WHO CAN JOIN?", "18+. Students and professionals — all skill levels welcome."],
   ["HOW MUCH?", "Free. Food, wifi, and caffeine included the whole event."],
@@ -121,17 +74,7 @@ const FAQS = [
   ["WHERE EXACTLY?", "Genuine Works, 750 E Jefferson St, Louisville KY 40202."],
 ]
 
-const SOCIALS: [string, string][] = [
-  ["TWITTER", "https://x.com/kycombinator"],
-  ["INSTAGRAM", "https://www.instagram.com/kycombinator"],
-  ["DISCORD", "https://discord.gg/kycombinator"],
-  ["GITHUB", "https://github.com/KYCombinator"],
-]
-
 const pad = (n: number) => String(n).padStart(2, "0")
-
-const sectionTag =
-  "inline-block border border-[rgba(242,242,236,.5)] px-[9px] py-1 text-[12px] tracking-[1px] text-[#f2f2ec] hover:border-[#c9f73b] hover:text-[#c9f73b] transition-colors"
 
 export default function HomePage() {
   const [now, setNow] = useState<number | null>(null)
@@ -161,141 +104,11 @@ export default function HomePage() {
       `}</style>
 
       {/* ===================== LEFT SIDEBAR ===================== */}
-      <ViewportFixed>
-      <nav className="fixed left-0 top-0 hidden h-screen w-[280px] flex-col overflow-auto border-r border-[rgba(201,247,59,.22)] bg-[#0b0b0b] px-[26px] pb-[76px] pt-7 lg:flex">
-        <a
-          href="#top"
-          className="font-[family-name:var(--font-hk-display)] text-[32px] font-bold leading-[.95] tracking-[-1px] text-[#c9f73b]"
-        >
-          HACK
-          <br />
-          KENTUCKY.
-        </a>
-
-        <div className="mt-12 flex flex-col gap-3.5">
-          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
-            <span className="text-[#c9f73b]">↳</span>EVENT
-          </div>
-          <div className="flex flex-col gap-2.5 pl-[26px]">
-            <div className="flex items-center gap-2">
-              <a href="#top" className={sectionTag}>OVERVIEW</a>
-            </div>
-            <div className="flex items-center gap-2">
-              <a href="#schedule" className={sectionTag}>SCHEDULE</a>
-              <span className="text-[12px] text-[#c9f73b]">11</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <a href="#guidelines" className={sectionTag}>GUIDELINES</a>
-              <span className="text-[12px] text-[#c9f73b]">4</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <a href="#partners" className={sectionTag}>PARTNERS</a>
-              <span className="text-[12px] text-[#c9f73b]">14</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <a href="#faq" className={sectionTag}>FAQ</a>
-              <span className="text-[12px] text-[#c9f73b]">6</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <a
-                href="#register"
-                className="inline-block border border-[#c9f73b] bg-[#c9f73b] px-[9px] py-1 text-[12px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:border-[#f2f2ec] hover:bg-[#f2f2ec]"
-              >
-                REGISTER
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col gap-3.5">
-          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
-            <span className="text-[#c9f73b]">↳</span>INTEL
-          </div>
-          <div className="flex flex-col gap-2.5 pl-[26px]">
-            {PAGES.map(([label, href]) => (
-              <div key={href} className="flex items-center gap-2">
-                <Link href={href} className={sectionTag}>{label}</Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex-1" />
-
-        <div className="mt-10 flex flex-col gap-3">
-          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
-            <span className="text-[#c9f73b]">↳</span>VENUE
-          </div>
-          <div className="pl-[26px] text-[12px] leading-[1.8] text-[rgba(242,242,236,.65)]">
-            GENUINE WORKS
-            <br />
-            750 E JEFFERSON ST
-            <br />
-            LOUISVILLE, KY 40202
-          </div>
-        </div>
-
-        <div className="mt-[34px] flex flex-col gap-3">
-          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
-            <span className="text-[#c9f73b]">↳</span>SOCIAL
-          </div>
-          <div className="flex flex-col gap-[9px] pl-[26px] text-[12px] tracking-[1px]">
-            {SOCIALS.map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-[#f2f2ec] underline underline-offset-4 hover:text-[#c9f73b]"
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-[34px] flex flex-col gap-3">
-          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
-            <span className="text-[#c9f73b]">↳</span>SUPPORT
-          </div>
-          <div className="pl-[26px] text-[12px] tracking-[1px]">
-            <a
-              href="mailto:hello@hackkentucky.com"
-              className="text-[#f2f2ec] underline underline-offset-4 hover:text-[#c9f73b]"
-            >
-              HELLO@HACKKENTUCKY.COM
-            </a>
-          </div>
-        </div>
-      </nav>
-      </ViewportFixed>
+      <Fall26Sidebar />
 
       {/* ===================== MAIN ===================== */}
       <main id="top" className="min-w-0 pb-24 lg:ml-[280px]">
-        {/* mobile header */}
-        <div className="flex items-center justify-between border-b border-[rgba(201,247,59,.22)] px-5 py-4 lg:hidden">
-          <a
-            href="#top"
-            className="font-[family-name:var(--font-hk-display)] text-[20px] font-bold leading-none tracking-[-1px] text-[#c9f73b]"
-          >
-            HACKKENTUCKY.
-          </a>
-          <a
-            href="#register"
-            className="border border-[#c9f73b] bg-[#c9f73b] px-3 py-1.5 text-[11px] font-bold tracking-[1px] text-[#0b0b0b]"
-          >
-            REGISTER
-          </a>
-        </div>
-
-        {/* mobile page links */}
-        <div className="flex items-center gap-2 overflow-x-auto border-b border-[rgba(201,247,59,.22)] px-5 py-3 lg:hidden">
-          {PAGES.map(([label, href]) => (
-            <Link key={href} href={href} className={`${sectionTag} whitespace-nowrap`}>
-              {label}
-            </Link>
-          ))}
-        </div>
+        <Fall26MobileHeader />
 
         {/* ticker */}
         <div className="overflow-hidden border-b border-[rgba(201,247,59,.22)] py-3">
@@ -309,39 +122,6 @@ export default function HomePage() {
         <div className="relative h-[600px] overflow-hidden border-b border-[rgba(201,247,59,.22)]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-90">
             <GlyphWaves />
-          </div>
-
-          <div data-speed="0.84" data-lag="0.16" className="pointer-events-none absolute right-[120px] top-14 hidden md:block">
-            <div className="relative h-[150px] w-[230px] bg-[#c9f73b]">
-              <div className="absolute -left-[26px] top-[26px] h-[26px] w-[26px] bg-[#c9f73b]" />
-              <div className="absolute -left-[52px] top-[52px] h-[26px] w-[26px] bg-[#c9f73b]" />
-              <div className="absolute -top-[26px] right-[52px] h-[26px] w-[26px] bg-[#c9f73b]" />
-              <div className="absolute bottom-0 right-0 h-[26px] w-[26px] bg-[#0b0b0b]" />
-              <div className="absolute left-0 top-0 h-[26px] w-[26px] bg-[#0b0b0b]" />
-            </div>
-          </div>
-          <div data-speed="0.72" data-lag="0.28" className="pointer-events-none absolute bottom-[150px] left-[340px] hidden md:block">
-            <div className="relative h-24 w-[150px] bg-[#c9f73b]">
-              <div className="absolute -right-6 top-6 h-6 w-6 bg-[#c9f73b]" />
-              <div className="absolute -bottom-6 left-6 h-6 w-6 bg-[#c9f73b]" />
-              <div className="absolute right-0 top-0 h-6 w-6 bg-[#0b0b0b]" />
-            </div>
-          </div>
-          <div data-speed="0.9" data-lag="0.1" className="pointer-events-none absolute -right-10 top-[210px] hidden md:block">
-            <div className="relative h-[230px] w-[130px] bg-[#c9f73b]">
-              <div className="absolute -left-[26px] bottom-[52px] h-[26px] w-[26px] bg-[#c9f73b]" />
-              <div className="absolute left-0 top-[26px] h-[26px] w-[26px] bg-[#0b0b0b]" />
-            </div>
-          </div>
-          <div data-speed="0.66" data-lag="0.34" className="pointer-events-none absolute left-[120px] top-[90px] hidden md:block">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[26px] leading-none text-[#c9f73b]">
-              {"▄█▀ █\n█  ▀▄\n ▀█"}
-            </div>
-          </div>
-          <div data-speed="0.78" data-lag="0.22" className="pointer-events-none absolute right-[420px] top-[330px] hidden md:block">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[20px] leading-none text-[#c9f73b]">
-              {"█▄ ▀█\n ▀█▄"}
-            </div>
           </div>
 
           <div className="absolute bottom-10 left-5 sm:left-9">
@@ -370,35 +150,21 @@ export default function HomePage() {
         </div>
 
         {/* caption row */}
-        <div className="grid grid-cols-1 items-start gap-5 border-b border-[rgba(201,247,59,.22)] px-5 py-[26px] sm:px-9 md:grid-cols-[1.3fr_1fr_1fr] md:gap-10">
+        <div className="grid grid-cols-1 items-start gap-5 border-b border-[rgba(201,247,59,.22)] px-5 py-[26px] sm:px-9 md:grid-cols-[1.3fr_1fr] md:gap-10">
           <p className="m-0 text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
             A 29-hour build marathon at Genuine Works, Louisville — students, engineers &amp; the perpetually curious.
             Free entry, food &amp; caffeine included.
           </p>
-          <div className="pt-1 text-[12px] tracking-[2px] text-[#f2f2ec] md:text-center">
+          <div className="pt-1 text-[12px] tracking-[2px] text-[#f2f2ec] md:text-right">
             CHECK THE SCHEDULE,{" "}
             <a href="#schedule" className="text-[#c9f73b] underline underline-offset-4">
               DOWNSTAIRS.
             </a>
           </div>
-          <div className="pt-1 text-[12px] tracking-[2px] text-[rgba(242,242,236,.5)] md:text-right">
-            © HACKKENTUCKY 2026
-          </div>
         </div>
 
         {/* schedule */}
         <section id="schedule" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-          <div data-speed="0.8" data-lag="0.2" className="pointer-events-none absolute right-[70px] top-20 opacity-55">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[24px] leading-none text-[#c9f73b]">
-              {"█ ▄█\n▀█  ▀\n  █▄"}
-            </div>
-          </div>
-          <div data-speed="0.88" data-lag="0.12" className="pointer-events-none absolute bottom-[120px] right-[220px] opacity-35">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[18px] leading-none text-[#c9f73b]">
-              {"▄▀█\n█ ▄"}
-            </div>
-          </div>
-
           <div className="mb-10 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -442,12 +208,6 @@ export default function HomePage() {
 
         {/* guidelines */}
         <section id="guidelines" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-          <div data-speed="0.86" data-lag="0.14" className="pointer-events-none absolute right-14 top-12 opacity-45">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[22px] leading-none text-[#c9f73b]">
-              {"▀█▄ █\n▄ ▀█\n█▀ ▄"}
-            </div>
-          </div>
-
           <div className="mb-10 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -473,69 +233,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* partners */}
-        <section id="partners" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-          <div data-speed="0.9" data-lag="0.1" className="pointer-events-none absolute right-24 top-14 opacity-45">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[20px] leading-none text-[#c9f73b]">
-              {"█ ▀▄\n ▄█▀\n▀ █"}
-            </div>
-          </div>
-
-          <div className="mb-10 flex flex-wrap items-center gap-3.5">
-            <span className="text-[16px] text-[#c9f73b]">↳</span>
-            <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
-              PARTNERS
-            </h2>
-            <span className="pt-3 text-[13px] text-[#c9f73b]">FUELING THE BUILD FLOOR</span>
-          </div>
-
-          {PARTNER_TIERS.map(({ tier, logos }) => (
-            <div key={tier} className="mb-9 last:mb-0">
-              <div className="mb-4 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">{tier}</div>
-              <div className="flex flex-wrap gap-2.5">
-                {logos.map(({ file, scale }) => (
-                  <div
-                    key={file}
-                    className="flex h-[104px] w-[calc(50%-5px)] items-center justify-center border border-[rgba(242,242,236,.12)] px-6 sm:w-[220px]"
-                  >
-                    <Image
-                      src={`/sponsors-fall-2025/${file}`}
-                      alt={file.replace(/\.(svg|png)$/, "")}
-                      width={160}
-                      height={64}
-                      className="h-12 w-auto max-w-full object-contain"
-                      style={{
-                        transform: `scale(${scale})`,
-                        filter: file.endsWith(".svg") ? "brightness(0) invert(1)" : undefined,
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <span className="text-[12px] tracking-[2px] text-[rgba(242,242,236,.5)]">
-              WANT YOUR LOGO ON THE FLOOR?
-            </span>
-            <a
-              href="mailto:hello@hackkentucky.com"
-              className="inline-block border border-[rgba(242,242,236,.5)] px-[9px] py-1 text-[12px] tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
-            >
-              BECOME A PARTNER ↗
-            </a>
-          </div>
-        </section>
-
         {/* faq */}
         <section id="faq" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-          <div data-speed="0.92" data-lag="0.08" className="pointer-events-none absolute right-9 top-10 opacity-50">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[20px] leading-none text-[#c9f73b]">
-              {"▀█ ▄\n ▄██\n█▀"}
-            </div>
-          </div>
-
           <div className="mb-10 flex items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -557,12 +256,6 @@ export default function HomePage() {
 
         {/* register */}
         <section id="register" className="relative overflow-hidden bg-[#c9f73b] px-5 py-[70px] sm:px-9">
-          <div data-speed="0.94" data-lag="0.06" className="pointer-events-none absolute right-16 top-1">
-            <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[18px] leading-none text-[#0b0b0b]">
-              {"█▄ ▀\n ▀█▄ █\n   ▀"}
-            </div>
-          </div>
-
           <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
             <div>
               <div className="mb-4 text-[11px] font-bold tracking-[3px] text-[#0b0b0b]">
