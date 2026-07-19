@@ -5,28 +5,29 @@ import "./globals.css"
 
 const cabin = Cabin({ subsets: ["latin"] })
 export const metadata: Metadata = {
-  title: "Hack Kentucky 2025",
-  description: "Kentucky's Premier Hackathon Event - Join us for 424 hours of coding, learning, and building with top tech companies",
+  metadataBase: new URL("https://hackkentucky.com"),
+  title: "Hack Kentucky Fall 2026",
+  description: "Kentucky's Premier Hackathon Event - Join us September 11-12, 2026 for a 29-hour build marathon of coding, learning, and shipping with top tech companies",
   keywords: ["hackathon", "kentucky", "programming", "coding", "tech", "students"],
   authors: [{ name: "KYC" }],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://hackkentucky.com",
-    siteName: "Hack Kentucky 2025",
-    title: "Hack Kentucky 2025",
-    description: "Kentucky's Premier Hackathon Event - Join us for 24 hours of coding, learning, and building with top tech companies",
+    siteName: "Hack Kentucky Fall 2026",
+    title: "Hack Kentucky Fall 2026",
+    description: "Kentucky's Premier Hackathon Event - Join us September 11-12, 2026 for a 29-hour build marathon of coding, learning, and shipping with top tech companies",
     images: [{
       url: '/hackkentuckyposter.jpg',
       width: 1200,
-      height: 630,
-      alt: "Hack Kentucky 2025"
+      height: 644,
+      alt: "Hack Kentucky Fall 2026"
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hack Kentucky 2025",
-    description: "Kentucky's Premier Hackathon Event",
+    title: "Hack Kentucky Fall 2026",
+    description: "Kentucky's Premier Hackathon Event - September 11-12, 2026",
     images: ['/hackkentuckyposter.jpg'],
   },
   robots: {

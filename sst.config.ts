@@ -20,6 +20,20 @@ export default $config({
         }),
         cert: "arn:aws:acm:us-east-1:418295680070:certificate/86272627-eac2-4c36-b28f-bc851616a377",
       },
+      // Recipient + sender for the /sponsor form. SPONSOR_FROM_EMAIL must be a
+      // verified SES identity (address or domain) in us-east-1, and the account
+      // must have SES production access to reach organizers@kycombinator.com.
+      environment: {
+        SPONSOR_TO_EMAIL: "organizers@kycombinator.com",
+        SPONSOR_FROM_EMAIL: "organizers@kycombinator.com",
+      },
+      // Allow the Next.js server function to send via SES.
+      permissions: [
+        {
+          actions: ["ses:SendEmail", "ses:SendRawEmail"],
+          resources: ["*"],
+        },
+      ],
     });
 
     // ✅ Redirect www → root
