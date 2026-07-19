@@ -1,4 +1,5 @@
 import UnicornScene from "unicornstudio-react";
+import { UNICORN_SDK_URL } from "./unicorn-sdk";
 import { memo, useEffect, useMemo, useState } from "react";
 
 interface Breakpoint {
@@ -70,6 +71,7 @@ const TilesMD = memo(({ className }: { className?: string }) => {
   return (
     <UnicornScene
       jsonFilePath={blobUrl}
+      sdkUrl={UNICORN_SDK_URL}
       width={className ? "100%" : "100%"}
       height={className ? "100%" : "100%"}
       scale={1}

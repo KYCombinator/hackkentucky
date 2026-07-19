@@ -1,169 +1,135 @@
 "use client"
 
-import Image from "next/image"
-import { SiteNavigation } from "@/components/site-navigation"
+import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
 
-const CUT_CORNER = "polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px))"
+const FACILITIES = [
+  {
+    title: "BATHROOMS",
+    items: [
+      "Restrooms are available on-site throughout the event.",
+      "No shower facilities on site.",
+    ],
+  },
+  {
+    title: "WIFI",
+    items: [
+      "Dedicated event network with plenty of bandwidth.",
+      "Network name and password posted at check-in and on every table.",
+    ],
+  },
+  {
+    title: "DESKS + POWER",
+    items: [
+      "Tables, chairs, power strips, and outlets provided — just bring your laptop and charger.",
+      "Genuine Works is a working space. Be respectful: don't move or open anything that isn't yours.",
+    ],
+  },
+  {
+    title: "FOOD + CAFFEINE",
+    items: [
+      "Saturday has grazing breakfast, evergreen coupon lunch, and Papa Johns dinner.",
+      "Food is provided during the event. Flag dietary restrictions at registration.",
+    ],
+  },
+]
 
 export default function LogisticsPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <SiteNavigation />
-      <main className="relative mx-auto flex max-w-6xl flex-col gap-24 px-6 pb-24 pt-12 md:px-10 lg:px-0">
-        <LogisticsSection />
-      </main>
-    </div>
-  )
-}
-
-function LogisticsSection() {
-  return (
-    <section id="logistics" className="flex flex-col gap-8">
-      <header className="flex flex-col gap-2" style={{ fontFamily: "bc-novatica-cyr" }}>
-        <span className="text-[11px] uppercase tracking-[0.4em] text-orange-400">Information</span>
-        <h2 className="text-3xl font-semibold uppercase text-white md:text-4xl">Logistics</h2>
-      </header>
-
-      {/* Parking Section */}
-      <div className="border border-white/10 bg-[#070707] p-6 md:p-8" style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}>
-        <div className="flex items-center gap-3 text-lg uppercase tracking-[0.3em] text-orange-400 mb-4">
-          <span className="h-2 w-2 rounded-sm bg-orange-400" />
-          Parking
-        </div>
-        <p className="text-sm text-zinc-300 leading-relaxed mb-6">
-          Plenty of parking at 1205 East Washington Street - you can park in the lot or on the street
-        </p>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div>
-            <h3 className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-3">Getting Here</h3>
-            <p className="text-sm text-zinc-300 leading-relaxed mb-4">
-              You can get to the location off Exit 7 on I-64
+    <Fall26Shell
+      tag="⌁ ON-SITE_INFORMATION"
+      title={
+        <>
+          LOGISTICS<span className="text-[#c9f73b]">.</span>
+        </>
+      }
+      intro="Everything you need to know about getting in, parking, wifi, and making the most of the weekend at Genuine Works."
+    >
+      {/* venue + parking */}
+      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="GETTING HERE" note="GENUINE WORKS" />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="border border-[rgba(242,242,236,.12)] p-6 sm:p-7">
+            <span className={tagClass}>THE VENUE</span>
+            <p className="mb-0 mt-5 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
+              Genuine Works — 750 E Jefferson St, Louisville, KY 40202. Doors open Friday at 4:00 PM; check in with a
+              photo ID at the front desk.
             </p>
-            <div className="border border-white/10 rounded-lg overflow-hidden">
-              <Image
-                src="/route-dark.png"
-                alt="Route to Cinderblock"
-                width={800}
-                height={600}
-                className="w-full h-auto"
-              />
-            </div>
+            <a
+              href="https://maps.google.com/?q=750+E+Jefferson+St,+Louisville,+KY+40202"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-block border border-[rgba(242,242,236,.5)] px-[9px] py-1 text-[12px] tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
+            >
+              OPEN IN MAPS ↗
+            </a>
           </div>
-          <div>
-            <h3 className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-3">Parking Map</h3>
-            <p className="text-sm text-zinc-300 leading-relaxed mb-4">
-              Lots of parking available (marked in green along the streets)
+          <div className="border border-[rgba(242,242,236,.12)] p-6 sm:p-7">
+            <span className={tagClass}>PARKING</span>
+            <p className="mb-0 mt-5 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
+              Free street parking is available around the venue, with nearby surface lots as backup. A parking map with
+              marked spots will be posted here closer to the event.
             </p>
-            <div className="border border-white/10 rounded-lg overflow-hidden">
-              <Image
-                src="/parking.png"
-                alt="Parking map"
-                width={800}
-                height={600}
-                className="w-full h-auto"
-              />
+            <div className="mt-5 inline-block border border-[rgba(201,247,59,.6)] px-2 py-[3px] text-[12px] tracking-[1px] text-[#c9f73b]">
+              MAP DROPS SOON
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Facilities Grid */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Bathrooms */}
-        <div className="border border-white/10 bg-[#070707] p-6 md:p-8" style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}>
-          <div className="flex items-center gap-3 text-lg uppercase tracking-[0.3em] text-orange-400 mb-4">
-            <span className="h-2 w-2 rounded-sm bg-orange-400" />
-            Bathrooms
-          </div>
-          <ul className="space-y-3">
-            <li className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
-              <span className="text-orange-400 mt-1 flex-shrink-0">→</span>
-              <span>There are 2 toilets in the office</span>
-            </li>
-            <li className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
-              <span className="text-orange-400 mt-1 flex-shrink-0">→</span>
-              <span>Two sets of bathrooms to the left and to the right of the office</span>
-            </li>
-            <li className="flex gap-3 text-sm text-zinc-400 leading-relaxed italic mt-4">
-              <span className="text-orange-400/60 mt-1 flex-shrink-0">*</span>
-              <span>Note: There are no shower facilities on site</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Internet */}
-        <div className="border border-white/10 bg-[#070707] p-6 md:p-8" style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}>
-          <div className="flex items-center gap-3 text-lg uppercase tracking-[0.3em] text-orange-400 mb-4">
-            <span className="h-2 w-2 rounded-sm bg-orange-400" />
-            Internet
-          </div>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <div className="flex-1 bg-black/40 border border-white/10 rounded-lg p-4 min-w-0">
-                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">
-                  WiFi Network
-                </div>
-                <div className="text-lg font-semibold text-white break-all">
-                  SpectrumSetup-4F
-                </div>
-              </div>
-              <div className="flex-1 bg-black/40 border border-white/10 rounded-lg p-4 min-w-0">
-                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">
-                  WiFi Network Extension
-                </div>
-                <div className="text-lg font-semibold text-white break-all">
-                  SpectrumSetup-4F_EXT
-                </div>
-              </div>
+      {/* facilities */}
+      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="THE FACILITIES" note="WHAT'S ON-SITE" />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {FACILITIES.map((card) => (
+            <div key={card.title} className="border border-[rgba(242,242,236,.12)] p-6 sm:p-7">
+              <span className={tagClass}>{card.title}</span>
+              <ul className="m-0 mt-5 list-none p-0">
+                {card.items.map((item) => (
+                  <li key={item} className="flex items-start gap-3 py-1.5">
+                    <span className="text-[13px] text-[#c9f73b]">→</span>
+                    <span className="text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="bg-black/40 border border-white/10 rounded-lg p-4 w-full">
-              <div className="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">Password</div>
-              <div className="text-lg font-semibold text-white break-all">turtleepic576</div>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* Offices + Desks */}
-      <div className="border border-white/10 bg-[#070707] p-6 md:p-8" style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}>
-        <div className="flex items-center gap-3 text-lg uppercase tracking-[0.3em] text-orange-400 mb-4">
-          <span className="h-2 w-2 rounded-sm bg-orange-400" />
-          Offices + Desks
-        </div>
-        <div className="space-y-4">
-          <p className="text-sm text-zinc-300 leading-relaxed">
-            Cinderblock is a shared office space. All personal items will be put away. There are plenty of desks and offices on site.
+      {/* floor map */}
+      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="FLOOR MAP" note="KNOW THE BUILD FLOOR" />
+        <div className="flex flex-col items-start gap-5 border border-[rgba(242,242,236,.12)] p-6 sm:p-10">
+          <div className="whitespace-pre font-[family-name:var(--font-hk-mono)] text-[20px] leading-none text-[#c9f73b] opacity-70">
+            {"█▀▀▀█ ▀█\n█ ▄  ▄ █\n▀▀ █▀▀▀▀"}
+          </div>
+          <p className="m-0 max-w-[560px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
+            The floor map for Genuine Works — hacking zones, demo stage, food station, and quiet corners — will be
+            posted here before doors open.
           </p>
-          <ul className="space-y-3 mt-4">
-            <li className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
-              <span className="text-orange-400 mt-1 flex-shrink-0">→</span>
-              <span>Please be respectful and do not open any drawers and/or move personal items</span>
-            </li>
-            <li className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
-              <span className="text-orange-400 mt-1 flex-shrink-0">→</span>
-              <span>Electrical cords and outlets will be provided</span>
-            </li>
-          </ul>
+          <div className="inline-block border border-[rgba(201,247,59,.6)] px-2 py-[3px] text-[12px] tracking-[1px] text-[#c9f73b]">
+            COMING BEFORE DOORS OPEN
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Floor Map */}
-      <div className="border border-white/10 bg-[#070707] p-6 md:p-8" style={{ clipPath: CUT_CORNER, fontFamily: "bc-novatica-cyr" }}>
-        <div className="flex items-center gap-3 text-lg uppercase tracking-[0.3em] text-orange-400 mb-4">
-          <span className="h-2 w-2 rounded-sm bg-orange-400" />
-          Floor Map
+      {/* questions */}
+      <section className="bg-[#c9f73b] px-5 py-16 sm:px-9">
+        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+          <div>
+            <div className="mb-4 text-[11px] font-bold tracking-[3px] text-[#0b0b0b]">▚ STILL HAVE QUESTIONS?</div>
+            <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[34px] font-bold leading-[.9] tracking-[-1px] text-[#0b0b0b] sm:text-[56px] sm:tracking-[-2px]">
+              ASK AN ORGANIZER.
+            </h2>
+          </div>
+          <a
+            href="mailto:hello@hackkentucky.com"
+            className="whitespace-nowrap bg-[#0b0b0b] px-8 py-5 text-[14px] tracking-[2px] text-[#c9f73b] transition-colors hover:bg-[#f2f2ec] hover:text-[#0b0b0b]"
+          >
+            HELLO@HACKKENTUCKY.COM →
+          </a>
         </div>
-        <div className="mt-6 border border-white/10 rounded-lg overflow-hidden">
-          <Image
-            src="/floormap.png"
-            alt="Floor map"
-            width={1200}
-            height={900}
-            className="w-full h-auto"
-          />
-        </div>
-      </div>
-    </section>
+      </section>
+    </Fall26Shell>
   )
 }
-

@@ -1,4 +1,5 @@
 import UnicornScene from "unicornstudio-react";
+import { UNICORN_SDK_URL } from "./unicorn-sdk";
 import { memo, useEffect, useMemo, useState } from "react";
 
 interface Breakpoint {
@@ -71,6 +72,7 @@ const Spring26 = memo(({ className }: { className?: string }) => {
     <div className={`w-full h-full ${className || ""}`}>
       <UnicornScene
         jsonFilePath={blobUrl}
+        sdkUrl={UNICORN_SDK_URL}
         width="100%"
         height="100%"
         scale={1}

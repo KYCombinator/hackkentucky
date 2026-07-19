@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Cabin } from 'next/font/google'
+import { SmoothScroll } from "@/components/smooth-scroll"
 import "./globals.css"
 
 const cabin = Cabin({ subsets: ["latin"] })
@@ -45,9 +46,8 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/ywk2uab.css" />
       </head>
       <body className={cabin.className}>
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   )
 }
-
