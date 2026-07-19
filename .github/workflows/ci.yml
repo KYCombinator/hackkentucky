@@ -34,5 +34,10 @@ jobs:
     - name: Remove preinstalled pulumi language plugin
       run: sudo rm -f /usr/local/bin/pulumi-language-nodejs
 
+    # One-time state migration for the AWS provider v6 -> v7 upgrade.
+    # Remove this step after the first successful deploy.
+    - name: Migrate SST state (v6 -> v7)
+      run: npx sst refresh --stage prod
+
     - name: Deploy with SST
       run: npx sst deploy --stage prod 
