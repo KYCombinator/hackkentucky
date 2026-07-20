@@ -10,6 +10,7 @@ export const SLACK_INVITE_URL = "https://join.slack.com/t/kycombinator/shared_in
 export const PAGES: [string, string][] = [
   ["RUBRIC", "/rubric"],
   ["HOW TO HACK", "/how-to-hack"],
+  ["SPONSOR", "/sponsor"],
 ]
 
 const SECTIONS: [string, string, string?][] = [
