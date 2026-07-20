@@ -105,6 +105,28 @@ export default function SponsorPage() {
       }
       intro="HackKentucky × HackTheTrack — Fall 2026. Two of Louisville's hackathons, one weekend, one sponsorship. 300+ builders at Genuine Works, September 11–12, 2026."
     >
+      {/* top CTA bar */}
+      <section className="flex flex-col gap-4 border-b border-[rgba(201,247,59,.22)] px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-9">
+        <span className="text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.55)]">
+          Commit by <span className="text-[#c9f73b]">August 14</span> to make the t-shirt.
+        </span>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="#get-involved"
+            className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
+          >
+            GET INVOLVED →
+          </a>
+          <a
+            href={PDF_URL}
+            download
+            className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
+          >
+            ↓ PROSPECTUS (PDF)
+          </a>
+        </div>
+      </section>
+
       {/* the opportunity */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="300 BUILDERS. ONE ROOM." note="THE OPPORTUNITY" />
