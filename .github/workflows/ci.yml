@@ -7,10 +7,36 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      APP_NAME: auth
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      env:
+        NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
+      run: npm ci
+
+    - name: Build
+      env:
+        NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
+      run: npm run build
+
+  deploy:
+    needs: build
+    # Only deploy to prod on a real push to main. PRs run the build job only,
+    # so they no longer race the merge deploy for the SST state lock.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Serialize prod deploys so two runs never hit the SST lock at once.
+    concurrency:
+      group: sst-deploy-prod
+      cancel-in-progress: false
     steps:
     - uses: actions/checkout@v4
 
@@ -34,10 +60,5 @@ jobs:
     - name: Remove preinstalled pulumi language plugin
       run: sudo rm -f /usr/local/bin/pulumi-language-nodejs
 
-    # One-time state migration for the AWS provider v6 -> v7 upgrade.
-    # Remove this step after the first successful deploy.
-    - name: Migrate SST state (v6 -> v7)
-      run: npx sst refresh --stage prod
-
     - name: Deploy with SST
-      run: npx sst deploy --stage prod 
+      run: npx sst deploy --stage prod

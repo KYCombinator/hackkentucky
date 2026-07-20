@@ -16,7 +16,7 @@ const TIERS: { value: string; label: string }[] = [
   { value: "neon", label: "NEON · $100" },
   { value: "chrome", label: "CHROME · $500" },
   { value: "purple", label: "PURPLE · $5,000" },
-  { value: "bounty", label: "BOUNTY · $500+" },
+  { value: "bounty", label: "BOUNTY (PRIZE)" },
   { value: "custom", label: "CUSTOM PACKAGE" },
 ]
 
