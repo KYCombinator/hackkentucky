@@ -1,7 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
 import { SponsorForm } from "@/components/sponsor-form"
+import { NewsletterSignup } from "@/components/newsletter-signup"
 
 const PDF_URL = "/HackKentucky-Sponsorship-2026.pdf"
 
@@ -377,9 +379,18 @@ export default function SponsorPage() {
         <SectionHead title="GET INVOLVED" note="SPONSOR · VOLUNTEER · SPEAK" />
         <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
           Tell us how you want to be part of Fall 2026 and we&apos;ll follow up. Sponsoring?{" "}
-          <span className="text-[#c9f73b]">Commit by August 14</span> to make the t-shirt.
+          <span className="text-[#c9f73b]">Commit by August 14</span> to make the t-shirt. Already confirmed?{" "}
+          <Link href="/sponsor/intake" className="text-[#c9f73b] underline underline-offset-4">
+            Send us your logo →
+          </Link>
         </p>
         <SponsorForm />
+      </section>
+
+      {/* newsletter */}
+      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="KY COMBINATOR NEWSLETTER" note="STAY UPDATED" />
+        <NewsletterSignup />
       </section>
 
       {/* contact */}
