@@ -4,9 +4,9 @@ import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses"
 // Route handler must run on the Node.js runtime (SES SDK is not edge-compatible).
 export const runtime = "nodejs"
 
-const TO_EMAIL = process.env.SPONSOR_TO_EMAIL || "organizers@kycombinator.com"
+const TO_EMAIL = process.env.SPONSOR_TO_EMAIL || "hackkentucky@kycombinator.com"
 // Must be a verified SES identity in the account (see sst.config.ts / README).
-const FROM_EMAIL = process.env.SPONSOR_FROM_EMAIL || "organizers@kycombinator.com"
+const FROM_EMAIL = process.env.SPONSOR_FROM_EMAIL || "hackkentucky@kycombinator.com"
 
 const INTERESTS = ["sponsor", "volunteer", "speak"] as const
 type Interest = (typeof INTERESTS)[number]
@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("SES send failed", err)
     return NextResponse.json(
-      { error: "We couldn't send your message. Please email organizers@kycombinator.com directly." },
+      { error: "We couldn't send your message. Please email hackkentucky@kycombinator.com directly." },
       { status: 502 },
     )
   }
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
     "hackkentucky.com · hackthetrack.org",
     "",
     "— The HackKentucky Team",
-    "Reply to this email or reach us at organizers@kycombinator.com",
+    "Reply to this email or reach us at hackkentucky@kycombinator.com",
   ].join("\n")
 
   const confirmHtml = `
@@ -169,7 +169,7 @@ export async function POST(req: NextRequest) {
       </p>
       <p style="margin:16px 0 0">
         — The HackKentucky Team<br />
-        <span style="color:#555">Reply to this email or reach us at organizers@kycombinator.com</span>
+        <span style="color:#555">Reply to this email or reach us at hackkentucky@kycombinator.com</span>
       </p>
     </div>`
 

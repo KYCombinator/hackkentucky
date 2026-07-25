@@ -65,10 +65,10 @@ export default function SponsorIntakePage() {
             </h2>
           </div>
           <a
-            href="mailto:organizers@kycombinator.com?subject=HackKentucky%202026%20sponsor%20logo"
+            href="mailto:hackkentucky@kycombinator.com?subject=HackKentucky%202026%20sponsor%20logo"
             className="whitespace-nowrap bg-[#0b0b0b] px-8 py-5 text-[14px] tracking-[2px] text-[#c9f73b] transition-colors hover:bg-[#f2f2ec] hover:text-[#0b0b0b]"
           >
-            ORGANIZERS@KYCOMBINATOR.COM →
+            HACKKENTUCKY@KYCOMBINATOR.COM →
           </a>
         </div>
       </section>

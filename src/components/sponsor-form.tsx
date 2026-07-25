@@ -74,7 +74,7 @@ export function SponsorForm() {
           Thanks — we&apos;ll be in touch.
         </h3>
         <p className="mb-0 mt-4 max-w-[520px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          Your note is on its way to the organizing team at organizers@kycombinator.com. Expect a reply within a couple
+          Your note is on its way to the organizing team at hackkentucky@kycombinator.com. Expect a reply within a couple
           of days. Sponsoring? Commit by <span className="text-[#c9f73b]">August 14</span> to make the t-shirt.
         </p>
         <button
@@ -215,7 +215,7 @@ export function SponsorForm() {
           {status === "sending" ? "SENDING…" : "SEND TO ORGANIZERS →"}
         </button>
         <span className="text-[11px] leading-[1.7] tracking-[1px] text-[rgba(242,242,236,.45)]">
-          GOES TO ORGANIZERS@KYCOMBINATOR.COM
+          GOES TO HACKKENTUCKY@KYCOMBINATOR.COM
         </span>
       </div>
     </form>
