@@ -123,5 +123,78 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  // Best-effort confirmation to the person who filled out the form. A failure
+  // here must not fail the request — the organizers already got the inquiry.
+  const firstName = name.split(" ")[0] || "there"
+  const nextStep: Record<Interest, string> = {
+    sponsor:
+      "We'll follow up to talk tiers, bounties, or a custom package. Sponsoring? Commit by August 14 to make the participant t-shirt.",
+    volunteer: "We'll follow up about how you can help run the weekend on-site.",
+    speak: "We'll follow up about your Learn-a-thon track or guest talk.",
+  }
+
+  const confirmText = [
+    `Hi ${firstName},`,
+    "",
+    `Thanks for reaching out about HackKentucky × HackTheTrack — Fall 2026. We got your ${interestLabel[interest].toLowerCase()} inquiry and a HackKentucky organizer will be in touch within a couple of days.`,
+    "",
+    nextStep[interest],
+    "",
+    "Here's a copy of what you sent:",
+    "",
+    textBody,
+    "",
+    "September 11–12, 2026 · Genuine Works, 750 E Jefferson St, Louisville, KY",
+    "hackkentucky.com · hackthetrack.org",
+    "",
+    "— The HackKentucky Team",
+    "Reply to this email or reach us at organizers@kycombinator.com",
+  ].join("\n")
+
+  const confirmHtml = `
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#0b0b0b;line-height:1.7">
+      <p style="margin:0 0 16px">Hi ${escapeHtml(firstName)},</p>
+      <p style="margin:0 0 16px">
+        Thanks for reaching out about <strong>HackKentucky × HackTheTrack — Fall 2026</strong>. We got your
+        ${escapeHtml(interestLabel[interest].toLowerCase())} inquiry and a HackKentucky organizer will be in touch
+        within a couple of days.
+      </p>
+      <p style="margin:0 0 16px">${escapeHtml(nextStep[interest])}</p>
+      <p style="margin:0 0 8px;font-weight:700">Here's a copy of what you sent:</p>
+      ${htmlBody}
+      <p style="margin:16px 0 0;color:#555">
+        September 11–12, 2026 · Genuine Works, 750 E Jefferson St, Louisville, KY<br />
+        <a href="https://hackkentucky.com">hackkentucky.com</a> ·
+        <a href="https://hackthetrack.org">hackthetrack.org</a>
+      </p>
+      <p style="margin:16px 0 0">
+        — The HackKentucky Team<br />
+        <span style="color:#555">Reply to this email or reach us at organizers@kycombinator.com</span>
+      </p>
+    </div>`
+
+  try {
+    await ses.send(
+      new SendEmailCommand({
+        Source: FROM_EMAIL,
+        Destination: { ToAddresses: [email] },
+        ReplyToAddresses: [TO_EMAIL],
+        Message: {
+          Subject: {
+            Charset: "UTF-8",
+            Data: "Thanks — we got your HackKentucky Fall 2026 inquiry",
+          },
+          Body: {
+            Text: { Charset: "UTF-8", Data: confirmText },
+            Html: { Charset: "UTF-8", Data: confirmHtml },
+          },
+        },
+      }),
+    )
+  } catch (err) {
+    // Log only — the inquiry reached the organizers, which is what matters.
+    console.error("SES confirmation send failed", err)
+  }
+
   return NextResponse.json({ ok: true })
 }

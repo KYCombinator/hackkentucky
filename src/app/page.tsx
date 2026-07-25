@@ -66,7 +66,7 @@ const GUIDELINES: [string, string[]][] = [
 ]
 
 const FAQS = [
-  ["WHO CAN JOIN?", "18+. Students and professionals — all skill levels welcome."],
+  ["WHO CAN JOIN?", "Anyone. Students and professionals — all skill levels welcome."],
   ["HOW MUCH?", "Free. Food, wifi, and caffeine included the whole event."],
   ["TEAM SIZE?", "Solo or teams up to 4. Form teams at kickoff."],
   ["DO I NEED AN IDEA?", "No. Meet potential teammates and explore ideas during Friday's optional Learn-a-thon."],
