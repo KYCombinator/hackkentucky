@@ -406,10 +406,10 @@ export default function SponsorPage() {
             </p>
           </div>
           <a
-            href="mailto:organizers@kycombinator.com"
+            href="mailto:hackkentucky@kycombinator.com"
             className="whitespace-nowrap bg-[#0b0b0b] px-8 py-5 text-[14px] tracking-[2px] text-[#c9f73b] transition-colors hover:bg-[#f2f2ec] hover:text-[#0b0b0b]"
           >
-            ORGANIZERS@KYCOMBINATOR.COM →
+            HACKKENTUCKY@KYCOMBINATOR.COM →
           </a>
         </div>
       </section>

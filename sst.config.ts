@@ -22,10 +22,10 @@ export default $config({
       },
       // Recipient + sender for the /sponsor form. SPONSOR_FROM_EMAIL must be a
       // verified SES identity (address or domain) in us-east-1, and the account
-      // must have SES production access to reach organizers@kycombinator.com.
+      // must have SES production access to reach hackkentucky@kycombinator.com.
       environment: {
-        SPONSOR_TO_EMAIL: "organizers@kycombinator.com",
-        SPONSOR_FROM_EMAIL: "organizers@kycombinator.com",
+        SPONSOR_TO_EMAIL: "hackkentucky@kycombinator.com",
+        SPONSOR_FROM_EMAIL: "hackkentucky@kycombinator.com",
       },
       // Allow the Next.js server function to send via SES.
       permissions: [

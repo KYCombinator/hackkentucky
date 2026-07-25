@@ -242,7 +242,7 @@ export function SponsorIntakeForm() {
           {status === "sending" ? "UPLOADING…" : "SUBMIT LOGO →"}
         </button>
         <span className="text-[11px] leading-[1.7] tracking-[1px] text-[rgba(242,242,236,.45)]">
-          GOES TO ORGANIZERS@KYCOMBINATOR.COM
+          GOES TO HACKKENTUCKY@KYCOMBINATOR.COM
         </span>
       </div>
     </form>

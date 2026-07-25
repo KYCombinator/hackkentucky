@@ -4,8 +4,8 @@ import { SESClient, SendRawEmailCommand } from "@aws-sdk/client-ses"
 // Route handler must run on the Node.js runtime (SES SDK + Buffer).
 export const runtime = "nodejs"
 
-const TO_EMAIL = process.env.SPONSOR_TO_EMAIL || "organizers@kycombinator.com"
-const FROM_EMAIL = process.env.SPONSOR_FROM_EMAIL || "organizers@kycombinator.com"
+const TO_EMAIL = process.env.SPONSOR_TO_EMAIL || "hackkentucky@kycombinator.com"
+const FROM_EMAIL = process.env.SPONSOR_FROM_EMAIL || "hackkentucky@kycombinator.com"
 
 const ses = new SESClient({ region: process.env.AWS_REGION || "us-east-1" })
 
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("SES raw send failed", err)
     return NextResponse.json(
-      { error: "We couldn't submit your logo. Please email organizers@kycombinator.com directly." },
+      { error: "We couldn't submit your logo. Please email hackkentucky@kycombinator.com directly." },
       { status: 502 },
     )
   }
