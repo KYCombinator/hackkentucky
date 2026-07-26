@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
-import { SponsorForm } from "@/components/sponsor-form"
 import { NewsletterSignup } from "@/components/newsletter-signup"
 
 const PDF_URL = "/HackKentucky-Sponsorship-2026.pdf"
@@ -113,12 +112,12 @@ export default function SponsorPage() {
           Commit by <span className="text-[#c9f73b]">August 14</span> to make the t-shirt.
         </span>
         <div className="flex flex-wrap gap-3">
-          <a
-            href="#get-involved"
+          <Link
+            href="/get-involved#sponsor"
             className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
           >
             GET INVOLVED →
-          </a>
+          </Link>
           <a
             href={PDF_URL}
             download
@@ -157,12 +156,12 @@ export default function SponsorPage() {
           >
             ↓ DOWNLOAD THE PROSPECTUS (PDF)
           </a>
-          <a
-            href="#get-involved"
+          <Link
+            href="/get-involved"
             className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
           >
             GET INVOLVED →
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -374,9 +373,9 @@ export default function SponsorPage() {
         </p>
       </section>
 
-      {/* the form */}
-      <section id="get-involved" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-        <SectionHead title="GET INVOLVED" note="SPONSOR · VOLUNTEER · SPEAK" />
+      {/* ready to sponsor */}
+      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="READY TO SPONSOR?" note="NEXT STEP" />
         <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
           Tell us how you want to be part of Fall 2026 and we&apos;ll follow up. Sponsoring?{" "}
           <span className="text-[#c9f73b]">Commit by August 14</span> to make the t-shirt. Already confirmed?{" "}
@@ -384,7 +383,20 @@ export default function SponsorPage() {
             Send us your logo →
           </Link>
         </p>
-        <SponsorForm />
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/get-involved#sponsor"
+            className="inline-block bg-[#c9f73b] px-7 py-4 text-[14px] font-bold tracking-[2px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
+          >
+            START A SPONSOR INQUIRY →
+          </Link>
+          <Link
+            href="/get-involved"
+            className="inline-block border border-[rgba(242,242,236,.5)] px-7 py-4 text-[14px] font-bold tracking-[2px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
+          >
+            BOUNTY · SPEAK · VOLUNTEER →
+          </Link>
+        </div>
       </section>
 
       {/* newsletter */}
