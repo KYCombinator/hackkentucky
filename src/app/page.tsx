@@ -208,6 +208,84 @@ export default function HomePage() {
           ))}
         </section>
 
+        {/* the space */}
+        <section id="venue" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+          <div className="mb-4 flex flex-wrap items-center gap-3.5">
+            <span className="text-[16px] text-[#c9f73b]">↳</span>
+            <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
+              THE SPACE
+            </h2>
+            <span className="pt-3 text-[13px] text-[#c9f73b]">GENUINE WORKS × MASHUP FOOD HALL</span>
+          </div>
+          <p className="mb-10 max-w-[620px] text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
+            We take over Genuine Works — a NuLu coworking space wired into the Mashup Food Hall. Build downstairs,
+            strategize upstairs, and never go hungry.
+          </p>
+
+          {/* photo bento */}
+          <div className="grid grid-cols-2 auto-rows-[150px] gap-3 md:grid-cols-4 md:auto-rows-[190px]">
+            <div className="col-span-2 row-span-2 overflow-hidden border border-[rgba(242,242,236,.12)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/venue/lounge.webp"
+                alt="Genuine Works coworking lounge with teal couches and pendant lighting"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+            <div className="col-span-2 overflow-hidden border border-[rgba(242,242,236,.12)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/venue/food-hall.jpg"
+                alt="Mashup Food Hall seating with globe lights"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+            <div className="col-span-2 overflow-hidden border border-[rgba(242,242,236,.12)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/venue/stairs.jpg"
+                alt="Stadium-stair seating with bean bags"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          </div>
+
+          {/* promo + address */}
+          <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="flex items-center justify-center overflow-hidden border border-[rgba(242,242,236,.12)] bg-[#0b0b0b]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/venue/promo.jpg"
+                alt="Lunch downstairs, strategy upstairs — Genuine Work × Mashup Food Hall"
+                loading="lazy"
+                className="max-h-[420px] w-full object-contain"
+              />
+            </div>
+            <div className="flex flex-col justify-center border border-[#c9f73b] p-8 sm:p-10">
+              <div className="mb-4 text-[11px] font-bold tracking-[3px] text-[#c9f73b]">▚ FIND THE BUILD FLOOR</div>
+              <div className="font-[family-name:var(--font-hk-display)] text-[30px] font-bold leading-[1.05] tracking-[-1px] text-[#f2f2ec] sm:text-[42px]">
+                750 EAST JEFFERSON STREET
+              </div>
+              <div className="mt-3 text-[14px] tracking-[2px] text-[rgba(242,242,236,.7)]">LOUISVILLE, KY 40202</div>
+              <a
+                href="https://maps.google.com/?q=750+E+Jefferson+St,+Louisville,+KY+40202"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-7 inline-block w-fit bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
+              >
+                OPEN IN MAPS →
+              </a>
+            </div>
+          </div>
+
+          <p className="mt-4 text-[11px] tracking-[1px] text-[rgba(242,242,236,.4)]">
+            PHOTOS: GENUINE WORKS · MASHUP FOOD HALL · LOUISVILLE BUSINESS FIRST
+          </p>
+        </section>
+
         {/* guidelines */}
         <section id="guidelines" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-10 flex flex-wrap items-center gap-3.5">
