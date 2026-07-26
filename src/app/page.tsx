@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { Space_Grotesk, Space_Mono } from "next/font/google"
 import { ViewportFixed } from "@/components/viewport-fixed"
 import GlyphWaves from "@/components/glyph-waves"
 import { Fall26Sidebar, Fall26MobileHeader, REGISTER_URL, SLACK_INVITE_URL } from "@/components/fall26-sidebar"
+import { TRACKS, TRACK_KEYS } from "@/lib/involvement"
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
 const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
@@ -251,6 +253,51 @@ export default function HomePage() {
                 <p className="m-0 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">{a}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* how to get involved */}
+        <section id="get-involved" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+          <div className="mb-4 flex flex-wrap items-center gap-3.5">
+            <span className="text-[16px] text-[#c9f73b]">↳</span>
+            <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
+              GET INVOLVED
+            </h2>
+            <span className="pt-3 text-[13px] text-[#c9f73b]">SPONSOR · BOUNTY · SPEAK · VOLUNTEER</span>
+          </div>
+          <p className="mb-10 max-w-[620px] text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
+            The event runs on the people who back it. Four ways to be part of Fall 2026 — pick a lane and we&apos;ll take it from there.
+          </p>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {TRACK_KEYS.map((key) => {
+              const t = TRACKS[key]
+              return (
+                <Link
+                  key={key}
+                  href={`/get-involved#${key}`}
+                  className="group flex flex-col border border-[rgba(242,242,236,.12)] p-6 transition-colors hover:border-[#c9f73b]"
+                >
+                  <span className="font-[family-name:var(--font-hk-display)] text-[34px] leading-none text-[#c9f73b]">
+                    {t.glyph}
+                  </span>
+                  <span className="mt-5 text-[15px] font-bold tracking-[2px] text-[#f2f2ec]">{t.label}</span>
+                  <span className="mt-3 flex-1 text-[13px] leading-[1.7] text-[rgba(242,242,236,.6)]">{t.card}</span>
+                  <span className="mt-5 text-[12px] font-bold tracking-[1px] text-[#c9f73b] transition-transform group-hover:translate-x-1">
+                    GET STARTED →
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="mt-8">
+            <Link
+              href="/get-involved"
+              className="inline-block border border-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#c9f73b] transition-colors hover:bg-[#c9f73b] hover:text-[#0b0b0b]"
+            >
+              ALL WAYS TO GET INVOLVED →
+            </Link>
           </div>
         </section>
 
