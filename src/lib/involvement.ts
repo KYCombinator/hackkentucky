@@ -9,12 +9,14 @@ export const TRACK_KEYS: Track[] = ["sponsor", "bounty", "speak", "volunteer"]
 export interface FieldDef {
   key: string
   label: string
-  type: "text" | "email" | "url" | "textarea" | "select"
+  type: "text" | "email" | "url" | "textarea" | "select" | "file"
   required?: boolean
   placeholder?: string
   options?: string[]
   half?: boolean // render half-width on wide screens
 }
+
+const LOGO_FIELD: FieldDef = { key: "logo", label: "Logo", type: "file" }
 
 export interface TrackDef {
   key: Track
@@ -58,6 +60,7 @@ export const TRACKS: Record<Track, TrackDef> = {
         required: true,
         placeholder: "Goals — recruiting, a challenge track, in-kind, a custom package…",
       },
+      LOGO_FIELD,
     ],
   },
   bounty: {
@@ -81,6 +84,7 @@ export const TRACKS: Record<Track, TrackDef> = {
         placeholder: "The problem, API, dataset, or workflow — and what 'done' looks like.",
       },
       { key: "message", label: "Anything else", type: "textarea", placeholder: "Optional" },
+      LOGO_FIELD,
     ],
   },
   speak: {
