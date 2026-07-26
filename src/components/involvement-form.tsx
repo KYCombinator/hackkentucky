@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { TRACKS, type Track } from "@/lib/involvement"
+import { LOGO_ACCEPT_ATTR, LOGO_HINT, validateLogoFile } from "@/lib/logo"
 
 const inputClass =
   "w-full border border-[rgba(242,242,236,.2)] bg-[#0b0b0b] px-4 py-3 text-[14px] text-[#f2f2ec] outline-none transition-colors placeholder:text-[rgba(242,242,236,.35)] focus:border-[#c9f73b]"
@@ -11,30 +12,47 @@ export function InvolvementForm({ track }: { track: Track }) {
   const def = TRACKS[track]
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [error, setError] = useState("")
+  const [preview, setPreview] = useState<{ url: string; name: string; size: string } | null>(null)
+  const [fileError, setFileError] = useState("")
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFileError("")
+    setPreview(null)
+    const file = e.target.files?.[0]
+    if (!file) return
+    const err = await validateLogoFile(file)
+    if (err) {
+      setFileError(err)
+      if (fileRef.current) fileRef.current.value = ""
+      return
+    }
+    setPreview({
+      url: URL.createObjectURL(file),
+      name: file.name,
+      size: file.size < 1024 * 1024 ? `${(file.size / 1024).toFixed(0)} KB` : `${(file.size / 1024 / 1024).toFixed(1)} MB`,
+    })
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (status === "sending") return
+    if (status === "sending" || fileError) return
     setStatus("sending")
     setError("")
 
     const form = e.currentTarget
-    const data = new FormData(form)
-    const values: Record<string, string> = {}
-    for (const field of def.fields) values[field.key] = String(data.get(field.key) ?? "")
+    const fd = new FormData(form) // includes all named inputs, the honeypot, and any file
+    fd.append("track", track)
 
     try {
-      const res = await fetch("/api/involve", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ track, values, company_url: data.get("company_url") }),
-      })
+      const res = await fetch("/api/involve", { method: "POST", body: fd })
       if (!res.ok) {
         const json = await res.json().catch(() => ({}))
         throw new Error(json.error || "Something went wrong. Please try again.")
       }
       setStatus("sent")
       form.reset()
+      setPreview(null)
     } catch (err) {
       setStatus("error")
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.")
@@ -67,13 +85,17 @@ export function InvolvementForm({ track }: { track: Track }) {
     <form onSubmit={handleSubmit} className="border border-[rgba(242,242,236,.12)] p-6 sm:p-8">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {def.fields.map((field) => {
-          const full = !field.half || field.type === "textarea"
+          const full = !field.half || field.type === "textarea" || field.type === "file"
           return (
             <div key={field.key} className={full ? "sm:col-span-2" : ""}>
               <label htmlFor={`${track}-${field.key}`} className={labelClass}>
                 {field.label.toUpperCase()}
-                {field.required ? " *" : ""}
+                {field.required ? " *" : field.type === "file" ? " (OPTIONAL)" : ""}
+                {field.type === "file" ? (
+                  <span className="ml-1 font-normal text-[rgba(242,242,236,.45)]">— {LOGO_HINT}</span>
+                ) : null}
               </label>
+
               {field.type === "textarea" ? (
                 <textarea
                   id={`${track}-${field.key}`}
@@ -102,6 +124,38 @@ export function InvolvementForm({ track }: { track: Track }) {
                     </option>
                   ))}
                 </select>
+              ) : field.type === "file" ? (
+                <>
+                  <input
+                    ref={fileRef}
+                    id={`${track}-${field.key}`}
+                    name={field.key}
+                    type="file"
+                    accept={LOGO_ACCEPT_ATTR}
+                    onChange={onFileChange}
+                    className="block w-full text-[13px] text-[rgba(242,242,236,.6)] file:mr-4 file:cursor-pointer file:border file:border-[rgba(242,242,236,.4)] file:bg-transparent file:px-4 file:py-2 file:text-[12px] file:font-bold file:tracking-[1px] file:text-[#f2f2ec] hover:file:border-[#c9f73b] hover:file:text-[#c9f73b]"
+                  />
+                  {fileError ? (
+                    <p className="mt-3 border border-[#ff6b6b] px-4 py-2 text-[12px] leading-[1.6] text-[#ff9b9b]">{fileError}</p>
+                  ) : null}
+                  {preview ? (
+                    <div className="mt-3 flex items-center gap-3 border border-[rgba(201,247,59,.4)] p-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={preview.url}
+                        alt="Logo preview"
+                        className="h-12 w-12 shrink-0 border border-[rgba(242,242,236,.15)] object-contain"
+                        style={{ background: "repeating-conic-gradient(#1a1a1a 0% 25%, #111 0% 50%) 50% / 10px 10px" }}
+                      />
+                      <div className="min-w-0 text-[12px] leading-[1.6] text-[rgba(242,242,236,.65)]">
+                        <div className="truncate font-bold text-[#f2f2ec]">{preview.name}</div>
+                        <div>
+                          {preview.size} <span className="ml-1 text-[#c9f73b]">✓ ready</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 <input
                   id={`${track}-${field.key}`}
