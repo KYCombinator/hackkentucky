@@ -8,6 +8,7 @@ export const REGISTER_URL = "https://luma.com/hy24ycd1"
 export const SLACK_INVITE_URL = "https://join.slack.com/t/kycombinator/shared_invite/zt-2viueybdu-QNv80gAKk~sJZ9paWebGVQ"
 
 export const PAGES: [string, string][] = [
+  ["SCHEDULE", "/schedule"],
   ["RUBRIC", "/rubric"],
   ["HOW TO HACK", "/how-to-hack"],
   ["GET INVOLVED", "/get-involved"],
@@ -16,7 +17,7 @@ export const PAGES: [string, string][] = [
 
 const SECTIONS: [string, string, string?][] = [
   ["OVERVIEW", "/#top"],
-  ["SCHEDULE", "/#schedule", "11"],
+  ["THE SPACE", "/#venue"],
   ["GUIDELINES", "/#guidelines", "4"],
   ["FAQ", "/#faq", "6"],
 ]

@@ -173,6 +173,12 @@ export default function HomePage() {
               SCHEDULE
             </h2>
             <span className="pt-3 text-[13px] text-[#c9f73b]">FRI 4PM → SAT 10PM</span>
+            <Link
+              href="/schedule"
+              className="ml-auto pt-2 text-[12px] font-bold tracking-[1px] text-[#c9f73b] underline underline-offset-4 hover:text-[#f2f2ec]"
+            >
+              FULL SCHEDULE + LEARN-A-THON TRACKS →
+            </Link>
           </div>
 
           <div className="mb-2 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">FRIDAY · 09.11</div>
