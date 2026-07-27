@@ -42,7 +42,8 @@ export function InvolvementForm({ track }: { track: Track }) {
 
     const form = e.currentTarget
     const fd = new FormData(form) // includes all named inputs, the honeypot, and any file
-    fd.append("track", track)
+    // Namespaced so it never collides with a track's own field key (e.g. Speak's "track" select).
+    fd.append("involvementTrack", track)
 
     try {
       const res = await fetch("/api/involve", { method: "POST", body: fd })
