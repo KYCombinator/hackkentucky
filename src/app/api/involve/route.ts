@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   // Honeypot.
   if (clean(form.get("company_url"))) return NextResponse.json({ ok: true })
 
-  const track = clean(form.get("track"), 20).toLowerCase() as Track
+  const track = clean(form.get("involvementTrack"), 20).toLowerCase() as Track
   if (!TRACK_KEYS.includes(track)) {
     return NextResponse.json({ error: "Please choose how you'd like to get involved." }, { status: 400 })
   }
