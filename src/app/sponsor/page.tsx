@@ -52,7 +52,7 @@ const TIERS: { key: string; name: string; price: string; tagline: string; only?:
   { key: "community", name: "COMMUNITY", price: "FREE", tagline: "Get your name in the code." },
   { key: "neon", name: "NEON", price: "$100", tagline: "Be in the room." },
   { key: "chrome", name: "CHROME", price: "$500", tagline: "Set the challenge. Teach the room." },
-  { key: "purple", name: "PURPLE", price: "$5,000", tagline: "Own the grid.", only: "Only one available" },
+  { key: "purple", name: "PURPLE", price: "$10,000", tagline: "Own the grid.", only: "Only one available" },
 ]
 
 // Benefit matrix. Values: "●" full, "–" none, or a string (e.g. count / "35 min").
@@ -76,8 +76,9 @@ const BENEFITS: { label: string; values: [string, string, string, string] }[] = 
 const MONEY: [string, string][] = [
   ["$6,000", "Vendor food across the weekend — lunch and Saturday dinner for 300 people"],
   ["$1,000", "Saturday grazing breakfast"],
-  ["$2,500", "Prizes for winning teams"],
-  ["$500", "Reserve"],
+  ["$4,000", "Prizes for winning teams"],
+  ["$3,000", "T-shirts for every participant"],
+  ["$1,000", "Reserve"],
 ]
 
 const BOUNTY_STEPS: string[] = [
@@ -338,9 +339,9 @@ export default function SponsorPage() {
 
       {/* the money */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-        <SectionHead title="EVERY DOLLAR HITS THE FLOOR" note="THE MONEY · TARGET $10K" />
+        <SectionHead title="EVERY DOLLAR HITS THE FLOOR" note="THE MONEY · TARGET $15K" />
         <p className="mb-8 max-w-[640px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          HackKentucky and HackTheTrack are volunteer-run. No staff, no overhead, no margin. Our target is $10,000 and
+          HackKentucky and HackTheTrack are volunteer-run. No staff, no overhead, no margin. Our target is $15,000 and
           here is precisely where it goes:
         </p>
         <div>
@@ -359,7 +360,7 @@ export default function SponsorPage() {
           ))}
         </div>
         <p className="mt-8 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
-          Beyond $10K → t-shirts, bigger prizes, and keeping registration free for everyone.
+          Beyond $15K → even bigger prizes, more swag, and keeping registration free for everyone.
         </p>
       </section>
 

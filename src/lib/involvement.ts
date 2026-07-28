@@ -50,7 +50,7 @@ export const TRACKS: Record<Track, TrackDef> = {
         label: "Tier of interest",
         type: "select",
         half: true,
-        options: ["Not sure yet", "Community — Free", "Neon — $100", "Chrome — $500", "Purple — $5,000", "Custom package"],
+        options: ["Not sure yet", "Community — Free", "Neon — $100", "Chrome — $500", "Purple — $10,000", "Custom package"],
       },
       { key: "budget", label: "Budget / range", type: "text", placeholder: "Optional", half: true },
       {
