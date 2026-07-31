@@ -14,7 +14,7 @@ const FRIDAY: Row[] = [
 const SATURDAY: Row[] = [
   ["08:00", "Doors open", "Grazing breakfast · hacking begins"],
   ["10:00", "Guest speakers", "Career & startup tracks in parallel, until 15:00"],
-  ["12:00", "Lunch", "Meal-ticket coupons"],
+  ["12:00", "Lunch", "Lunch voucher per attendee"],
   ["17:00", "Judging starts"],
   ["18:00", "Dinner", "Papa Johns"],
   ["19:00", "Final judging"],
