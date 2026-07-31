@@ -6,7 +6,7 @@ import { VideoCarousel, type CarouselVideo } from "@/components/video-carousel"
 
 // Bounty intake runs through the KY Combinator application workstream. The
 // submit button auto-switches to an external link-out for http(s) URLs.
-const BOUNTY_APPLY_URL = "https://kycombinator.com/bounties/submit"
+const BOUNTY_APPLY_URL = "https://kycombinator.com/hackkentucky/bounty"
 const BOUNTY_APPLY_EXTERNAL = BOUNTY_APPLY_URL.startsWith("http")
 
 const PAST_PARTICIPANTS: CarouselVideo[] = [
