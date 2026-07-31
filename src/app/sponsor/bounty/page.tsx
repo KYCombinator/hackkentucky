@@ -4,10 +4,9 @@ import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
 import { VideoCarousel, type CarouselVideo } from "@/components/video-carousel"
 
-// Bounty intake. Interim: routes to our own bounty form. Swap to the KY
-// Combinator application URL (an https:// link) to streamline intake — the
+// Bounty intake runs through the KY Combinator application workstream. The
 // submit button auto-switches to an external link-out for http(s) URLs.
-const BOUNTY_APPLY_URL = "/get-involved#bounty"
+const BOUNTY_APPLY_URL = "https://kycombinator.com/bounties/submit"
 const BOUNTY_APPLY_EXTERNAL = BOUNTY_APPLY_URL.startsWith("http")
 
 const PAST_PARTICIPANTS: CarouselVideo[] = [
@@ -135,11 +134,11 @@ export default function BountyPage() {
               ✓ SHARP
             </div>
             <p className="m-0 text-[14px] leading-[1.8] text-[#f2f2ec]">
-              “Build a tool that flags anomalies in this sales dataset in under 200ms — we score it live against a
-              holdout set. Fastest accurate submission wins $250 and a swag pack.”
+              “Build a tool that flags anomalies in our sales dataset — anomalies are sales under $1 or over $25 — with a
+              dashboard to review every flagged transaction and one-click approve or reject each one.”
             </p>
             <p className="mb-0 mt-4 text-[12px] leading-[1.7] text-[rgba(242,242,236,.6)]">
-              Specific, measurable, and a clear winner. Builders fight over this.
+              A concrete rule and a clear deliverable. Builders know exactly what to ship.
             </p>
           </div>
         </div>
@@ -166,10 +165,11 @@ export default function BountyPage() {
 
       {/* submit a bounty */}
       <section id="submit" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-        <SectionHead title="SUBMIT A BOUNTY" note="START HERE" />
+        <SectionHead title="SUBMIT A BOUNTY" note="KY COMBINATOR INTAKE" />
         <p className="mb-8 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          Ready to post one? Start your submission and we&apos;ll follow up to lock the details and the reward — cash or
-          in-kind, stackable on any sponsorship tier.
+          Ready to post one? Submissions run through the KY Combinator application workstream so intake stays in one
+          place. Fill out the form and we&apos;ll follow up to lock the challenge and the reward — cash or in-kind,
+          stackable on any sponsorship tier.
         </p>
         {BOUNTY_APPLY_EXTERNAL ? (
           <a
