@@ -2,8 +2,16 @@
 
 import Link from "next/link"
 import { Fall26Shell, SectionHead } from "@/components/fall26-shell"
-import { InvolvementForm } from "@/components/involvement-form"
-import { TRACKS, TRACK_KEYS } from "@/lib/involvement"
+import { TRACKS, TRACK_KEYS, type Track } from "@/lib/involvement"
+
+// KY Combinator chrome-less form embeds. Heights per the KYX integration
+// handoff — tuned so there's no inner scrollbar.
+const EMBED: Record<Track, { url: string; height: number }> = {
+  sponsor: { url: "https://kycombinator.com/hackkentucky/embed/sponsor", height: 1200 },
+  bounty: { url: "https://kycombinator.com/hackkentucky/embed/bounty", height: 1100 },
+  speak: { url: "https://kycombinator.com/hackkentucky/embed/speak", height: 1050 },
+  volunteer: { url: "https://kycombinator.com/hackkentucky/embed/volunteer", height: 950 },
+}
 
 export default function GetInvolvedPage() {
   return (
@@ -57,7 +65,15 @@ export default function GetInvolvedPage() {
                   </Link>
                 ) : null}
               </div>
-              <InvolvementForm track={key} />
+              <div className="overflow-hidden border border-[rgba(242,242,236,.12)] bg-[#0b0b0b]">
+                <iframe
+                  src={EMBED[key].url}
+                  title={`HackKentucky — ${def.label.toLowerCase()} form`}
+                  loading="lazy"
+                  className="block w-full"
+                  style={{ height: EMBED[key].height, border: 0 }}
+                />
+              </div>
             </div>
           </section>
         )
