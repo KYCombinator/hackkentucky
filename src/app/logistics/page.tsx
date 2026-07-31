@@ -27,7 +27,7 @@ const FACILITIES = [
   {
     title: "FOOD + CAFFEINE",
     items: [
-      "Saturday has grazing breakfast, an evergreen voucher lunch, and Papa Johns dinner.",
+      "Papa Johns for Friday dinner. Saturday brings grazing breakfast plus lunch and dinner vouchers.",
       "Food is provided during the event. Flag dietary restrictions at registration.",
     ],
   },

@@ -16,6 +16,7 @@ const TICKER =
 const FRIDAY = [
   ["16:00", "DOORS OPEN"],
   ["17:00", "LEARN-A-THON", "Five optional tracks in five rooms to help attendees get familiar with coding and hackathons."],
+  ["19:00", "DINNER — PAPA JOHNS"],
   ["23:00", "DOORS CLOSE"],
 ]
 const SATURDAY = [
@@ -23,7 +24,7 @@ const SATURDAY = [
   ["08:00", "BREAKFAST", "Grazing breakfast: food arrives as it is picked up and remains available throughout the day."],
   ["12:00", "LUNCH", "A lunch voucher for every attendee; an evergreen offering."],
   ["17:00", "JUDGING STARTS"],
-  ["18:00", "DINNER — PAPA JOHNS"],
+  ["18:00", "DINNER", "A dinner voucher for every attendee."],
   ["19:00", "FINAL JUDGING"],
   ["21:00", "EVENT ENDS"],
   ["22:00", "DOORS CLOSE — BUILDING EMPTY"],
