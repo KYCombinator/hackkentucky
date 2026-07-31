@@ -119,6 +119,12 @@ export default function SponsorPage() {
           >
             GET INVOLVED →
           </Link>
+          <Link
+            href="/sponsor/bounty"
+            className="inline-block border border-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#c9f73b] transition-colors hover:bg-[#c9f73b] hover:text-[#0b0b0b]"
+          >
+            ⧫ POST A BOUNTY →
+          </Link>
           <a
             href={PDF_URL}
             download
