@@ -135,11 +135,11 @@ export default function BountyPage() {
               ✓ SHARP
             </div>
             <p className="m-0 text-[14px] leading-[1.8] text-[#f2f2ec]">
-              “Build a tool that flags anomalies in this sales dataset in under 200ms — we score it live against a
-              holdout set. Fastest accurate submission wins $250 and a swag pack.”
+              “Build a tool that flags anomalies in our sales dataset — anomalies are sales under $1 or over $25 — with a
+              dashboard to review every flagged transaction and one-click approve or reject each one.”
             </p>
             <p className="mb-0 mt-4 text-[12px] leading-[1.7] text-[rgba(242,242,236,.6)]">
-              Specific, measurable, and a clear winner. Builders fight over this.
+              A concrete rule and a clear deliverable. Builders know exactly what to ship.
             </p>
           </div>
         </div>
