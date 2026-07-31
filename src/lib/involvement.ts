@@ -69,13 +69,13 @@ export const TRACKS: Record<Track, TrackDef> = {
     glyph: "⧫",
     card: "Post a problem + prize. Builders attack it all weekend; you pay the team that wins it.",
     note: "SET THE CHALLENGE",
-    blurb: "A bounty is a scoped problem with a prize. You write the challenge, set the prize ($500 min), judge it, and pay the winning team directly.",
+    blurb: "A bounty is a scoped problem with a prize. Write the challenge, set a reward — cash or in-kind, ~$200 in value is plenty — judge it, and hand it to the winning team. The problem motivates builders more than the prize does.",
     cta: "SEND BOUNTY IDEA →",
     fields: [
       NAME,
       EMAIL,
       { key: "organization", label: "Organization", type: "text", required: true, placeholder: "Company / team", half: true },
-      { key: "prize", label: "Prize amount", type: "text", placeholder: "$500 minimum", half: true },
+      { key: "prize", label: "Prize / reward", type: "text", placeholder: "Cash or in-kind — ~$200 in value recommended", half: true },
       {
         key: "challenge",
         label: "The challenge",

@@ -83,7 +83,7 @@ const MONEY: [string, string][] = [
 
 const BOUNTY_STEPS: string[] = [
   "You write the challenge — a real problem, an API to build against, a dataset to explore, a workflow to automate.",
-  "You set the prize. Minimum $500.",
+  "You set the reward — cash or in-kind. We recommend ~$200 in value; the problem motivates builders more than the prize.",
   "Teams opt in over the weekend and build against it.",
   "You judge your own bounty and pay the winning team directly.",
 ]
@@ -235,8 +235,9 @@ export default function SponsorPage() {
           <div className="border border-[rgba(242,242,236,.3)] p-6 sm:p-7">
             <span className={tagClass}>B · POST A BOUNTY</span>
             <p className="mb-0 mt-5 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-              Your money goes directly to whoever solves your problem. Define a challenge, set the prize, and pay out to
-              the winning team. No tier required — though Chrome and above include one.
+              Your reward goes directly to whoever solves your problem. Define a challenge, set a reward — cash or
+              in-kind, ~$200 in value is plenty — and give it to the winning team. No tier required — though Chrome and
+              above include one.
             </p>
           </div>
         </div>

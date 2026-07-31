@@ -19,7 +19,7 @@ const PAST_PARTICIPANTS: CarouselVideo[] = [
 
 const HOW_IT_WORKS: string[] = [
   "Write the challenge — a real problem: an API to build against, a dataset to explore, a workflow to automate.",
-  "Set the prize. Minimum $500. You can stack a bounty on a sponsorship tier or post it on its own.",
+  "Set the reward — cash or in-kind (hardware, cloud credits, swag, a job interview). We recommend around $200 in value; the problem itself motivates builders more than the cash. Stack it on a tier or post it on its own.",
   "Teams opt in over the weekend and build against it.",
   "You judge your own bounty and pay the winning team directly.",
 ]
@@ -43,7 +43,7 @@ const PRINCIPLES: { title: string; body: string }[] = [
   },
   {
     title: "WORTH FIGHTING OVER",
-    body: "A crisp problem with a real prize and a clear winner is what makes a room of builders pick your table.",
+    body: "A crisp problem and a clear winner is what makes a room pick your table — far more than the size of the reward. The challenge is the draw.",
   },
 ]
 
@@ -52,7 +52,7 @@ const ANATOMY: { step: string; label: string; body: string }[] = [
   { step: "02", label: "THE TASK", body: "“Auto-classify these 500 sample tickets into our 8 categories.”" },
   { step: "03", label: "THE FINISH LINE", body: "“Highest F1 score on a held-out set we score live at judging.”" },
   { step: "04", label: "THE INPUTS", body: "Sample data + category definitions + a scoring script, handed out at kickoff." },
-  { step: "05", label: "THE PRIZE", body: "$750 to the winning team, paid directly." },
+  { step: "05", label: "THE REWARD", body: "~$200 in value — cash, or your pick of in-kind — to the winning team." },
 ]
 
 export default function BountyPage() {
@@ -64,7 +64,7 @@ export default function BountyPage() {
           BOUNTIES<span className="text-[#c9f73b]">.</span>
         </>
       }
-      intro="A bounty is a problem plus a prize. You define a real challenge, set the reward ($500 min), and pay the team that solves it best. Here's how they work — and how to write one a room of builders will fight over."
+      intro="A bounty is a problem plus a reward. You define a real challenge, set a reward — cash or in-kind, ~$200 in value is plenty — and give it to the team that solves it best. The problem motivates builders more than the prize. Here's how to write one a room will fight over."
     >
       {/* how it works */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
@@ -103,7 +103,8 @@ export default function BountyPage() {
         <p className="mb-10 max-w-[640px] text-[13px] leading-[1.9] text-[rgba(242,242,236,.7)]">
           This is the question every sponsor asks. The answer is simple: a{" "}
           <span className="text-[#c9f73b]">specific, scoped problem with a clear finish line</span>. Get that right and
-          the rest takes care of itself.
+          the rest takes care of itself — and don&apos;t sweat the prize size. The problem does the motivating, not the
+          check: builders grind on a sharp, real challenge far harder than they chase cash.
         </p>
 
         {/* principles */}
@@ -135,7 +136,7 @@ export default function BountyPage() {
             </div>
             <p className="m-0 text-[14px] leading-[1.8] text-[#f2f2ec]">
               “Build a tool that flags anomalies in this sales dataset in under 200ms — we score it live against a
-              holdout set. $1,000 to the fastest accurate submission.”
+              holdout set. Fastest accurate submission wins $250 and a swag pack.”
             </p>
             <p className="mb-0 mt-4 text-[12px] leading-[1.7] text-[rgba(242,242,236,.6)]">
               Specific, measurable, and a clear winner. Builders fight over this.
@@ -167,8 +168,8 @@ export default function BountyPage() {
       <section id="submit" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="SUBMIT A BOUNTY" note="START HERE" />
         <p className="mb-8 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          Ready to post one? Start your submission and we&apos;ll follow up to lock the details and the prize — minimum
-          $500, stackable on any sponsorship tier.
+          Ready to post one? Start your submission and we&apos;ll follow up to lock the details and the reward — cash or
+          in-kind, stackable on any sponsorship tier.
         </p>
         {BOUNTY_APPLY_EXTERNAL ? (
           <a
