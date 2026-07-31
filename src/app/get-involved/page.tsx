@@ -50,31 +50,23 @@ export default function GetInvolvedPage() {
             className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9"
           >
             <SectionHead title={def.label} note={def.note} />
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
-              <div>
-                <div className="mb-5 font-[family-name:var(--font-hk-display)] text-[52px] leading-none text-[#c9f73b] opacity-80">
-                  {def.glyph}
-                </div>
-                <p className="mb-6 text-[13px] leading-[1.9] text-[rgba(242,242,236,.7)]">{def.blurb}</p>
-                {key === "sponsor" ? (
-                  <Link
-                    href="/sponsor"
-                    className="inline-block border border-[rgba(242,242,236,.5)] px-[9px] py-1 text-[12px] tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
-                  >
-                    SEE TIERS & DETAILS →
-                  </Link>
-                ) : null}
-              </div>
-              <div className="overflow-hidden border border-[rgba(242,242,236,.12)] bg-[#0b0b0b]">
-                <iframe
-                  src={EMBED[key].url}
-                  title={`HackKentucky — ${def.label.toLowerCase()} form`}
-                  loading="lazy"
-                  className="block w-full"
-                  style={{ height: EMBED[key].height, border: 0 }}
-                />
-              </div>
+            <div className="overflow-hidden border border-[rgba(242,242,236,.12)]">
+              <iframe
+                src={EMBED[key].url}
+                title={`HackKentucky — ${def.label.toLowerCase()} form`}
+                loading="lazy"
+                className="block w-full"
+                style={{ height: EMBED[key].height, border: 0 }}
+              />
             </div>
+            {key === "sponsor" ? (
+              <p className="mt-4 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
+                Comparing options?{" "}
+                <Link href="/sponsor" className="text-[#c9f73b] underline underline-offset-4 transition-colors hover:text-[#f2f2ec]">
+                  See tiers &amp; benefits →
+                </Link>
+              </p>
+            ) : null}
           </section>
         )
       })}

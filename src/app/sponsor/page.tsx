@@ -6,6 +6,13 @@ import { NewsletterSignup } from "@/components/newsletter-signup"
 
 const PDF_URL = "/HackKentucky-Sponsorship-2026.pdf"
 
+const ctaPrimary =
+  "inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
+const ctaGhost =
+  "inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
+const ctaInline =
+  "mt-5 inline-block text-[12px] font-bold tracking-[1px] text-[#c9f73b] underline underline-offset-4 transition-colors hover:text-[#f2f2ec]"
+
 const STATS: [string, string][] = [
   ["300+", "BUILDERS"],
   ["2", "DAYS"],
@@ -183,6 +190,14 @@ export default function SponsorPage() {
             </div>
           ))}
         </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/get-involved#sponsor" className={ctaPrimary}>
+            START A SPONSOR INQUIRY →
+          </Link>
+          <a href={PDF_URL} download className={ctaGhost}>
+            ↓ PROSPECTUS (PDF)
+          </a>
+        </div>
       </section>
 
       {/* the room + format */}
@@ -219,6 +234,11 @@ export default function SponsorPage() {
             </div>
           </div>
         </div>
+        <p className="mt-6 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
+          <Link href="/schedule" className="text-[#c9f73b] underline underline-offset-4 transition-colors hover:text-[#f2f2ec]">
+            See the full run of show + Learn-a-thon tracks →
+          </Link>
+        </p>
       </section>
 
       {/* two ways to participate */}
@@ -231,6 +251,9 @@ export default function SponsorPage() {
               Your money funds the event — food, prizes, t-shirts, keeping registration free. You get brand presence, a
               recruiting table, speaking slots, and access to the room.
             </p>
+            <a href="#tiers" className={ctaInline}>
+              SEE TIERS & BENEFITS ↓
+            </a>
           </div>
           <div className="border border-[rgba(242,242,236,.3)] p-6 sm:p-7">
             <span className={tagClass}>B · POST A BOUNTY</span>
@@ -239,6 +262,9 @@ export default function SponsorPage() {
               in-kind, ~$200 in value is plenty — and give it to the winning team. No tier required — though Chrome and
               above include one.
             </p>
+            <Link href="/sponsor/bounty" className={ctaInline}>
+              HOW BOUNTIES WORK →
+            </Link>
           </div>
         </div>
         <p className="mt-6 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
@@ -248,7 +274,7 @@ export default function SponsorPage() {
       </section>
 
       {/* tiers */}
-      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+      <section id="tiers" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="SPONSORSHIP TIERS" note="4 TIERS" />
 
         {/* tier headline cards */}
@@ -313,10 +339,18 @@ export default function SponsorPage() {
         <p className="mt-5 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
           Only one Purple sponsorship is available.
         </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/get-involved#sponsor" className={ctaPrimary}>
+            PICK A TIER — GET INVOLVED →
+          </Link>
+          <Link href="/sponsor/intake" className={ctaGhost}>
+            CONFIRMED? SEND YOUR LOGO →
+          </Link>
+        </div>
       </section>
 
       {/* bounties */}
-      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+      <section id="bounties" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="BOUNTIES" note="PROBLEMS + PRIZES" />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="border border-[rgba(242,242,236,.12)] p-6 sm:p-7">
@@ -337,10 +371,21 @@ export default function SponsorPage() {
               ignored. &ldquo;Build a tool that flags anomalies in this dataset in under 200ms&rdquo; gets a room full of
               people fighting over it.
             </p>
-            <p className="mb-0 mt-4 text-[12px] uppercase tracking-[1px] text-[#c9f73b]">
+            <p className="mt-4 text-[12px] uppercase tracking-[1px] text-[#c9f73b]">
               Post on their own, or stack on top of a tier.
             </p>
+            <Link href="/sponsor/bounty#good-bounty" className={ctaInline}>
+              READ THE FULL GUIDE + EXAMPLES →
+            </Link>
           </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/sponsor/bounty" className={ctaPrimary}>
+            ⧫ POST A BOUNTY →
+          </Link>
+          <Link href="/sponsor/bounty#examples" className={ctaGhost}>
+            SEE PAST PROJECTS →
+          </Link>
         </div>
       </section>
 
@@ -369,6 +414,11 @@ export default function SponsorPage() {
         <p className="mt-8 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
           Beyond $15K → even bigger prizes, more swag, and keeping registration free for everyone.
         </p>
+        <div className="mt-8">
+          <Link href="/get-involved#sponsor" className={ctaPrimary}>
+            HELP US HIT $15K — SPONSOR →
+          </Link>
+        </div>
       </section>
 
       {/* custom */}
@@ -379,6 +429,14 @@ export default function SponsorPage() {
           sponsoring a single meal — bring it to us and we&apos;ll build the package around it. In-kind counts toward
           tier benefits: food, prizes, hardware, software licenses, and cloud credits are all things we need.
         </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/get-involved#sponsor" className={ctaPrimary}>
+            PITCH A CUSTOM PACKAGE →
+          </Link>
+          <a href="mailto:hackkentucky@kycombinator.com?subject=Custom%20sponsorship%20package" className={ctaGhost}>
+            EMAIL THE TEAM →
+          </a>
+        </div>
       </section>
 
       {/* ready to sponsor */}
