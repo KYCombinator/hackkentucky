@@ -4,10 +4,9 @@ import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
 import { VideoCarousel, type CarouselVideo } from "@/components/video-carousel"
 
-// Bounty intake. Interim: routes to our own bounty form. Swap to the KY
-// Combinator application URL (an https:// link) to streamline intake — the
+// Bounty intake runs through the KY Combinator application workstream. The
 // submit button auto-switches to an external link-out for http(s) URLs.
-const BOUNTY_APPLY_URL = "/get-involved#bounty"
+const BOUNTY_APPLY_URL = "https://kycombinator.com/bounties/submit"
 const BOUNTY_APPLY_EXTERNAL = BOUNTY_APPLY_URL.startsWith("http")
 
 const PAST_PARTICIPANTS: CarouselVideo[] = [
@@ -166,10 +165,11 @@ export default function BountyPage() {
 
       {/* submit a bounty */}
       <section id="submit" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-        <SectionHead title="SUBMIT A BOUNTY" note="START HERE" />
+        <SectionHead title="SUBMIT A BOUNTY" note="KY COMBINATOR INTAKE" />
         <p className="mb-8 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          Ready to post one? Start your submission and we&apos;ll follow up to lock the details and the reward — cash or
-          in-kind, stackable on any sponsorship tier.
+          Ready to post one? Submissions run through the KY Combinator application workstream so intake stays in one
+          place. Fill out the form and we&apos;ll follow up to lock the challenge and the reward — cash or in-kind,
+          stackable on any sponsorship tier.
         </p>
         {BOUNTY_APPLY_EXTERNAL ? (
           <a
