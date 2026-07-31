@@ -21,7 +21,7 @@ const FRIDAY = [
 const SATURDAY = [
   ["08:00", "DOORS OPEN"],
   ["08:00", "BREAKFAST", "Grazing breakfast: food arrives as it is picked up and remains available throughout the day."],
-  ["12:00", "LUNCH", "Coupons provided to attendees; an evergreen offering."],
+  ["12:00", "LUNCH", "A lunch voucher for every attendee; an evergreen offering."],
   ["17:00", "JUDGING STARTS"],
   ["18:00", "DINNER — PAPA JOHNS"],
   ["19:00", "FINAL JUDGING"],

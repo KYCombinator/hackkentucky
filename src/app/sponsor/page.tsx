@@ -43,7 +43,7 @@ const SCHEDULE: [string, string][] = [
   ["FRI 5–9PM", "Learn-a-thon — five parallel tracks in five rooms: Software, Startups, Hardware, Sustainable Fashion, and AI. 35-minute sessions."],
   ["FRI 11PM", "Doors close. No all-nighter."],
   ["SAT 8AM", "Doors open. Grazing breakfast. Hacking begins."],
-  ["SAT 10–3", "Guest speakers in parallel — career track and startup track. Lunch via meal tickets at noon."],
+  ["SAT 10–3", "Guest speakers in parallel — career track and startup track. Lunch via voucher at noon."],
   ["SAT 5–7PM", "Judging begins. Dinner served. Final judging at 7pm."],
   ["SAT 9PM", "Awards and close."],
 ]
