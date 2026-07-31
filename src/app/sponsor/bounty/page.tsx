@@ -88,7 +88,7 @@ export default function BountyPage() {
             ⧫ SUBMIT A BOUNTY →
           </SubmitButton>
           <a
-            href="#submit"
+            href="#how-it-works"
             className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
           >
             HOW IT WORKS ↓
@@ -97,7 +97,7 @@ export default function BountyPage() {
       </section>
 
       {/* how it works */}
-      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+      <section id="how-it-works" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="HOW A BOUNTY WORKS" note="PROBLEM + PRIZE" />
         <div>
           {HOW_IT_WORKS.map((step, i) => (
@@ -118,7 +118,7 @@ export default function BountyPage() {
       </section>
 
       {/* past participants */}
-      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+      <section id="examples" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="SEE PAST PARTICIPANTS" note="HACKKENTUCKY × HACKTHETRACK 2025" />
         <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
           What teams actually shipped at last year&apos;s events — the caliber of builder your bounty gets pointed at.
@@ -128,7 +128,7 @@ export default function BountyPage() {
       </section>
 
       {/* what makes a good bounty */}
-      <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+      <section id="good-bounty" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="WHAT MAKES A GOOD BOUNTY" note="THE #1 QUESTION" />
         <p className="mb-10 max-w-[640px] text-[13px] leading-[1.9] text-[rgba(242,242,236,.7)]">
           This is the question every sponsor asks. The answer is simple: a{" "}
