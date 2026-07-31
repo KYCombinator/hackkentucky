@@ -54,6 +54,19 @@ const ANATOMY: { step: string; label: string; body: string }[] = [
   { step: "05", label: "THE REWARD", body: "~$200 in value — cash, or your pick of in-kind — to the winning team." },
 ]
 
+// Submit button — external link-out for http(s) URLs, internal Link otherwise.
+function SubmitButton({ className, children }: { className: string; children: React.ReactNode }) {
+  return BOUNTY_APPLY_EXTERNAL ? (
+    <a href={BOUNTY_APPLY_URL} target="_blank" rel="noreferrer" className={className}>
+      {children}
+    </a>
+  ) : (
+    <Link href={BOUNTY_APPLY_URL} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export default function BountyPage() {
   return (
     <Fall26Shell
@@ -65,6 +78,24 @@ export default function BountyPage() {
       }
       intro="A bounty is a problem plus a reward. You define a real challenge, set a reward — cash or in-kind, ~$200 in value is plenty — and give it to the team that solves it best. The problem motivates builders more than the prize. Here's how to write one a room will fight over."
     >
+      {/* top CTA bar */}
+      <section className="flex flex-col gap-4 border-b border-[rgba(201,247,59,.22)] px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-9">
+        <span className="text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.55)]">
+          Cash or in-kind · <span className="text-[#c9f73b]">~$200 in value</span> · stack it on any tier.
+        </span>
+        <div className="flex flex-wrap gap-3">
+          <SubmitButton className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]">
+            ⧫ SUBMIT A BOUNTY →
+          </SubmitButton>
+          <a
+            href="#submit"
+            className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
+          >
+            HOW IT WORKS ↓
+          </a>
+        </div>
+      </section>
+
       {/* how it works */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="HOW A BOUNTY WORKS" note="PROBLEM + PRIZE" />
@@ -171,23 +202,9 @@ export default function BountyPage() {
           place. Fill out the form and we&apos;ll follow up to lock the challenge and the reward — cash or in-kind,
           stackable on any sponsorship tier.
         </p>
-        {BOUNTY_APPLY_EXTERNAL ? (
-          <a
-            href={BOUNTY_APPLY_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block bg-[#c9f73b] px-8 py-4 text-[14px] font-bold tracking-[2px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
-          >
-            SUBMIT YOUR BOUNTY →
-          </a>
-        ) : (
-          <Link
-            href={BOUNTY_APPLY_URL}
-            className="inline-block bg-[#c9f73b] px-8 py-4 text-[14px] font-bold tracking-[2px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
-          >
-            SUBMIT YOUR BOUNTY →
-          </Link>
-        )}
+        <SubmitButton className="inline-block bg-[#c9f73b] px-8 py-4 text-[14px] font-bold tracking-[2px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]">
+          SUBMIT YOUR BOUNTY →
+        </SubmitButton>
         <p className="mt-6 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
           Questions first? Email hackkentucky@kycombinator.com.
         </p>
