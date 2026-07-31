@@ -8,6 +8,7 @@ type Row = [time: string, title: string, desc?: string]
 const FRIDAY: Row[] = [
   ["16:00", "Doors open", "Check-in & team formation"],
   ["17:00", "Learn-a-thon", "5 parallel tracks · 5 rooms · 35-min sessions"],
+  ["19:00", "Dinner", "Papa Johns"],
   ["23:00", "Doors close", "No all-nighter — venue closes overnight"],
 ]
 
@@ -16,7 +17,7 @@ const SATURDAY: Row[] = [
   ["10:00", "Guest speakers", "Career & startup tracks in parallel, until 15:00"],
   ["12:00", "Lunch", "Lunch voucher per attendee"],
   ["17:00", "Judging starts"],
-  ["18:00", "Dinner", "Papa Johns"],
+  ["18:00", "Dinner", "Dinner voucher per attendee"],
   ["19:00", "Final judging"],
   ["21:00", "Awards & close"],
   ["22:00", "Doors close", "Building empty"],
