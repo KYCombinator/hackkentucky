@@ -50,7 +50,7 @@ export default function GetInvolvedPage() {
             className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9"
           >
             <SectionHead title={def.label} note={def.note} />
-            <div className="overflow-hidden border border-[rgba(242,242,236,.12)]">
+            <div className="mx-auto max-w-[820px] overflow-hidden border border-[rgba(242,242,236,.12)]">
               <iframe
                 src={EMBED[key].url}
                 title={`HackKentucky — ${def.label.toLowerCase()} form`}
