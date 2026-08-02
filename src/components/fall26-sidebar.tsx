@@ -11,8 +11,12 @@ export const PAGES: [string, string][] = [
   ["SCHEDULE", "/schedule"],
   ["RUBRIC", "/rubric"],
   ["HOW TO HACK", "/how-to-hack"],
+]
+
+export const INVOLVE_PAGES: [string, string][] = [
   ["GET INVOLVED", "/get-involved"],
   ["SPONSOR", "/sponsor"],
+  ["BOUNTIES", "/sponsor/bounty"],
 ]
 
 const SECTIONS: [string, string, string?][] = [
@@ -63,6 +67,21 @@ export function Fall26Sidebar() {
           </div>
           <div className="flex flex-col gap-2.5 pl-[26px]">
             {PAGES.map(([label, href]) => (
+              <div key={href} className="flex items-center gap-2">
+                <Link href={href} className={pathname === href ? activeTag : sectionTag}>
+                  {label}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-3.5">
+          <div className="flex items-center gap-3 text-[13px] font-bold tracking-[2px] text-[#f2f2ec]">
+            <span className="text-[#c9f73b]">↳</span>GET INVOLVED
+          </div>
+          <div className="flex flex-col gap-2.5 pl-[26px]">
+            {INVOLVE_PAGES.map(([label, href]) => (
               <div key={href} className="flex items-center gap-2">
                 <Link href={href} className={pathname === href ? activeTag : sectionTag}>
                   {label}
@@ -148,7 +167,7 @@ export function Fall26MobileHeader() {
             ← EVENT
           </Link>
         ) : null}
-        {PAGES.map(([label, href]) => (
+        {[...PAGES, ...INVOLVE_PAGES].map(([label, href]) => (
           <Link
             key={href}
             href={href}

@@ -96,6 +96,16 @@ export default function BountyPage() {
         </div>
       </section>
 
+      {/* past participants */}
+      <section id="examples" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <SectionHead title="SEE PAST PARTICIPANTS" note="HACKKENTUCKY × HACKTHETRACK 2025" />
+        <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
+          What teams actually shipped at last year&apos;s events — the caliber of builder your bounty gets pointed at.
+          Hit play on any demo.
+        </p>
+        <VideoCarousel videos={PAST_PARTICIPANTS} />
+      </section>
+
       {/* how it works */}
       <section id="how-it-works" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="HOW A BOUNTY WORKS" note="PROBLEM + PRIZE" />
@@ -115,16 +125,6 @@ export default function BountyPage() {
         <p className="mt-6 text-[12px] uppercase tracking-[1px] text-[#c9f73b]">
           Chrome ($500) and Purple ($10K) sponsors get a bounty included.
         </p>
-      </section>
-
-      {/* past participants */}
-      <section id="examples" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
-        <SectionHead title="SEE PAST PARTICIPANTS" note="HACKKENTUCKY × HACKTHETRACK 2025" />
-        <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          What teams actually shipped at last year&apos;s events — the caliber of builder your bounty gets pointed at.
-          Hit play on any demo.
-        </p>
-        <VideoCarousel videos={PAST_PARTICIPANTS} />
       </section>
 
       {/* what makes a good bounty */}
