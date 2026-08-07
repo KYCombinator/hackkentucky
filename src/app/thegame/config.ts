@@ -82,6 +82,38 @@ export const QUEST: QuestStep[] = [
   { id: "done", title: "SHIPPED", objective: "You did it. Registration opens soon." },
 ]
 
+export interface BountyDef {
+  id: string
+  sponsor: string
+  title: string
+  pitch: string
+  difficulty: "EASY" | "MEDIUM" | "HARD"
+}
+
+export const BOUNTIES: BountyDef[] = [
+  {
+    id: "axiom",
+    sponsor: "AXIOM DYNAMICS",
+    title: "Realtime anomaly flag",
+    pitch: "Flag anomalies in our live sales stream in under 200ms. We score it against a holdout set.",
+    difficulty: "HARD",
+  },
+  {
+    id: "neon",
+    sponsor: "NEON FOUNDRY",
+    title: "One-click ticket triage",
+    pitch: "Auto-classify our support tickets into 8 buckets, with a dashboard to approve or reject each.",
+    difficulty: "MEDIUM",
+  },
+  {
+    id: "volt",
+    sponsor: "VOLTCACHE",
+    title: "Edge cache visualizer",
+    pitch: "Show cache hit/miss across regions, live. Make it pretty enough to demo.",
+    difficulty: "EASY",
+  },
+]
+
 export const ROOM_NAMES: Record<string, string> = {
   entry: "ENTRY WAY",
   stadium: "STADIUM SEATING",

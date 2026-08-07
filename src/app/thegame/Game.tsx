@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { TILE, buildAtlas, atlasIndex, type SpriteName } from "./sprites"
 import { ROOMS, floorTile, overSprite, overSolid, type Room } from "./rooms"
-import { NPCS, QUEST, ROOM_NAMES, TEAM_GOAL } from "./config"
+import { NPCS, BOUNTIES, QUEST, ROOM_NAMES, TEAM_GOAL } from "./config"
 
 const COLS = 16
 const ROWS = 14
@@ -31,29 +31,32 @@ const KEY_TO_DIR: Record<string, Face> = {
 }
 
 interface Dialogue {
+  kind: "npc" | "bounty"
   id: string
   name: string
   lines: string[]
   idx: number
   reveal: number
-  offerRecruit: boolean
+  offer: boolean
+  choiceLabels: [string, string]
   choosing: boolean
   choiceIdx: number
 }
-
-const CHOICES = ["Recruit them", "Maybe later"]
 
 export function Game() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [dialogue, setDialogue] = useState<Dialogue | null>(null)
   const [team, setTeam] = useState<string[]>([])
+  const [bountyId, setBountyId] = useState<string | null>(null)
   const [stepIdx, setStepIdx] = useState(0)
   const [roomName, setRoomName] = useState(ROOM_NAMES.entry)
 
-  // bridges the imperative engine <-> React UI
   const blockedRef = useRef(false)
   const recruitedRef = useRef<Set<string>>(new Set())
-  const openDialogueRef = useRef<(id: string) => void>(() => {})
+  const partyRef = useRef<string[]>([])
+  const bountyIdRef = useRef<string | null>(null)
+  const openNpcRef = useRef<(id: string) => void>(() => {})
+  const openBoothRef = useRef<(id: string) => void>(() => {})
   const setRoomNameRef = useRef<(n: string) => void>(() => {})
 
   useEffect(() => {
@@ -61,37 +64,80 @@ export function Game() {
   }, [dialogue])
   useEffect(() => {
     recruitedRef.current = new Set(team)
+    partyRef.current = team
   }, [team])
   useEffect(() => {
     setRoomNameRef.current = setRoomName
   }, [])
 
-  // advance quest when the team is assembled
+  // quest progression
   useEffect(() => {
     if (stepIdx === 0 && team.length >= TEAM_GOAL) setStepIdx(1)
   }, [team, stepIdx])
-
-  // opening a dialogue needs the latest team to know who's already recruited
   useEffect(() => {
-    openDialogueRef.current = (id: string) => {
+    if (stepIdx === 1 && bountyId) setStepIdx(2)
+  }, [bountyId, stepIdx])
+
+  // open handlers capture latest team / bounty state
+  useEffect(() => {
+    openNpcRef.current = (id: string) => {
       const npc = NPCS[id]
       if (!npc) return
       const recruited = team.includes(id)
-      const lines = recruited ? ["We're already a team — let's go win this."] : npc.lines.slice()
       setDialogue({
+        kind: "npc",
         id,
         name: npc.name + (npc.specialty ? ` · ${npc.specialty}` : ""),
-        lines,
+        lines: recruited ? ["We're already a team — let's go win this."] : npc.lines.slice(),
         idx: 0,
         reveal: 0,
-        offerRecruit: Boolean(npc.recruitable) && !recruited,
+        offer: Boolean(npc.recruitable) && !recruited,
+        choiceLabels: ["Recruit them", "Maybe later"],
         choosing: false,
         choiceIdx: 0,
       })
     }
-  }, [team])
+    openBoothRef.current = (id: string) => {
+      const b = BOUNTIES.find((x) => x.id === id)
+      if (!b) return
+      const taken = bountyId === id
+      const already = bountyId !== null
+      setDialogue({
+        kind: "bounty",
+        id,
+        name: `${b.sponsor} · ${b.difficulty}`,
+        lines: [`"${b.title}." ${b.pitch}`, taken ? "You already picked this one." : already ? "You've already got a bounty." : "Take it on?"],
+        idx: 0,
+        reveal: 0,
+        offer: !already,
+        choiceLabels: ["Take this bounty", "Keep looking"],
+        choosing: false,
+        choiceIdx: 0,
+      })
+    }
+  }, [team, bountyId])
 
-  // typewriter reveal
+  function confirmChoice(d: Dialogue) {
+    if (d.choiceIdx === 0) {
+      if (d.kind === "npc") setTeam((t) => (t.includes(d.id) ? t : [...t, d.id]))
+      else setBountyId(d.id)
+    }
+    setDialogue(null)
+  }
+
+  // advance dialogue (shared by keyboard + tap/click)
+  function advance() {
+    setDialogue((d) => {
+      if (!d || d.choosing) return d
+      const full = d.lines[d.idx] ?? ""
+      if (d.reveal < full.length) return { ...d, reveal: full.length }
+      if (d.idx < d.lines.length - 1) return { ...d, idx: d.idx + 1, reveal: 0 }
+      if (d.offer) return { ...d, choosing: true }
+      return null
+    })
+  }
+
+  // typewriter
   useEffect(() => {
     if (!dialogue || dialogue.choosing) return
     const full = dialogue.lines[dialogue.idx] ?? ""
@@ -105,44 +151,33 @@ export function Game() {
     if (!dialogue) return
     function onKey(e: KeyboardEvent) {
       const k = e.code
-      setDialogue((d) => {
-        if (!d) return d
-        if (d.choosing) {
-          if (k === "ArrowUp" || k === "ArrowDown" || k === "ArrowLeft" || k === "ArrowRight") {
-            e.preventDefault()
-            return { ...d, choiceIdx: d.choiceIdx === 0 ? 1 : 0 }
-          }
-          if (k === "KeyZ" || k === "Enter") {
-            e.preventDefault()
-            if (d.choiceIdx === 0) setTeam((t) => (t.includes(d.id) ? t : [...t, d.id]))
-            return null
-          }
-          if (k === "KeyX" || k === "Escape") {
-            e.preventDefault()
-            return null
-          }
-          return d
-        }
-        const full = d.lines[d.idx] ?? ""
-        if (k === "KeyZ" || k === "Enter" || k === "KeyX") {
+      if (dialogue!.choosing) {
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(k)) {
           e.preventDefault()
-          if (d.reveal < full.length) return { ...d, reveal: full.length }
-          if (d.idx < d.lines.length - 1) return { ...d, idx: d.idx + 1, reveal: 0 }
-          if (d.offerRecruit) return { ...d, choosing: true }
-          return null
-        }
-        if (k === "Escape") {
+          setDialogue((d) => (d ? { ...d, choiceIdx: d.choiceIdx === 0 ? 1 : 0 } : d))
+        } else if (k === "KeyZ" || k === "Enter") {
           e.preventDefault()
-          return null
+          setDialogue((d) => {
+            if (d) confirmChoice(d)
+            return d
+          })
+        } else if (k === "KeyX" || k === "Escape") {
+          e.preventDefault()
+          setDialogue(null)
         }
-        return d
-      })
+      } else if (k === "KeyZ" || k === "Enter" || k === "KeyX") {
+        e.preventDefault()
+        advance()
+      } else if (k === "Escape") {
+        e.preventDefault()
+        setDialogue(null)
+      }
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [dialogue])
 
-  // ---- the engine ----
+  // ---- engine ----
   useEffect(() => {
     const canvasEl = canvasRef.current
     if (!canvasEl) return
@@ -163,29 +198,64 @@ export function Game() {
     let curY = prevY
     let anim = 0
     const held: Face[] = []
-
-    // transition (fade + room switch)
+    let touchFace: Face | null = null
+    const followers: { tx: number; ty: number; fx: number; fy: number }[] = []
     let trans: { t: number; to: string; sx: number; sy: number } | null = null
 
+    function boothAt(tx: number, ty: number) {
+      return room.booths?.find((b) => b.x === tx && b.y === ty) ?? null
+    }
+    function npcAt(tx: number, ty: number) {
+      return room.npcs.find((n) => n.x === tx && n.y === ty && !recruitedRef.current.has(n.id)) ?? null
+    }
     function walkable(tx: number, ty: number): boolean {
       if (tx < 0 || tx >= COLS || ty < 0 || ty >= ROWS) return false
       if (overSolid(room.over[ty][tx])) return false
-      for (const n of room.npcs) if (n.x === tx && n.y === ty) return false
+      if (boothAt(tx, ty)) return false
+      if (npcAt(tx, ty)) return false
       return true
     }
-
     function exitAt(tx: number, ty: number) {
       return room.exits.find((e) => e.x === tx && e.y === ty) ?? null
     }
-
+    function desiredFace(): Face | null {
+      if (touchFace) return touchFace
+      return held.length ? held[held.length - 1] : null
+    }
     function visualXY(): [number, number] {
       const p = player.moving ? player.prog : 0
       const d = DIRS[player.face]
       return [(player.tx + d.dx * p) * TILE, (player.ty + d.dy * p) * TILE]
     }
 
+    function tryInteract() {
+      if (player.moving || trans || blockedRef.current) return
+      const d = DIRS[player.face]
+      const fx = player.tx + d.dx
+      const fy = player.ty + d.dy
+      const npc = npcAt(fx, fy)
+      if (npc) {
+        held.length = 0
+        touchFace = null
+        openNpcRef.current(npc.id)
+        return
+      }
+      const booth = boothAt(fx, fy)
+      if (booth) {
+        held.length = 0
+        touchFace = null
+        openBoothRef.current(booth.id)
+      }
+    }
+
     function logic() {
       anim++
+      // keep follower count synced with the party
+      const party = partyRef.current
+      while (followers.length < party.length)
+        followers.push({ tx: player.tx, ty: player.ty, fx: player.tx, fy: player.ty })
+      while (followers.length > party.length) followers.pop()
+
       if (trans) {
         trans.t += reduceMotion ? 1 : 1 / 12
         if (trans.t >= 0.5 && room.id !== trans.to) {
@@ -196,6 +266,10 @@ export function Game() {
           player.prog = 0
           prevX = curX = player.tx * TILE
           prevY = curY = player.ty * TILE
+          for (const f of followers) {
+            f.tx = f.fx = player.tx
+            f.ty = f.fy = player.ty
+          }
           setRoomNameRef.current(ROOM_NAMES[trans.to] ?? "")
         }
         if (trans.t >= 1) trans = null
@@ -203,6 +277,7 @@ export function Game() {
       }
       if (blockedRef.current) {
         held.length = 0
+        touchFace = null
         return
       }
       if (player.moving) {
@@ -214,16 +289,22 @@ export function Game() {
           player.moving = false
           player.prog = 0
           const ex = exitAt(player.tx, player.ty)
-          if (ex) {
-            trans = { t: 0, to: ex.to, sx: ex.sx, sy: ex.sy }
-          }
+          if (ex) trans = { t: 0, to: ex.to, sx: ex.sx, sy: ex.sy }
         }
       }
-      if (!player.moving && !trans && held.length > 0) {
-        const face = held[held.length - 1]
-        player.face = face
-        const d = DIRS[face]
+      const want = desiredFace()
+      if (!player.moving && !trans && want) {
+        player.face = want
+        const d = DIRS[want]
         if (walkable(player.tx + d.dx, player.ty + d.dy)) {
+          // snake: each follower steps into the tile of the one ahead
+          const chain = [{ x: player.tx, y: player.ty }, ...followers.map((f) => ({ x: f.tx, y: f.ty }))]
+          for (let i = 0; i < followers.length; i++) {
+            followers[i].fx = followers[i].tx
+            followers[i].fy = followers[i].ty
+            followers[i].tx = chain[i].x
+            followers[i].ty = chain[i].y
+          }
           player.moving = true
           player.prog = 0
         }
@@ -245,69 +326,108 @@ export function Game() {
         ctx.drawImage(atlas, sx, 0, TILE, TILE, dx, dy, TILE, TILE)
       }
     }
-
+    function shadow(cx: number, cy: number) {
+      ctx.fillStyle = "rgba(15,17,20,0.22)"
+      ctx.beginPath()
+      ctx.ellipse(cx, cy, 5, 2, 0, 0, Math.PI * 2)
+      ctx.fill()
+    }
     function charSprite(face: Face): { name: SpriteName; flip: boolean } {
       if (face === "up") return { name: "cup", flip: false }
       if (face === "down") return { name: "cdown", flip: false }
-      // base side sprite faces RIGHT; mirror it for left
-      return { name: "cside", flip: face === "left" }
+      return { name: "cside", flip: face === "left" } // base faces right
     }
 
     function render(alpha: number) {
       const x = prevX + (curX - prevX) * alpha
       const y = prevY + (curY - prevY) * alpha
 
-      // ground
       for (let r = 0; r < ROWS; r++)
         for (let c = 0; c < COLS; c++) blit(floorTile(room.ground[r][c]), c * TILE, r * TILE)
-      // props
       for (let r = 0; r < ROWS; r++)
         for (let c = 0; c < COLS; c++) {
           const o = overSprite(room.over[r][c])
           if (o) blit(o, c * TILE, r * TILE)
         }
+      if (room.booths)
+        for (const b of room.booths) {
+          blit("booth", b.x * TILE, b.y * TILE)
+          if (bountyIdRef.current === b.id) {
+            ctx.fillStyle = "#7ee36b"
+            ctx.fillRect(b.x * TILE + 12, b.y * TILE + 1, 3, 3)
+          }
+        }
 
-      // NPCs (idle bob, offset per position so they're not synced)
+      // exit hints
+      for (const ex of room.exits) {
+        if (!ex.label || !ex.dir) continue
+        const pulse = 0.5 + 0.5 * Math.sin(anim / 14)
+        const cx = ex.x * TILE + 8
+        ctx.fillStyle = `rgba(255,207,51,${0.55 + 0.4 * pulse})`
+        const ay = ex.dir === "up" ? 2 : ex.y * TILE + 13
+        // chevron
+        ctx.beginPath()
+        if (ex.dir === "up") {
+          ctx.moveTo(cx, ay)
+          ctx.lineTo(cx - 4, ay + 4)
+          ctx.lineTo(cx + 4, ay + 4)
+        } else {
+          ctx.moveTo(cx, ay + 4)
+          ctx.lineTo(cx - 4, ay)
+          ctx.lineTo(cx + 4, ay)
+        }
+        ctx.closePath()
+        ctx.fill()
+        ctx.font = "6px monospace"
+        ctx.textAlign = "center"
+        ctx.fillStyle = `rgba(255,243,208,${0.7 + 0.3 * pulse})`
+        ctx.fillText(ex.label, cx + 8, ex.dir === "up" ? ay + 12 : ay - 6)
+        ctx.textAlign = "left"
+      }
+
+      // NPCs (skip recruited — they're following now)
       for (const n of room.npcs) {
+        if (recruitedRef.current.has(n.id)) continue
         const def = NPCS[n.id]
         if (!def) continue
         const bob = Math.floor(anim / 26 + n.x + n.y) % 2
-        ctx.fillStyle = "rgba(15,17,20,0.22)"
-        ctx.beginPath()
-        ctx.ellipse(n.x * TILE + 8, n.y * TILE + 14, 5, 2, 0, 0, Math.PI * 2)
-        ctx.fill()
+        shadow(n.x * TILE + 8, n.y * TILE + 14)
         blit(def.sprite, n.x * TILE, n.y * TILE - bob)
-        if (recruitedRef.current.has(n.id)) {
-          ctx.fillStyle = "#7ee36b"
-          ctx.fillRect(n.x * TILE + 11, n.y * TILE + 1, 3, 3)
-        }
+      }
+
+      // followers (behind player)
+      const party = partyRef.current
+      for (let i = 0; i < followers.length; i++) {
+        const f = followers[i]
+        const p = player.moving ? player.prog : 0
+        const fx = (f.fx + (f.tx - f.fx) * p) * TILE
+        const fy = (f.fy + (f.ty - f.fy) * p) * TILE
+        const sprite = NPCS[party[i]]?.sprite ?? "npc0"
+        shadow(fx + 8, fy + 14)
+        blit(sprite as SpriteName, fx, fy)
       }
 
       // player
-      ctx.fillStyle = "rgba(15,17,20,0.22)"
-      ctx.beginPath()
-      ctx.ellipse(Math.round(x) + 8, Math.round(y) + 14, 5, 2, 0, 0, Math.PI * 2)
-      ctx.fill()
+      shadow(Math.round(x) + 8, Math.round(y) + 14)
       const bob = player.moving && Math.floor(anim / 6) % 2 === 1 ? 1 : 0
       const cs = charSprite(player.face)
       blit(cs.name, Math.round(x), Math.round(y) - bob, cs.flip)
 
-      // globe pendant lights (overhead glow)
+      // globe lights
       for (const [lx, ly] of room.lights) {
-        const cx = lx * TILE + 8
-        const cy = ly * TILE + 8
-        const grad = ctx.createRadialGradient(cx, cy, 1, cx, cy, 22)
-        grad.addColorStop(0, "rgba(255,246,216,0.55)")
+        const gx = lx * TILE + 8
+        const gy = ly * TILE + 8
+        const grad = ctx.createRadialGradient(gx, gy, 1, gx, gy, 22)
+        grad.addColorStop(0, "rgba(255,246,216,0.5)")
         grad.addColorStop(1, "rgba(255,246,216,0)")
         ctx.fillStyle = grad
-        ctx.fillRect(cx - 22, cy - 22, 44, 44)
+        ctx.fillRect(gx - 22, gy - 22, 44, 44)
         ctx.fillStyle = "#fff6d8"
         ctx.beginPath()
-        ctx.arc(cx, cy, 3, 0, Math.PI * 2)
+        ctx.arc(gx, gy, 3, 0, Math.PI * 2)
         ctx.fill()
       }
 
-      // transition fade
       if (trans) {
         const a = 1 - Math.abs(trans.t - 0.5) * 2
         ctx.fillStyle = `rgba(10,12,16,${a})`
@@ -315,16 +435,19 @@ export function Game() {
       }
     }
 
+    // scaling
+    let scale = 1
     function resize() {
-      const maxW = Math.min(window.innerWidth - 16, 960)
-      const maxH = window.innerHeight - 150
-      const scale = Math.max(1, Math.floor(Math.min(maxW / W, maxH / H)))
+      const maxW = Math.min(window.innerWidth - 8, 960)
+      const maxH = window.innerHeight - 24
+      scale = Math.max(1, Math.floor(Math.min(maxW / W, maxH / H)))
       canvas.style.width = `${W * scale}px`
       canvas.style.height = `${H * scale}px`
     }
     resize()
     window.addEventListener("resize", resize)
 
+    // keyboard
     function onKeyDown(e: KeyboardEvent) {
       if (blockedRef.current) return
       const dir = KEY_TO_DIR[e.code]
@@ -334,17 +457,8 @@ export function Game() {
         return
       }
       if (e.code === "KeyZ" || e.code === "Enter") {
-        // interact with an NPC on the faced tile
-        if (player.moving || trans) return
         e.preventDefault()
-        const d = DIRS[player.face]
-        const fx = player.tx + d.dx
-        const fy = player.ty + d.dy
-        const npc = room.npcs.find((n) => n.x === fx && n.y === fy)
-        if (npc) {
-          held.length = 0
-          openDialogueRef.current(npc.id)
-        }
+        tryInteract()
       }
     }
     function onKeyUp(e: KeyboardEvent) {
@@ -355,6 +469,58 @@ export function Game() {
     }
     window.addEventListener("keydown", onKeyDown)
     window.addEventListener("keyup", onKeyUp)
+
+    // touch: move toward the touch point, double-tap to interact
+    let pointerDown = false
+    let startX = 0
+    let startY = 0
+    let startT = 0
+    let lastTapT = 0
+    function dirFromPoint(clientX: number, clientY: number): Face | null {
+      const rect = canvas.getBoundingClientRect()
+      const pcx = rect.left + (curX + 8) * scale
+      const pcy = rect.top + (curY + 8) * scale
+      const dx = clientX - pcx
+      const dy = clientY - pcy
+      if (Math.hypot(dx, dy) < 0.6 * TILE * scale) return null
+      return Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? "left" : "right") : dy < 0 ? "up" : "down"
+    }
+    function onPointerDown(e: PointerEvent) {
+      if (blockedRef.current) return
+      pointerDown = true
+      startX = e.clientX
+      startY = e.clientY
+      startT = performance.now()
+      touchFace = dirFromPoint(e.clientX, e.clientY)
+      canvas.setPointerCapture?.(e.pointerId)
+      e.preventDefault()
+    }
+    function onPointerMove(e: PointerEvent) {
+      if (!pointerDown || blockedRef.current) return
+      touchFace = dirFromPoint(e.clientX, e.clientY)
+      e.preventDefault()
+    }
+    function onPointerUp(e: PointerEvent) {
+      if (!pointerDown) return
+      pointerDown = false
+      touchFace = null
+      const moved = Math.hypot(e.clientX - startX, e.clientY - startY) > 12
+      const quick = performance.now() - startT < 250
+      if (!moved && quick && !blockedRef.current) {
+        const now = performance.now()
+        if (now - lastTapT < 320) {
+          lastTapT = 0
+          tryInteract()
+        } else {
+          lastTapT = now
+        }
+      }
+      e.preventDefault()
+    }
+    canvas.addEventListener("pointerdown", onPointerDown)
+    canvas.addEventListener("pointermove", onPointerMove)
+    canvas.addEventListener("pointerup", onPointerUp)
+    canvas.addEventListener("pointercancel", onPointerUp)
 
     let raf = 0
     let last = performance.now()
@@ -406,25 +572,34 @@ export function Game() {
       window.removeEventListener("resize", resize)
       window.removeEventListener("keydown", onKeyDown)
       window.removeEventListener("keyup", onKeyUp)
+      canvas.removeEventListener("pointerdown", onPointerDown)
+      canvas.removeEventListener("pointermove", onPointerMove)
+      canvas.removeEventListener("pointerup", onPointerUp)
+      canvas.removeEventListener("pointercancel", onPointerUp)
       document.removeEventListener("visibilitychange", onVisibility)
       io.disconnect()
     }
   }, [])
 
+  // bountyId available to the engine render without re-running the effect
+  useEffect(() => {
+    bountyIdRef.current = bountyId
+  }, [bountyId])
+
   const step = QUEST[stepIdx]
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block leading-[0]">
       <canvas
         ref={canvasRef}
         width={W}
         height={H}
         aria-label="HackKentucky pixel-art game"
-        className="touch-none select-none border-[3px] border-[#2c3640] [image-rendering:pixelated]"
+        className="block touch-none select-none border-[3px] border-[#2c3640] [image-rendering:pixelated]"
       />
 
       {/* quest box */}
-      <div className="pointer-events-none absolute left-2 top-2 max-w-[240px] border border-[#ffcf33] bg-[rgba(12,14,18,0.86)] px-3 py-2 font-mono text-[#f4f0e4]">
+      <div className="pointer-events-none absolute left-2 top-2 max-w-[240px] border border-[#ffcf33] bg-[rgba(12,14,18,0.86)] px-3 py-2 font-mono leading-normal text-[#f4f0e4]">
         <div className="flex items-center justify-between gap-3 text-[10px] font-bold tracking-[2px] text-[#ffcf33]">
           <span>◆ QUEST</span>
           <span className="text-[rgba(244,240,228,0.6)]">{roomName}</span>
@@ -440,29 +615,36 @@ export function Game() {
         ) : null}
       </div>
 
-      {/* dialogue box */}
+      {/* dialogue box (tap/click friendly) */}
       {dialogue ? (
-        <div className="absolute inset-x-2 bottom-2 border-[2px] border-[#8fd3f2] bg-[rgba(10,14,22,0.94)] px-4 py-3 font-mono text-[#f4f0e4]">
+        <div
+          onClick={() => !dialogue.choosing && advance()}
+          className="absolute inset-x-2 bottom-2 cursor-pointer border-[2px] border-[#8fd3f2] bg-[rgba(10,14,22,0.95)] px-4 py-3 font-mono leading-normal text-[#f4f0e4]"
+        >
           <div className="text-[11px] font-bold tracking-[2px] text-[#8fd3f2]">{dialogue.name}</div>
           {dialogue.choosing ? (
-            <div className="mt-2">
-              <div className="text-[13px]">Team up with {NPCS[dialogue.id]?.name}?</div>
-              <div className="mt-2 flex flex-col gap-1">
-                {CHOICES.map((c, i) => (
-                  <div key={c} className={`text-[13px] ${dialogue.choiceIdx === i ? "text-[#ffcf33]" : "text-[rgba(244,240,228,0.7)]"}`}>
-                    {dialogue.choiceIdx === i ? "▶ " : "  "}
-                    {c}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">↑↓ choose · Z select</div>
+            <div className="mt-2 flex flex-col gap-1.5">
+              {dialogue.choiceLabels.map((c, i) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    confirmChoice({ ...dialogue, choiceIdx: i })
+                  }}
+                  className={`text-left text-[13px] ${dialogue.choiceIdx === i ? "text-[#ffcf33]" : "text-[rgba(244,240,228,0.8)]"}`}
+                >
+                  ▶ {c}
+                </button>
+              ))}
+              <div className="mt-1 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap an option (or ↑↓ + Z)</div>
             </div>
           ) : (
             <>
               <div className="mt-1 min-h-[2.4em] text-[13px] leading-[1.4]">
                 {(dialogue.lines[dialogue.idx] ?? "").slice(0, dialogue.reveal)}
               </div>
-              <div className="mt-1 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">Z / Enter to continue</div>
+              <div className="mt-1 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap / Z to continue</div>
             </>
           )}
         </div>
