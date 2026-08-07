@@ -27,8 +27,6 @@ export interface Room {
   exits: Exit[]
   npcs: NpcSpawn[]
   booths?: BoothSpawn[]
-  /** interactive build workstations (2nd floor) */
-  stations?: [number, number][]
   /** buffet tiles that only appear "the next morning" (entry) */
   buffet?: [number, number][]
 }
@@ -245,10 +243,6 @@ export const ROOMS: Record<string, Room> = {
     npcs: [
       { id: "vale", x: 4, y: 10 },
       { id: "snooze", x: 11, y: 5 },
-    ],
-    stations: [
-      [7, 2],
-      [8, 2],
     ],
   },
 }

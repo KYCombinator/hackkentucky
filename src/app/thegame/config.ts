@@ -76,9 +76,9 @@ export interface QuestStep {
 export const QUEST: QuestStep[] = [
   { id: "team", title: "FIND A TEAM", objective: "Recruit 2 hackers in the Entry Way. (Walk up + Z, or double-tap.)" },
   { id: "bounty", title: "FIND A BOUNTY", objective: "Head up to the Stadium Seating and pick a sponsor bounty." },
-  { id: "build", title: "BUILD", objective: "Up to the 2nd Floor — use a workstation and start coding." },
+  { id: "build", title: "BUILD", objective: "Up to the 2nd Floor — find a table and get to work." },
   { id: "refuel", title: "REFUEL", objective: "Morning! Grab breakfast at the buffet in the Entry Way." },
-  { id: "build2", title: "KEEP BUILDING", objective: "Back up to the 2nd Floor. Finish and ship your project." },
+  { id: "build2", title: "KEEP BUILDING", objective: "Back to a table on the 2nd Floor — finish and ship it." },
   { id: "present", title: "PRESENT", objective: "Head to the Stadium stage — talk to the MC to present." },
   { id: "done", title: "SHIPPED", objective: "🏆 First place. Registration opens soon at hackkentucky.com." },
 ]
@@ -103,9 +103,9 @@ export const SCENE = {
     "The judges are seated. Deep breath.",
     "Land the timing bar in the green zone 3 times to nail your pitch.",
   ],
-  station: {
-    early: ["This is a build station — but you need a team and a bounty first."],
-    idle: ["Nothing to build right now."],
+  table: {
+    early: ["A free table. You'll want a team and a bounty before you sit down to build."],
+    idle: ["Nice table. Nothing to build right now."],
   },
   buffetFull: ["You're stuffed. Back to building!"],
 } as const

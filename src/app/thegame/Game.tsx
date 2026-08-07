@@ -57,6 +57,9 @@ export function Game() {
   const [award, setAward] = useState(false)
   // presentation timing mini-game
   const [pg, setPg] = useState({ pos: 0, dir: 1, hits: 0, target: 0.5, feedback: "" })
+  // coding mini-game (take a seat at a table and build)
+  const [coding, setCoding] = useState(false)
+  const [build, setBuild] = useState({ pct: 0, phase: 0 })
 
   const blockedRef = useRef(false)
   const recruitedRef = useRef<Set<string>>(new Set())
@@ -69,13 +72,13 @@ export function Game() {
   const dialogueRef = useRef<Dialogue | null>(null)
   const openNpcRef = useRef<(id: string) => void>(() => {})
   const openBoothRef = useRef<(id: string) => void>(() => {})
-  const openStationRef = useRef<() => void>(() => {})
+  const openTableRef = useRef<() => void>(() => {})
   const openBuffetRef = useRef<() => void>(() => {})
   const setRoomNameRef = useRef<(n: string) => void>(() => {})
 
   useEffect(() => {
-    blockedRef.current = dialogue !== null || present || award
-  }, [dialogue, present, award])
+    blockedRef.current = dialogue !== null || present || award || coding
+  }, [dialogue, present, award, coding])
   useEffect(() => {
     dialogueRef.current = dialogue
   }, [dialogue])
@@ -166,27 +169,17 @@ export function Game() {
     }
   }, [team, bountyId])
 
-  // workstation (2nd floor) + buffet (entry, mornings) — driven by quest step
+  // sit at a table (2nd floor) → coding mini-game; buffet (entry, mornings)
   useEffect(() => {
-    openStationRef.current = () => {
+    openTableRef.current = () => {
       const s = stepRef.current
-      if (s === 2) {
-        // first build → the team burns out → sleep cutscene → next morning
-        say("WORKSTATION", [...SCENE.codeFirst], () => {
-          sleepyRef.current = true
-          say("LATE NIGHT", [...SCENE.sleepy], () => {
-            morningRef.current = true
-            cmdRef.current = "morning"
-            setStepIdx(3)
-          })
-        })
-      } else if (s === 4) {
-        // second build → ready to present
-        say("WORKSTATION", [...SCENE.codeSecond], () => setStepIdx(5))
+      if (s === 2 || s === 4) {
+        setBuild({ pct: 0, phase: s })
+        setCoding(true)
       } else if (s < 2) {
-        say("WORKSTATION", [...SCENE.station.early])
+        say("TABLE", [...SCENE.table.early])
       } else {
-        say("WORKSTATION", [...SCENE.station.idle])
+        say("TABLE", [...SCENE.table.idle])
       }
     }
     openBuffetRef.current = () => {
@@ -267,6 +260,58 @@ export function Game() {
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [dialogue])
+
+  // ---- coding mini-game (mash to fill the build bar) ----
+  function codeTap() {
+    setBuild((b) => (b.pct >= 100 ? b : { ...b, pct: Math.min(100, b.pct + 9) }))
+  }
+  // the build bar drains slightly, so you have to keep at it
+  useEffect(() => {
+    if (!coding) return
+    let raf = 0
+    let last = performance.now()
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000)
+      last = now
+      setBuild((b) => (b.pct >= 100 ? b : { ...b, pct: Math.max(0, b.pct - dt * 7) }))
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [coding])
+  // bar full → build done → first build triggers the sleep cutscene
+  useEffect(() => {
+    if (!coding || build.pct < 100) return
+    const phase = build.phase
+    const t = setTimeout(() => {
+      setCoding(false)
+      if (phase === 2) {
+        say("BUILD COMPLETE", [...SCENE.codeFirst], () => {
+          sleepyRef.current = true
+          say("LATE NIGHT", [...SCENE.sleepy], () => {
+            morningRef.current = true
+            cmdRef.current = "morning"
+            setStepIdx(3)
+          })
+        })
+      } else {
+        say("BUILD COMPLETE", [...SCENE.codeSecond], () => setStepIdx(5))
+      }
+    }, 350)
+    return () => clearTimeout(t)
+  }, [coding, build.pct, build.phase])
+  // Z / Enter / Space = keep coding
+  useEffect(() => {
+    if (!coding) return
+    function onKey(e: KeyboardEvent) {
+      if (e.code === "KeyZ" || e.code === "Enter" || e.code === "Space") {
+        e.preventDefault()
+        codeTap()
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [coding])
 
   // ---- presentation mini-game ----
   function presentHit() {
@@ -362,8 +407,9 @@ export function Game() {
     function npcAt(tx: number, ty: number) {
       return room.npcs.find((n) => n.x === tx && n.y === ty && !recruitedRef.current.has(n.id)) ?? null
     }
-    function stationAt(tx: number, ty: number) {
-      return room.stations?.some(([x, y]) => x === tx && y === ty) ?? false
+    // a workable table (only on the 2nd floor, where you sit down to build)
+    function tableAt(tx: number, ty: number) {
+      return room.id === "floor2" && room.over[ty]?.[tx] === "T"
     }
     function buffetAt(tx: number, ty: number) {
       return morningRef.current && (room.buffet?.some(([x, y]) => x === tx && y === ty) ?? false)
@@ -373,7 +419,6 @@ export function Game() {
       if (overSolid(room.over[ty][tx])) return false
       if (boothAt(tx, ty)) return false
       if (npcAt(tx, ty)) return false
-      if (stationAt(tx, ty)) return false
       if (buffetAt(tx, ty)) return false
       return true
     }
@@ -409,10 +454,10 @@ export function Game() {
         openBoothRef.current(booth.id)
         return
       }
-      if (stationAt(fx, fy)) {
+      if (tableAt(fx, fy)) {
         held.length = 0
         touchFace = null
-        openStationRef.current()
+        openTableRef.current()
         return
       }
       if (buffetAt(fx, fy)) {
@@ -558,7 +603,6 @@ export function Game() {
             ctx.fillRect(b.x * TILE + 12, b.y * TILE + 1, 3, 3)
           }
         }
-      if (room.stations) for (const [sx2, sy2] of room.stations) blit("terminal", sx2 * TILE, sy2 * TILE)
       if (morningRef.current && room.buffet)
         for (const [bx, by] of room.buffet) blit("buffet", bx * TILE, by * TILE)
 
@@ -882,6 +926,26 @@ export function Game() {
               <div className="mt-1 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap / Z to continue</div>
             </>
           )}
+        </div>
+      ) : null}
+
+      {/* coding mini-game — take a seat at a table and build */}
+      {coding ? (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[rgba(6,8,14,0.9)] px-4 font-mono leading-normal text-[#f4f0e4]">
+          <div className="text-[11px] font-bold tracking-[2px] text-[#7ee36b]">HEADS DOWN — BUILD</div>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">Mash CODE to ship the build.</div>
+          <div className="relative h-4 w-[85%] max-w-[320px] overflow-hidden border border-[rgba(244,240,228,0.4)] bg-[rgba(0,0,0,0.5)]">
+            <div className="absolute inset-y-0 left-0 bg-[rgba(126,227,107,0.6)]" style={{ width: `${build.pct}%` }} />
+          </div>
+          <div className="text-[12px] font-bold tracking-[1px] text-[#ffcf33]">{Math.round(build.pct)}%</div>
+          <button
+            type="button"
+            onClick={codeTap}
+            className="border-[2px] border-[#7ee36b] bg-[rgba(20,32,20,0.95)] px-8 py-3 text-[14px] font-bold tracking-[2px] text-[#f4f0e4] active:translate-y-px"
+          >
+            CODE
+          </button>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap CODE (or press Z / space)</div>
         </div>
       ) : null}
 
