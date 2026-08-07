@@ -31,6 +31,8 @@ export interface Room {
   booths?: BoothSpawn[]
   /** buffet tiles that only appear "the next morning" (entry) */
   buffet?: [number, number][]
+  /** decorative, non-interactive spectators (fill the stadium for the demos) */
+  crowd?: [number, number][]
 }
 
 // ground char -> floor tile
@@ -195,12 +197,22 @@ export const ROOMS: Record<string, Room> = {
     ],
     npcs: [
       { id: "mc", x: 9, y: 0 },
-      // judges + crowd fill the stage for the presentation phase
+      // judges + a few talkable fans fill the stage for the presentation phase
       { id: "judgeA", x: 5, y: 0, fromStep: 5 },
       { id: "judgeB", x: 10, y: 0, fromStep: 5 },
       { id: "fan1", x: 2, y: 3, fromStep: 5 },
       { id: "fan2", x: 13, y: 5, fromStep: 5 },
       { id: "fan3", x: 4, y: 9, fromStep: 5 },
+    ],
+    // ~30 silent spectators packing the seats during the demos (center aisle
+    // at cols 7-8 stays clear so you can still walk up to the stage)
+    crowd: [
+      [1, 2], [3, 2], [5, 2], [10, 2], [12, 2], [14, 2],
+      [0, 3], [3, 3], [9, 3], [11, 3], [14, 3],
+      [1, 4], [4, 4], [10, 4], [12, 4], [15, 4],
+      [2, 5], [5, 5], [10, 5], [12, 5], [15, 5],
+      [1, 6], [4, 6], [9, 6], [11, 6],
+      [3, 7], [6, 7], [12, 7], [14, 7],
     ],
     booths: [
       { id: "axiom", x: 2, y: 13 },
