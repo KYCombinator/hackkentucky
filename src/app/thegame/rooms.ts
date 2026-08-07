@@ -6,9 +6,16 @@ export interface Exit {
   to: string
   sx: number
   sy: number
+  label?: string
+  dir?: "up" | "down" | "left" | "right"
 }
 export interface NpcSpawn {
   id: string
+  x: number
+  y: number
+}
+export interface BoothSpawn {
+  id: string // bounty id
   x: number
   y: number
 }
@@ -19,6 +26,7 @@ export interface Room {
   lights: [number, number][]
   exits: Exit[]
   npcs: NpcSpawn[]
+  booths?: BoothSpawn[]
 }
 
 // ground char -> floor tile
@@ -118,8 +126,8 @@ export const ROOMS: Record<string, Room> = {
       [8, 11],
     ],
     exits: [
-      { x: 7, y: 0, to: "stadium", sx: 8, sy: 12 },
-      { x: 8, y: 0, to: "stadium", sx: 8, sy: 12 },
+      { x: 7, y: 0, to: "stadium", sx: 8, sy: 12, label: "STADIUM", dir: "up" },
+      { x: 8, y: 0, to: "stadium", sx: 8, sy: 12, dir: "up" },
     ],
     npcs: [
       { id: "ada", x: 3, y: 3 },
@@ -165,12 +173,17 @@ export const ROOMS: Record<string, Room> = {
     ],
     lights: [],
     exits: [
-      { x: 7, y: 13, to: "entry", sx: 8, sy: 1 },
-      { x: 8, y: 13, to: "entry", sx: 8, sy: 1 },
-      { x: 7, y: 0, to: "floor2", sx: 8, sy: 12 },
-      { x: 8, y: 0, to: "floor2", sx: 8, sy: 12 },
+      { x: 7, y: 13, to: "entry", sx: 8, sy: 1, label: "ENTRY", dir: "down" },
+      { x: 8, y: 13, to: "entry", sx: 8, sy: 1, dir: "down" },
+      { x: 7, y: 0, to: "floor2", sx: 8, sy: 12, label: "2ND FLOOR", dir: "up" },
+      { x: 8, y: 0, to: "floor2", sx: 8, sy: 12, dir: "up" },
     ],
     npcs: [{ id: "mc", x: 9, y: 0 }],
+    booths: [
+      { id: "axiom", x: 2, y: 13 },
+      { id: "neon", x: 5, y: 13 },
+      { id: "volt", x: 13, y: 13 },
+    ],
   },
 
   floor2: {
@@ -215,8 +228,8 @@ export const ROOMS: Record<string, Room> = {
       [11, 8],
     ],
     exits: [
-      { x: 7, y: 13, to: "stadium", sx: 8, sy: 2 },
-      { x: 8, y: 13, to: "stadium", sx: 8, sy: 2 },
+      { x: 7, y: 13, to: "stadium", sx: 8, sy: 2, label: "STADIUM", dir: "down" },
+      { x: 8, y: 13, to: "stadium", sx: 8, sy: 2, dir: "down" },
     ],
     npcs: [
       { id: "vale", x: 4, y: 10 },

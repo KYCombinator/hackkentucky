@@ -29,20 +29,16 @@ export const metadata: Metadata = {
 
 export default function TheGamePage() {
   return (
-    <main className="flex min-h-[100dvh] flex-col items-center justify-center gap-4 bg-[#3f5a34] p-4">
+    <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-[#2a2d33] p-2">
       <Game />
 
-      {/* Accessible / no-canvas fallback — real content in the DOM for anyone who can't play. */}
-      <section className="max-w-[540px] text-center">
-        <h1 className="font-[family-name:var(--font-hk-mono,monospace)] text-[13px] font-bold tracking-[2px] text-[#fff3d0]">
-          HACKKENTUCKY — THE GAME
-        </h1>
-        <p className="mt-2 font-[family-name:var(--font-hk-mono,monospace)] text-[12px] leading-[1.7] text-[rgba(255,243,208,.72)]">
-          A tiny pixel-art RPG set at HackKentucky × HackTheTrack, Fall 2026 — Genuine Works, Louisville KY, September
-          11–12. Move with the arrow keys or WASD. (Work in progress.){" "}
-          <Link href="/" className="text-[#ffd23f] underline underline-offset-4">
-            Registration opens soon → hackkentucky.com
-          </Link>
+      {/* Accessible / no-canvas fallback — kept in the DOM (screen readers) but visually hidden. */}
+      <section className="sr-only">
+        <h1>HackKentucky — The Game</h1>
+        <p>
+          A pixel-art RPG set at HackKentucky × HackTheTrack, Fall 2026 — Genuine Works, Louisville KY, September 11–12.
+          Move with arrow keys / WASD on desktop, or touch in a direction on mobile. Talk to hackers to assemble a team.{" "}
+          <Link href="/">Registration opens soon → hackkentucky.com</Link>
         </p>
       </section>
     </main>
