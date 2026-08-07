@@ -1,66 +1,252 @@
-// All art is original, drawn as code. Cozy top-down farm palette (Stardew-ish
-// vibe, not Stardew assets). 16px tiles, ~20 colors shared across everything.
+// Original art, drawn as code. Skinned to the real venue (Genuine Works /
+// Mashup Food Hall): polished concrete, globe pendant lights, wood tables +
+// yellow chairs, teal couches, wooden stadium steps, green bean bags.
 
 export const TILE = 16
 
 const C: Record<string, string> = {
   ".": "transparent",
-  g: "#6ab04c", // grass mid
-  G: "#7ec850", // grass light
-  h: "#4f9440", // grass dark blade
-  d: "#caa06a", // dirt light
-  D: "#a97b47", // dirt mid
-  m: "#8a5f34", // dirt dark
-  w: "#4aa6dc", // water
-  W: "#357fb8", // water shadow
-  x: "#9bd8f4", // water highlight
-  t: "#7b4a26", // trunk
-  T: "#5c3518", // trunk dark
-  l: "#5bbf4a", // leaves light
-  L: "#3f9738", // leaves dark
-  r: "#ff6d8a", // flower petal
-  y: "#ffd23f", // flower center
+  c: "#616671", // concrete
+  C: "#767b86", // concrete light
+  v: "#494d57", // concrete seam
+  y: "#ffcf33", // yellow
+  Y: "#d9a520", // yellow dark
+  w: "#b9814e", // wood
+  W: "#8a5a30", // wood dark
+  o: "#d3a56b", // wood light (step top)
+  q: "#3f8f9e", // teal
+  Q: "#2c6673", // teal dark
+  r: "#6f8f3f", // green (rug / bean)
+  R: "#52702c", // green dark
+  b: "#93cfe0", // glass
+  B: "#2c6673", // glass frame
+  k: "#2a2d33", // stage / wall dark
+  x: "#15171c", // near black
+  p: "#4f9440", // plant
+  P: "#356b2c", // plant dark
+  m: "#9aa0aa", // metal light
+  M: "#6b7079", // metal dark
   s: "#f2c79c", // skin
   a: "#5b3d22", // hair
-  b: "#4a86c5", // shirt
+  u: "#4a86c5", // shirt
   n: "#39507a", // pants
-  e: "#2a2233", // outline / eyes
+  e: "#2a2233", // outline
 }
 
-// Prop + character sprites as 16×16 char grids (transparent bg where ".").
 const SPR: Record<string, string[]> = {
-  tree: [
-    "......llll......",
-    ".....lLLLl......",
-    "....lLLLLLl.....",
-    "...lLLLLLLLl....",
-    "..lLLLLLLLLLl...",
-    "..lLLLLLLLLLl...",
-    "..lLLLLLLLLLl...",
-    "...lLLLLLLLl....",
-    "....lLLLLLl.....",
-    ".....lllll......",
-    ".......tt.......",
-    "......tTTt......",
-    "......tTTt......",
-    ".....hh..hh.....",
+  // furniture / props (transparent bg)
+  chairY: [
+    "................",
+    "................",
+    "....YYYYYYYY....",
+    "...YyyyyyyyyY...",
+    "...YyyyyyyyyY...",
+    "...YyyyyyyyyY...",
+    "...YyyyyyyyyY...",
+    "...YyyyyyyyyY...",
+    "...YyyyyyyyyY...",
+    "....YYYYYYYY....",
+    "................",
+    "................",
+    "................",
+    "................",
     "................",
     "................",
   ],
-  flower: [
+  chairW: [
+    "................",
+    "................",
+    "....CCCCCCCC....",
+    "...CmmmmmmmmC...",
+    "...CmmmmmmmmC...",
+    "...CmmmmmmmmC...",
+    "...CmmmmmmmmC...",
+    "...CmmmmmmmmC...",
+    "...CmmmmmmmmC...",
+    "....CCCCCCCC....",
     "................",
     "................",
     "................",
     "................",
     "................",
     "................",
-    "......r.r.......",
-    ".....ryryr......",
-    "......r.r.......",
-    ".......h........",
+  ],
+  stump: [
     "................",
     "................",
     "................",
+    "................",
+    ".....oooo.......",
+    "....owwwwo......",
+    "....owWWwo......",
+    "....owwwwo......",
+    ".....WWWW.......",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  table: [
+    "WWWWWWWWWWWWWWWW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WWWWWWWWWWWWWWWW",
+  ],
+  couch: [
+    "QQQQQQQQQQQQQQQQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqQqqqqQqqqqQqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqQqqqqQqqqqQqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QqqqqqqqqqqqqqqQ",
+    "QQQQQQQQQQQQQQQQ",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  deskTop: [
+    "oooooooooooooooo",
+    "oooooooooooooooo",
+    "WWWWWWWWWWWWWWWW",
+    "rrrrrrrrrrrrrrrr",
+    "rRrrrrRrrrrRrrrr",
+    "rrrrrrrrrrrrrrrr",
+    "rRrrrrRrrrrRrrrr",
+    "rrrrrrrrrrrrrrrr",
+    "RRRRRRRRRRRRRRRR",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  glass: [
+    "BBBBBBBBBBBBBBBB",
+    "BbbbbbbbbbbbbbbB",
+    "BbCbbbbbbbbbbbbB",
+    "BbbCbbbbbbbbbbbB",
+    "BbbbbbbbbbCbbbbB",
+    "BbbbbbbbbbbCbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BbbbbbbbbbbbbbbB",
+    "BBBBBBBBBBBBBBBB",
+  ],
+  plant: [
+    "................",
+    ".....pppp.......",
+    "....pPpppp......",
+    "...ppppPppp.....",
+    "...pPppppPp.....",
+    "....ppppPp......",
+    ".....pppp.......",
+    "......pp........",
+    ".....wwww.......",
+    ".....wWWw.......",
+    ".....wWWw.......",
+    ".....WWWW.......",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  bean: [
+    "................",
+    "................",
+    ".....rrrr.......",
+    "....rrrrrr......",
+    "...rrRrrrrr.....",
+    "...rrrrrrrr.....",
+    "...rrrrrrRr.....",
+    "...rrrrrrrr.....",
+    "....rrrrrr......",
+    ".....RRRR.......",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  printer: [
+    "................",
+    "....mmmmmm......",
+    "...mMMMMMMm.....",
+    "...mMmmmmMm.....",
+    "...mMMMMMMm.....",
+    "...mxxxxxxm.....",
+    "...mMMMMMMm.....",
+    "....mmmmmm......",
+    ".....MMMM.......",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  swag: [
+    "WWWWWWWWWWWWWWWW",
+    "WooooooooooooooW",
+    "WuuoyyoqqorroooW",
+    "WuuoyyoqqorroooW",
+    "WooooooooooooooW",
+    "WooooooooooooooW",
+    "WWWWWWWWWWWWWWWW",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+  ],
+  speaker: [
+    "..kkkkkkkkkkkk..",
+    "..kMMMMMMMMMMk..",
+    "..kMmmmmmmmMMk..",
+    "..kMmxxxxmmMMk..",
+    "..kMmxxxxmmMMk..",
+    "..kMmmmmmmmMMk..",
+    "..kMMMMMMMMMMk..",
+    "..kMmmmmmmmMMk..",
+    "..kMmxxxxmmMMk..",
+    "..kMmxxxxmmMMk..",
+    "..kMmmmmmmmMMk..",
+    "..kMMMMMMMMMMk..",
+    "..kkkkkkkkkkkk..",
     "................",
     "................",
     "................",
@@ -73,10 +259,10 @@ const SPR: Record<string, string[]> = {
     "....assssssa....",
     "....asessesa....",
     "....asssssssa...",
-    "....ssbbbbss....",
-    "...sbbbbbbbbs...",
-    "...sbbbbbbbbs...",
-    "....bbbbbbbb....",
+    "....ssuuuuss....",
+    "...suuuuuuuus...",
+    "...suuuuuuuus...",
+    "....uuuuuuuu....",
     "....nnn..nnn....",
     "....nnn..nnn....",
     "....ee....ee....",
@@ -91,10 +277,10 @@ const SPR: Record<string, string[]> = {
     "....aaaaaaaa....",
     "....aaaaaaaa....",
     "....aaaaaaaa....",
-    "....ssbbbbss....",
-    "...sbbbbbbbbs...",
-    "...sbbbbbbbbs...",
-    "....bbbbbbbb....",
+    "....ssuuuuss....",
+    "...suuuuuuuus...",
+    "...suuuuuuuus...",
+    "....uuuuuuuu....",
     "....nnn..nnn....",
     "....nnn..nnn....",
     "....ee....ee....",
@@ -109,10 +295,10 @@ const SPR: Record<string, string[]> = {
     "...aaassss......",
     "...aaseess......",
     "...asssss.......",
-    "...sbbbbbs......",
-    "..sbbbbbbb......",
-    "..sbbbbbb.......",
-    "...bbbbbb.......",
+    "...suuuuus......",
+    "..suuuuuuu......",
+    "..suuuuuu.......",
+    "...uuuuuu.......",
     "...nnnnnn.......",
     "...nnn.nnn......",
     "...ee..ee.......",
@@ -121,16 +307,48 @@ const SPR: Record<string, string[]> = {
   ],
 }
 
-// Column order in the baked atlas. Ground tiles are drawn procedurally.
-export const ATLAS = ["grass", "path", "water0", "water1", "tree", "flower", "cdown", "cup", "cside"] as const
+export const ATLAS = [
+  "concrete",
+  "stepTop",
+  "rug",
+  "stage",
+  "wood",
+  "chairY",
+  "chairW",
+  "stump",
+  "table",
+  "couch",
+  "deskTop",
+  "glass",
+  "plant",
+  "bean",
+  "printer",
+  "swag",
+  "speaker",
+  "cdown",
+  "cup",
+  "cside",
+  "npc0",
+  "npc1",
+  "npc2",
+  "npc3",
+] as const
 export type SpriteName = (typeof ATLAS)[number]
+
+// NPC shirt/hair tints — reuse the base character silhouette, recolored.
+const NPC_TINTS: [shirt: string, shirtDark: string, hair: string][] = [
+  ["#e0563f", "#b23f2c", "#2f2a26"], // red
+  ["#8a5cd0", "#6b45a8", "#3a2f22"], // purple
+  ["#3fae74", "#2e8a5a", "#4a3316"], // green
+  ["#e0a020", "#b57e12", "#5b3d22"], // amber
+]
 
 export function atlasIndex(name: SpriteName): number {
   return ATLAS.indexOf(name)
 }
 
 function px(ctx: CanvasRenderingContext2D, x: number, y: number, color: string) {
-  if (color === "transparent") return
+  if (!color || color === "transparent") return
   ctx.fillStyle = color
   ctx.fillRect(x, y, 1, 1)
 }
@@ -142,112 +360,90 @@ function drawGrid(ctx: CanvasRenderingContext2D, x0: number, grid: string[]) {
   }
 }
 
-// Deterministic scatter — fixed coords so grass/dirt look textured but stable.
-const GRASS_DARK = [
-  [2, 3],
-  [9, 2],
-  [13, 6],
-  [4, 9],
-  [11, 11],
-  [6, 13],
-  [1, 7],
-]
-const GRASS_LIGHT = [
-  [6, 1],
-  [12, 4],
-  [3, 6],
-  [8, 8],
-  [14, 10],
-  [2, 12],
-  [10, 14],
-]
-const DIRT_FLECK = [
-  [3, 2],
-  [10, 3],
-  [6, 6],
-  [13, 8],
-  [2, 9],
-  [8, 11],
-  [12, 13],
-  [5, 13],
-]
-
 export function buildAtlas(): HTMLCanvasElement {
   const cv = document.createElement("canvas")
   cv.width = ATLAS.length * TILE
   cv.height = TILE
   const ctx = cv.getContext("2d")!
   ctx.imageSmoothingEnabled = false
-
   const X = (name: SpriteName) => atlasIndex(name) * TILE
 
-  // grass
-  ctx.fillStyle = C.g
-  ctx.fillRect(X("grass"), 0, TILE, TILE)
-  for (const [x, y] of GRASS_DARK) px(ctx, X("grass") + x, y, C.h)
-  for (const [x, y] of GRASS_LIGHT) px(ctx, X("grass") + x, y, C.G)
+  // concrete — gray with seam grid + a few light flecks
+  ctx.fillStyle = C.c
+  ctx.fillRect(X("concrete"), 0, TILE, TILE)
+  ctx.fillStyle = C.v
+  ctx.fillRect(X("concrete"), 0, TILE, 1)
+  ctx.fillRect(X("concrete"), 0, 1, TILE)
+  for (const [fx, fy] of [
+    [4, 6],
+    [11, 3],
+    [7, 12],
+    [13, 9],
+  ])
+    px(ctx, X("concrete") + fx, fy, C.C)
 
-  // dirt path
-  ctx.fillStyle = C.d
-  ctx.fillRect(X("path"), 0, TILE, TILE)
-  for (const [x, y] of DIRT_FLECK) px(ctx, X("path") + x, y, C.D)
-  px(ctx, X("path") + 4, 5, C.m)
-  px(ctx, X("path") + 11, 10, C.m)
-
-  // water — two frames with shifted highlights for a gentle shimmer
-  for (const frame of [0, 1] as const) {
-    const x0 = X(frame === 0 ? "water0" : "water1")
+  // wooden step top — light wood, dark top edge (tier line), grain
+  ctx.fillStyle = C.o
+  ctx.fillRect(X("stepTop"), 0, TILE, TILE)
+  ctx.fillStyle = C.W
+  ctx.fillRect(X("stepTop"), 0, TILE, 2) // riser shadow at top of the tier
+  for (let gy = 5; gy < TILE; gy += 5) {
     ctx.fillStyle = C.w
-    ctx.fillRect(x0, 0, TILE, TILE)
-    const off = frame === 0 ? 0 : 4
-    for (let y = 2; y < TILE; y += 4) {
-      for (let x = 0; x < TILE; x += 2) {
-        px(ctx, x0 + ((x + off + y) % TILE), y, C.x)
-        px(ctx, x0 + ((x + off + y + 5) % TILE), (y + 1) % TILE, C.W)
-      }
-    }
+    ctx.fillRect(X("stepTop"), gy, TILE, 1)
   }
 
-  // char + props from grids
-  drawGrid(ctx, X("tree"), SPR.tree)
-  drawGrid(ctx, X("flower"), SPR.flower)
-  drawGrid(ctx, X("cdown"), SPR.cdown)
-  drawGrid(ctx, X("cup"), SPR.cup)
-  drawGrid(ctx, X("cside"), SPR.cside)
+  // rug — olive green with border
+  ctx.fillStyle = C.r
+  ctx.fillRect(X("rug"), 0, TILE, TILE)
+  ctx.strokeStyle = C.R
+  ctx.strokeRect(X("rug") + 0.5, 0.5, TILE - 1, TILE - 1)
+
+  // stage — near-black platform
+  ctx.fillStyle = C.k
+  ctx.fillRect(X("stage"), 0, TILE, TILE)
+  ctx.fillStyle = C.x
+  ctx.fillRect(X("stage"), TILE - 2, TILE, 2)
+
+  // plain wood floor
+  ctx.fillStyle = C.w
+  ctx.fillRect(X("wood"), 0, TILE, TILE)
+  ctx.fillStyle = C.W
+  for (let gy = 3; gy < TILE; gy += 4) ctx.fillRect(X("wood"), gy, TILE, 1)
+
+  // object sprites
+  for (const name of [
+    "chairY",
+    "chairW",
+    "stump",
+    "table",
+    "couch",
+    "deskTop",
+    "glass",
+    "plant",
+    "bean",
+    "printer",
+    "swag",
+    "speaker",
+    "cdown",
+    "cup",
+    "cside",
+  ] as const) {
+    drawGrid(ctx, X(name), SPR[name])
+  }
+
+  // NPCs = the down-facing character, recolored (shirt 'u'/'U'-ish, hair 'a')
+  NPC_TINTS.forEach(([shirt, shirtDark, hair], i) => {
+    const over: Record<string, string> = { u: shirt, a: hair }
+    void shirtDark
+    const x0 = X(`npc${i}` as SpriteName)
+    const grid = SPR.cdown
+    for (let r = 0; r < grid.length; r++) {
+      for (let c = 0; c < grid[r].length; c++) {
+        const ch = grid[r][c]
+        px(ctx, x0 + c, r, over[ch] ?? C[ch] ?? "transparent")
+      }
+    }
+  })
 
   return cv
-}
-
-// ---- Room map: 16 wide × 14 tall. # tree, w water, d path, f flower, g grass.
-export const ROOM: string[] = [
-  "################",
-  "#ggggggdggggggg#",
-  "#ggfgggdggggggg#",
-  "#ggggggdggwwwgg#",
-  "#gfggggdggwwwgg#",
-  "#ggggggdggwwwgg#",
-  "#ggggggdgggggfg#",
-  "#ggggggdggggggg#",
-  "#ggggggdggfgggg#",
-  "#ggggggddddgggg#",
-  "#ggggggggggggg #".replace(" ", "g"),
-  "#gfggggggggggg #".replace(" ", "g"),
-  "#ggggggggggfgg #".replace(" ", "g"),
-  "################",
-]
-
-export function isWalkable(ch: string): boolean {
-  return ch !== "#" && ch !== "w"
-}
-
-export function groundOf(ch: string): SpriteName | "water" {
-  if (ch === "d") return "path"
-  if (ch === "w") return "water"
-  return "grass"
-}
-
-export function propOf(ch: string): SpriteName | null {
-  if (ch === "#") return "tree"
-  if (ch === "f") return "flower"
-  return null
 }
