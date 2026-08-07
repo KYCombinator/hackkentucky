@@ -435,14 +435,16 @@ export function Game() {
       }
     }
 
-    // scaling
-    let scale = 1
+    // scaling: crisp integer on desktop; on touch devices fill the screen
+    // (float scale, still image-rendering:pixelated) so it isn't a tiny 1x box.
+    const coarse = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches
     function resize() {
-      const maxW = Math.min(window.innerWidth - 8, 960)
-      const maxH = window.innerHeight - 24
-      scale = Math.max(1, Math.floor(Math.min(maxW / W, maxH / H)))
-      canvas.style.width = `${W * scale}px`
-      canvas.style.height = `${H * scale}px`
+      const availW = coarse ? window.innerWidth : Math.min(window.innerWidth - 8, 960)
+      const availH = coarse ? window.innerHeight : window.innerHeight - 24
+      const raw = Math.min(availW / W, availH / H)
+      const s = coarse ? Math.max(1, raw) : Math.max(1, Math.floor(raw))
+      canvas.style.width = `${Math.round(W * s)}px`
+      canvas.style.height = `${Math.round(H * s)}px`
     }
     resize()
     window.addEventListener("resize", resize)
@@ -478,11 +480,12 @@ export function Game() {
     let lastTapT = 0
     function dirFromPoint(clientX: number, clientY: number): Face | null {
       const rect = canvas.getBoundingClientRect()
-      const pcx = rect.left + (curX + 8) * scale
-      const pcy = rect.top + (curY + 8) * scale
+      const sc = rect.width / W
+      const pcx = rect.left + (curX + 8) * sc
+      const pcy = rect.top + (curY + 8) * sc
       const dx = clientX - pcx
       const dy = clientY - pcy
-      if (Math.hypot(dx, dy) < 0.6 * TILE * scale) return null
+      if (Math.hypot(dx, dy) < 0.6 * TILE * sc) return null
       return Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? "left" : "right") : dy < 0 ? "up" : "down"
     }
     function onPointerDown(e: PointerEvent) {
