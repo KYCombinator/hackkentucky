@@ -74,13 +74,46 @@ export interface QuestStep {
 }
 
 export const QUEST: QuestStep[] = [
-  { id: "team", title: "FIND A TEAM", objective: "Recruit 2 hackers in the Entry Way. (Walk up and press Z / tap A.)" },
+  { id: "team", title: "FIND A TEAM", objective: "Recruit 2 hackers in the Entry Way. (Walk up + Z, or double-tap.)" },
   { id: "bounty", title: "FIND A BOUNTY", objective: "Head up to the Stadium Seating and pick a sponsor bounty." },
-  { id: "build", title: "BUILD", objective: "Take the steps up to the 2nd Floor and build your project." },
-  { id: "food", title: "REFUEL", objective: "Grab food before judging." },
-  { id: "judge", title: "PRESENT", objective: "Present to the judges on the main stage." },
-  { id: "done", title: "SHIPPED", objective: "You did it. Registration opens soon." },
+  { id: "build", title: "BUILD", objective: "Up to the 2nd Floor — use a workstation and start coding." },
+  { id: "refuel", title: "REFUEL", objective: "Morning! Grab breakfast at the buffet in the Entry Way." },
+  { id: "build2", title: "KEEP BUILDING", objective: "Back up to the 2nd Floor. Finish and ship your project." },
+  { id: "present", title: "PRESENT", objective: "Head to the Stadium stage — talk to the MC to present." },
+  { id: "done", title: "SHIPPED", objective: "🏆 First place. Registration opens soon at hackkentucky.com." },
 ]
+
+// Cutscene / interaction copy — kept here so the engine stays string-free.
+export const SCENE = {
+  codeFirst: [
+    "You flip open the laptop and get to work.",
+    "Commits fly, coffee drains, the build takes shape...",
+  ],
+  sleepy: [
+    "You look up — your whole team is face-down on their keyboards.",
+    "It's been a long day. Time to head home and get some sleep.",
+  ],
+  morning: "THE NEXT MORNING",
+  buffet: [
+    "A full breakfast buffet is laid out in the Entry Way.",
+    "You refuel. The team's back, caffeinated, and ready to build.",
+  ],
+  codeSecond: ["Final push. You wire up the last feature and squash the last bug.", "It works. Ship it — time to present."],
+  presentIntro: [
+    "The judges are seated. Deep breath.",
+    "Land the timing bar in the green zone 3 times to nail your pitch.",
+  ],
+  station: {
+    early: ["This is a build station — but you need a team and a bounty first."],
+    idle: ["Nothing to build right now."],
+  },
+  buffetFull: ["You're stuffed. Back to building!"],
+} as const
+
+export const MC_LINES: Record<string, string[]> = {
+  before: ["Welcome to the main stage! Judging happens right here.", "Grab a bounty from the booths, then go build."],
+  ready: ["Doors are closing — are you ready to present?", "Talk to me when you're set and we'll get you on stage."],
+}
 
 export interface BountyDef {
   id: string

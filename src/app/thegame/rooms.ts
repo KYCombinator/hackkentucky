@@ -27,6 +27,10 @@ export interface Room {
   exits: Exit[]
   npcs: NpcSpawn[]
   booths?: BoothSpawn[]
+  /** interactive build workstations (2nd floor) */
+  stations?: [number, number][]
+  /** buffet tiles that only appear "the next morning" (entry) */
+  buffet?: [number, number][]
 }
 
 // ground char -> floor tile
@@ -135,6 +139,13 @@ export const ROOMS: Record<string, Room> = {
       { id: "cyra", x: 4, y: 9 },
       { id: "dex", x: 11, y: 9 },
     ],
+    // laid out only after the sleep cutscene (see morning flag in Game.tsx)
+    buffet: [
+      [6, 5],
+      [7, 5],
+      [8, 5],
+      [9, 5],
+    ],
   },
 
   stadium: {
@@ -234,6 +245,10 @@ export const ROOMS: Record<string, Room> = {
     npcs: [
       { id: "vale", x: 4, y: 10 },
       { id: "snooze", x: 11, y: 5 },
+    ],
+    stations: [
+      [7, 2],
+      [8, 2],
     ],
   },
 }

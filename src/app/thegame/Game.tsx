@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { TILE, buildAtlas, atlasIndex, type SpriteName } from "./sprites"
 import { ROOMS, floorTile, overSprite, overSolid, type Room } from "./rooms"
-import { NPCS, BOUNTIES, QUEST, ROOM_NAMES, TEAM_GOAL } from "./config"
+import { NPCS, BOUNTIES, QUEST, ROOM_NAMES, TEAM_GOAL, SCENE, MC_LINES } from "./config"
 
 const COLS = 16
 const ROWS = 14
@@ -31,7 +31,7 @@ const KEY_TO_DIR: Record<string, Face> = {
 }
 
 interface Dialogue {
-  kind: "npc" | "bounty"
+  kind: "npc" | "bounty" | "info"
   id: string
   name: string
   lines: string[]
@@ -41,6 +41,8 @@ interface Dialogue {
   choiceLabels: [string, string]
   choosing: boolean
   choiceIdx: number
+  /** runs once when a non-offer dialogue is dismissed (drives cutscenes) */
+  after?: () => void
 }
 
 export function Game() {
@@ -51,18 +53,52 @@ export function Game() {
   const [bountyId, setBountyId] = useState<string | null>(null)
   const [stepIdx, setStepIdx] = useState(0)
   const [roomName, setRoomName] = useState(ROOM_NAMES.entry)
+  const [present, setPresent] = useState(false)
+  const [award, setAward] = useState(false)
+  // presentation timing mini-game
+  const [pg, setPg] = useState({ pos: 0, dir: 1, hits: 0, target: 0.5, feedback: "" })
 
   const blockedRef = useRef(false)
   const recruitedRef = useRef<Set<string>>(new Set())
   const partyRef = useRef<string[]>([])
   const bountyIdRef = useRef<string | null>(null)
+  const stepRef = useRef(0)
+  const morningRef = useRef(false)
+  const sleepyRef = useRef(false)
+  const cmdRef = useRef<string | null>(null)
+  const dialogueRef = useRef<Dialogue | null>(null)
   const openNpcRef = useRef<(id: string) => void>(() => {})
   const openBoothRef = useRef<(id: string) => void>(() => {})
+  const openStationRef = useRef<() => void>(() => {})
+  const openBuffetRef = useRef<() => void>(() => {})
   const setRoomNameRef = useRef<(n: string) => void>(() => {})
 
   useEffect(() => {
-    blockedRef.current = dialogue !== null
+    blockedRef.current = dialogue !== null || present || award
+  }, [dialogue, present, award])
+  useEffect(() => {
+    dialogueRef.current = dialogue
   }, [dialogue])
+  useEffect(() => {
+    stepRef.current = stepIdx
+  }, [stepIdx])
+
+  // plain info dialogue with an optional follow-up when dismissed
+  function say(name: string, lines: string[], after?: () => void) {
+    setDialogue({
+      kind: "info",
+      id: "_info",
+      name,
+      lines,
+      idx: 0,
+      reveal: 0,
+      offer: false,
+      choiceLabels: ["", ""],
+      choosing: false,
+      choiceIdx: 0,
+      after,
+    })
+  }
   useEffect(() => {
     recruitedRef.current = new Set(team)
     partyRef.current = team
@@ -84,6 +120,18 @@ export function Game() {
     openNpcRef.current = (id: string) => {
       const npc = NPCS[id]
       if (!npc) return
+      // MC gates the presentation: on the PRESENT step, talking starts the demo
+      if (id === "mc") {
+        if (stepRef.current === 5) {
+          say("MC", [...SCENE.presentIntro], () => {
+            setPg({ pos: 0, dir: 1, hits: 0, target: 0.5, feedback: "" })
+            setPresent(true)
+          })
+        } else {
+          say("MC", stepRef.current >= 5 ? [...MC_LINES.ready] : [...MC_LINES.before])
+        }
+        return
+      }
       const recruited = team.includes(id)
       setDialogue({
         kind: "npc",
@@ -118,6 +166,38 @@ export function Game() {
     }
   }, [team, bountyId])
 
+  // workstation (2nd floor) + buffet (entry, mornings) — driven by quest step
+  useEffect(() => {
+    openStationRef.current = () => {
+      const s = stepRef.current
+      if (s === 2) {
+        // first build → the team burns out → sleep cutscene → next morning
+        say("WORKSTATION", [...SCENE.codeFirst], () => {
+          sleepyRef.current = true
+          say("LATE NIGHT", [...SCENE.sleepy], () => {
+            morningRef.current = true
+            cmdRef.current = "morning"
+            setStepIdx(3)
+          })
+        })
+      } else if (s === 4) {
+        // second build → ready to present
+        say("WORKSTATION", [...SCENE.codeSecond], () => setStepIdx(5))
+      } else if (s < 2) {
+        say("WORKSTATION", [...SCENE.station.early])
+      } else {
+        say("WORKSTATION", [...SCENE.station.idle])
+      }
+    }
+    openBuffetRef.current = () => {
+      if (stepRef.current === 3) {
+        say("BUFFET", [...SCENE.buffet], () => setStepIdx(4))
+      } else {
+        say("BUFFET", [...SCENE.buffetFull])
+      }
+    }
+  }, [])
+
   function confirmChoice(d: Dialogue) {
     if (d.choiceIdx === 0) {
       if (d.kind === "npc") setTeam((t) => (t.includes(d.id) ? t : [...t, d.id]))
@@ -128,14 +208,24 @@ export function Game() {
 
   // advance dialogue (shared by keyboard + tap/click)
   function advance() {
-    setDialogue((d) => {
-      if (!d || d.choosing) return d
-      const full = d.lines[d.idx] ?? ""
-      if (d.reveal < full.length) return { ...d, reveal: full.length }
-      if (d.idx < d.lines.length - 1) return { ...d, idx: d.idx + 1, reveal: 0 }
-      if (d.offer) return { ...d, choosing: true }
-      return null
-    })
+    const d = dialogueRef.current
+    if (!d || d.choosing) return
+    const full = d.lines[d.idx] ?? ""
+    if (d.reveal < full.length) {
+      setDialogue({ ...d, reveal: full.length })
+      return
+    }
+    if (d.idx < d.lines.length - 1) {
+      setDialogue({ ...d, idx: d.idx + 1, reveal: 0 })
+      return
+    }
+    if (d.offer) {
+      setDialogue({ ...d, choosing: true })
+      return
+    }
+    // dialogue ends — run its follow-up (cutscene / step advance) exactly once
+    setDialogue(null)
+    d.after?.()
   }
 
   // typewriter
@@ -178,6 +268,68 @@ export function Game() {
     return () => window.removeEventListener("keydown", onKey)
   }, [dialogue])
 
+  // ---- presentation mini-game ----
+  function presentHit() {
+    setPg((p) => {
+      if (p.hits >= 3) return p
+      const good = Math.abs(p.pos - p.target) < 0.11
+      if (good) {
+        const hits = p.hits + 1
+        return { ...p, hits, target: 0.18 + Math.random() * 0.64, feedback: hits >= 3 ? "SHIPPED IT!" : "NAILED IT!" }
+      }
+      return { ...p, feedback: "off-beat — try again" }
+    })
+  }
+  // timing bar sweeps back and forth while the demo is live
+  useEffect(() => {
+    if (!present) return
+    let raf = 0
+    let last = performance.now()
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000)
+      last = now
+      setPg((p) => {
+        let pos = p.pos + p.dir * dt * 0.85
+        let dir = p.dir
+        if (pos >= 1) {
+          pos = 1
+          dir = -1
+        }
+        if (pos <= 0) {
+          pos = 0
+          dir = 1
+        }
+        return { ...p, pos, dir }
+      })
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [present])
+  // three clean hits wins → award ceremony
+  useEffect(() => {
+    if (present && pg.hits >= 3) {
+      const t = setTimeout(() => {
+        setPresent(false)
+        setStepIdx(6)
+        setAward(true)
+      }, 750)
+      return () => clearTimeout(t)
+    }
+  }, [present, pg.hits])
+  // Z / Enter / Space = hit while presenting
+  useEffect(() => {
+    if (!present) return
+    function onKey(e: KeyboardEvent) {
+      if (e.code === "KeyZ" || e.code === "Enter" || e.code === "Space") {
+        e.preventDefault()
+        presentHit()
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [present])
+
   // ---- engine ----
   useEffect(() => {
     const canvasEl = canvasRef.current
@@ -202,6 +354,7 @@ export function Game() {
     let touchFace: Face | null = null
     const followers: { tx: number; ty: number; fx: number; fy: number }[] = []
     let trans: { t: number; to: string; sx: number; sy: number } | null = null
+    let cut: { t: number } | null = null // scripted cutscene fade (e.g. "next morning")
 
     function boothAt(tx: number, ty: number) {
       return room.booths?.find((b) => b.x === tx && b.y === ty) ?? null
@@ -209,11 +362,19 @@ export function Game() {
     function npcAt(tx: number, ty: number) {
       return room.npcs.find((n) => n.x === tx && n.y === ty && !recruitedRef.current.has(n.id)) ?? null
     }
+    function stationAt(tx: number, ty: number) {
+      return room.stations?.some(([x, y]) => x === tx && y === ty) ?? false
+    }
+    function buffetAt(tx: number, ty: number) {
+      return morningRef.current && (room.buffet?.some(([x, y]) => x === tx && y === ty) ?? false)
+    }
     function walkable(tx: number, ty: number): boolean {
       if (tx < 0 || tx >= COLS || ty < 0 || ty >= ROWS) return false
       if (overSolid(room.over[ty][tx])) return false
       if (boothAt(tx, ty)) return false
       if (npcAt(tx, ty)) return false
+      if (stationAt(tx, ty)) return false
+      if (buffetAt(tx, ty)) return false
       return true
     }
     function exitAt(tx: number, ty: number) {
@@ -246,6 +407,18 @@ export function Game() {
         held.length = 0
         touchFace = null
         openBoothRef.current(booth.id)
+        return
+      }
+      if (stationAt(fx, fy)) {
+        held.length = 0
+        touchFace = null
+        openStationRef.current()
+        return
+      }
+      if (buffetAt(fx, fy)) {
+        held.length = 0
+        touchFace = null
+        openBuffetRef.current()
       }
     }
 
@@ -256,6 +429,33 @@ export function Game() {
       while (followers.length < party.length)
         followers.push({ tx: player.tx, ty: player.ty, fx: player.tx, fy: player.ty })
       while (followers.length > party.length) followers.pop()
+
+      // scripted cutscene: sleep → fade → wake up back in the Entry Way
+      if (cmdRef.current === "morning" && !cut) {
+        cut = { t: 0 }
+        cmdRef.current = null
+      }
+      if (cut) {
+        cut.t += reduceMotion ? 1 : 1 / 72
+        if (cut.t >= 0.5 && room.id !== "entry") {
+          room = ROOMS.entry
+          player.tx = 7
+          player.ty = 8
+          player.face = "up"
+          player.moving = false
+          player.prog = 0
+          prevX = curX = player.tx * TILE
+          prevY = curY = player.ty * TILE
+          for (const f of followers) {
+            f.tx = f.fx = player.tx
+            f.ty = f.fy = player.ty
+          }
+          sleepyRef.current = false
+          setRoomNameRef.current(ROOM_NAMES.entry)
+        }
+        if (cut.t >= 1) cut = null
+        return
+      }
 
       if (trans) {
         trans.t += reduceMotion ? 1 : 1 / 12
@@ -358,6 +558,9 @@ export function Game() {
             ctx.fillRect(b.x * TILE + 12, b.y * TILE + 1, 3, 3)
           }
         }
+      if (room.stations) for (const [sx2, sy2] of room.stations) blit("terminal", sx2 * TILE, sy2 * TILE)
+      if (morningRef.current && room.buffet)
+        for (const [bx, by] of room.buffet) blit("buffet", bx * TILE, by * TILE)
 
       // exit hints
       for (const ex of room.exits) {
@@ -406,6 +609,11 @@ export function Game() {
         const sprite = NPCS[party[i]]?.sprite ?? "npc0"
         shadow(fx + 8, fy + 14)
         blit(sprite as SpriteName, fx, fy)
+        if (sleepyRef.current) {
+          ctx.font = "6px monospace"
+          ctx.fillStyle = "rgba(255,243,208,0.9)"
+          ctx.fillText("z", fx + 11, fy - 1 - (Math.floor(anim / 18) % 3))
+        }
       }
 
       // player
@@ -433,6 +641,18 @@ export function Game() {
         const a = 1 - Math.abs(trans.t - 0.5) * 2
         ctx.fillStyle = `rgba(10,12,16,${a})`
         ctx.fillRect(0, 0, W, H)
+      }
+      if (cut) {
+        const a = 1 - Math.abs(cut.t - 0.5) * 2
+        ctx.fillStyle = `rgba(6,8,12,${Math.min(1, a * 1.5)})`
+        ctx.fillRect(0, 0, W, H)
+        if (a > 0.55) {
+          ctx.font = "bold 11px monospace"
+          ctx.textAlign = "center"
+          ctx.fillStyle = `rgba(255,243,208,${(a - 0.55) / 0.45})`
+          ctx.fillText(SCENE.morning, W / 2, H / 2)
+          ctx.textAlign = "left"
+        }
       }
     }
 
@@ -662,6 +882,55 @@ export function Game() {
               <div className="mt-1 text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap / Z to continue</div>
             </>
           )}
+        </div>
+      ) : null}
+
+      {/* presentation timing mini-game */}
+      {present ? (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[rgba(6,8,14,0.9)] px-4 font-mono leading-normal text-[#f4f0e4]">
+          <div className="text-[11px] font-bold tracking-[2px] text-[#8fd3f2]">PRESENT TO THE JUDGES</div>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">Hit the green zone — 3 times.</div>
+          <div className="relative h-4 w-[85%] max-w-[320px] overflow-hidden border border-[rgba(244,240,228,0.4)] bg-[rgba(0,0,0,0.5)]">
+            <div
+              className="absolute inset-y-0 bg-[rgba(126,227,107,0.55)]"
+              style={{ left: `${Math.max(0, pg.target - 0.11) * 100}%`, width: `${0.22 * 100}%` }}
+            />
+            <div className="absolute inset-y-0 w-[3px] bg-[#ffcf33]" style={{ left: `calc(${pg.pos * 100}% - 1px)` }} />
+          </div>
+          <div className="flex items-center gap-2 text-[12px] font-bold tracking-[2px]">
+            {[0, 1, 2].map((i) => (
+              <span key={i} className={i < pg.hits ? "text-[#7ee36b]" : "text-[rgba(244,240,228,0.3)]"}>
+                ★
+              </span>
+            ))}
+          </div>
+          <div className="h-[1.2em] text-[12px] font-bold tracking-[1px] text-[#ffcf33]">{pg.feedback}</div>
+          <button
+            type="button"
+            onClick={presentHit}
+            className="border-[2px] border-[#8fd3f2] bg-[rgba(20,28,44,0.95)] px-8 py-3 text-[14px] font-bold tracking-[2px] text-[#f4f0e4] active:translate-y-px"
+          >
+            HIT
+          </button>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.5)]">tap HIT (or press Z / space)</div>
+        </div>
+      ) : null}
+
+      {/* award ceremony */}
+      {award ? (
+        <div
+          onClick={() => setAward(false)}
+          className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-2 bg-[rgba(8,10,18,0.94)] px-6 text-center font-mono leading-normal text-[#f4f0e4]"
+        >
+          <div className="text-[34px]">🏆</div>
+          <div className="text-[16px] font-bold tracking-[3px] text-[#ffcf33]">1ST PLACE</div>
+          <div className="text-[11px] tracking-[1px] text-[rgba(244,240,228,0.85)]">
+            {BOUNTIES.find((b) => b.id === bountyId)?.sponsor ?? "SPONSOR"} BOUNTY — SHIPPED
+          </div>
+          <div className="mt-1 text-[11px] leading-[1.5] text-[rgba(244,240,228,0.7)]">
+            You, {team.map((id) => NPCS[id]?.name ?? id).join(" & ") || "your team"}. Demo nailed. Judges wowed.
+          </div>
+          <div className="mt-2 text-[10px] tracking-[2px] text-[#8fd3f2]">tap to close</div>
         </div>
       ) : null}
       </div>
