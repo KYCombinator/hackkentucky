@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function TheGamePage() {
   return (
-    <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-[#2a2d33] p-2">
+    <main className="flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#2a2d33]">
       <Game />
 
       {/* Accessible / no-canvas fallback — kept in the DOM (screen readers) but visually hidden. */}
