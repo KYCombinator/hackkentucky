@@ -13,6 +13,8 @@ export interface NpcSpawn {
   id: string
   x: number
   y: number
+  /** only appears once the quest has reached this step index (default 0) */
+  fromStep?: number
 }
 export interface BoothSpawn {
   id: string // bounty id
@@ -136,6 +138,10 @@ export const ROOMS: Record<string, Room> = {
       { id: "boone", x: 12, y: 3 },
       { id: "cyra", x: 4, y: 9 },
       { id: "dex", x: 11, y: 9 },
+      { id: "rover", x: 2, y: 11, fromStep: 1 },
+      // breakfast crowd — shows up the next morning
+      { id: "eater1", x: 12, y: 6, fromStep: 3 },
+      { id: "eater2", x: 4, y: 6, fromStep: 3 },
     ],
     // laid out only after the sleep cutscene (see morning flag in Game.tsx)
     buffet: [
@@ -187,7 +193,15 @@ export const ROOMS: Record<string, Room> = {
       { x: 7, y: 0, to: "floor2", sx: 8, sy: 12, label: "2ND FLOOR", dir: "up" },
       { x: 8, y: 0, to: "floor2", sx: 8, sy: 12, dir: "up" },
     ],
-    npcs: [{ id: "mc", x: 9, y: 0 }],
+    npcs: [
+      { id: "mc", x: 9, y: 0 },
+      // judges + crowd fill the stage for the presentation phase
+      { id: "judgeA", x: 5, y: 0, fromStep: 5 },
+      { id: "judgeB", x: 10, y: 0, fromStep: 5 },
+      { id: "fan1", x: 2, y: 3, fromStep: 5 },
+      { id: "fan2", x: 13, y: 5, fromStep: 5 },
+      { id: "fan3", x: 4, y: 9, fromStep: 5 },
+    ],
     booths: [
       { id: "axiom", x: 2, y: 13 },
       { id: "neon", x: 5, y: 13 },

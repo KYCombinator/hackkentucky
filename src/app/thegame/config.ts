@@ -57,13 +57,63 @@ export const NPCS: Record<string, NpcDef> = {
     id: "vale",
     name: "VALE",
     sprite: "npc2",
-    lines: ["Volunteer crew, at your service.", "Terminals are free. Coffee's downstairs. Go build."],
+    lines: ["Volunteer crew, at your service.", "Grab a seat at any table and start building. Coffee's downstairs."],
   },
   snooze: {
     id: "snooze",
     name: "SLEEPING HACKER",
     sprite: "npc3",
     lines: ["...five more minutes...", "zzz... deployed to prod... zzz"],
+  },
+
+  // ---- flavor crowd that fills in as the event progresses ----
+  rover: {
+    id: "rover",
+    name: "ORGANIZER",
+    sprite: "npc0",
+    lines: ["Biggest turnout yet!", "Wi-Fi password's on the whiteboard. Go build something."],
+  },
+  eater1: {
+    id: "eater1",
+    name: "HACKER",
+    sprite: "npc3",
+    lines: ["These pancakes are elite.", "Coffee number four. Don't judge me."],
+  },
+  eater2: {
+    id: "eater2",
+    name: "HACKER",
+    sprite: "npc1",
+    lines: ["Breakfast fixes everything.", "Back to the grind right after this plate."],
+  },
+  judgeA: {
+    id: "judgeA",
+    name: "JUDGE",
+    sprite: "npc1",
+    lines: ["Originality scores highest.", "Show us something that actually works."],
+  },
+  judgeB: {
+    id: "judgeB",
+    name: "JUDGE",
+    sprite: "npc3",
+    lines: ["We read the README, promise.", "Impress us in ninety seconds."],
+  },
+  fan1: {
+    id: "fan1",
+    name: "SPECTATOR",
+    sprite: "npc2",
+    lines: ["Here for the demos!", "Go, go, go — you got this!"],
+  },
+  fan2: {
+    id: "fan2",
+    name: "SPECTATOR",
+    sprite: "npc0",
+    lines: ["That last pitch was wild.", "Who's presenting next?"],
+  },
+  fan3: {
+    id: "fan3",
+    name: "SPECTATOR",
+    sprite: "npc3",
+    lines: ["I live for hackathon energy.", "Free stickers up front, by the way."],
   },
 }
 
@@ -108,7 +158,16 @@ export const SCENE = {
     idle: ["Nice table. Nothing to build right now."],
   },
   buffetFull: ["You're stuffed. Back to building!"],
+  valeBuild: ["Grab a seat at any table and get to work.", "Harder bounties are a tougher build — pace yourself."],
 } as const
+
+// How hard the mini-games play, driven by the bounty you pick.
+// EASY = VOLTCACHE, MEDIUM = NEON FOUNDRY, HARD = AXIOM DYNAMICS.
+export const DIFFICULTY: Record<"EASY" | "MEDIUM" | "HARD", { drain: number; tolerance: number; speed: number }> = {
+  EASY: { drain: 4.5, tolerance: 0.15, speed: 0.7 },
+  MEDIUM: { drain: 7, tolerance: 0.11, speed: 0.9 },
+  HARD: { drain: 10, tolerance: 0.085, speed: 1.15 },
+}
 
 export const MC_LINES: Record<string, string[]> = {
   before: ["Welcome to the main stage! Judging happens right here.", "Grab a bounty from the booths, then go build."],
