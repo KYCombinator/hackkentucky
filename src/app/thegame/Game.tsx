@@ -45,6 +45,7 @@ interface Dialogue {
 
 export function Game() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const headerRef = useRef<HTMLDivElement | null>(null)
   const [dialogue, setDialogue] = useState<Dialogue | null>(null)
   const [team, setTeam] = useState<string[]>([])
   const [bountyId, setBountyId] = useState<string | null>(null)
@@ -439,13 +440,20 @@ export function Game() {
     // (float scale, still image-rendering:pixelated) so it isn't a tiny 1x box.
     const coarse = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches
     function resize() {
+      // reserve room for the quest header that sits above the board
+      const headerH = headerRef.current?.offsetHeight ?? 0
       const availW = coarse ? window.innerWidth : Math.min(window.innerWidth - 8, 960)
-      const availH = coarse ? window.innerHeight : window.innerHeight - 24
+      const availH = (coarse ? window.innerHeight : window.innerHeight - 24) - headerH - 6
       const raw = Math.min(availW / W, availH / H)
       const s = coarse ? Math.max(1, raw) : Math.max(1, Math.floor(raw))
-      canvas.style.width = `${Math.round(W * s)}px`
+      const cw = Math.round(W * s)
+      canvas.style.width = `${cw}px`
       canvas.style.height = `${Math.round(H * s)}px`
+      if (headerRef.current) headerRef.current.style.width = `${cw}px`
     }
+    // two passes: first sizes the header to the board width, second re-reads
+    // its (now-wrapped) height so the canvas fits under it without overflow.
+    resize()
     resize()
     window.addEventListener("resize", resize)
 
@@ -592,17 +600,12 @@ export function Game() {
   const step = QUEST[stepIdx]
 
   return (
-    <div className="relative inline-block leading-[0]">
-      <canvas
-        ref={canvasRef}
-        width={W}
-        height={H}
-        aria-label="HackKentucky pixel-art game"
-        className="block touch-none select-none border-[3px] border-[#2c3640] [image-rendering:pixelated]"
-      />
-
-      {/* quest box */}
-      <div className="pointer-events-none absolute left-2 top-2 max-w-[240px] border border-[#ffcf33] bg-[rgba(12,14,18,0.86)] px-3 py-2 font-mono leading-normal text-[#f4f0e4]">
+    <div className="flex flex-col items-center gap-1.5">
+      {/* quest box — sits ABOVE the board so it never covers gameplay */}
+      <div
+        ref={headerRef}
+        className="border border-[#ffcf33] bg-[rgba(12,14,18,0.86)] px-3 py-2 font-mono leading-normal text-[#f4f0e4]"
+      >
         <div className="flex items-center justify-between gap-3 text-[10px] font-bold tracking-[2px] text-[#ffcf33]">
           <span>◆ QUEST</span>
           <span className="text-[rgba(244,240,228,0.6)]">{roomName}</span>
@@ -617,6 +620,15 @@ export function Game() {
           </div>
         ) : null}
       </div>
+
+      <div className="relative inline-block leading-[0]">
+      <canvas
+        ref={canvasRef}
+        width={W}
+        height={H}
+        aria-label="HackKentucky pixel-art game"
+        className="block touch-none select-none border-[3px] border-[#2c3640] [image-rendering:pixelated]"
+      />
 
       {/* dialogue box (tap/click friendly) */}
       {dialogue ? (
@@ -652,6 +664,7 @@ export function Game() {
           )}
         </div>
       ) : null}
+      </div>
     </div>
   )
 }
