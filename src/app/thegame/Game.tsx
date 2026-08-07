@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState } from "react"
 import { TILE, buildAtlas, atlasIndex, type SpriteName } from "./sprites"
 import { ROOMS, floorTile, overSprite, overSolid, type Room } from "./rooms"
-import { NPCS, BOUNTIES, QUEST, ROOM_NAMES, TEAM_GOAL, SCENE, MC_LINES } from "./config"
+import { NPCS, BOUNTIES, QUEST, ROOM_NAMES, TEAM_GOAL, SCENE, MC_LINES, DIFFICULTY } from "./config"
+
+function difficultyOf(id: string | null): "EASY" | "MEDIUM" | "HARD" {
+  return BOUNTIES.find((b) => b.id === id)?.difficulty ?? "MEDIUM"
+}
 
 const COLS = 16
 const ROWS = 14
@@ -70,6 +74,7 @@ export function Game() {
   const sleepyRef = useRef(false)
   const cmdRef = useRef<string | null>(null)
   const dialogueRef = useRef<Dialogue | null>(null)
+  const diffRef = useRef(DIFFICULTY.MEDIUM)
   const openNpcRef = useRef<(id: string) => void>(() => {})
   const openBoothRef = useRef<(id: string) => void>(() => {})
   const openTableRef = useRef<() => void>(() => {})
@@ -85,6 +90,9 @@ export function Game() {
   useEffect(() => {
     stepRef.current = stepIdx
   }, [stepIdx])
+  useEffect(() => {
+    diffRef.current = DIFFICULTY[difficultyOf(bountyId)]
+  }, [bountyId])
 
   // plain info dialogue with an optional follow-up when dismissed
   function say(name: string, lines: string[], after?: () => void) {
@@ -133,6 +141,11 @@ export function Game() {
         } else {
           say("MC", stepRef.current >= 5 ? [...MC_LINES.ready] : [...MC_LINES.before])
         }
+        return
+      }
+      // volunteer points you to a table during the build phases
+      if (id === "vale" && (stepRef.current === 2 || stepRef.current === 4)) {
+        say("VALE", [...SCENE.valeBuild])
         return
       }
       const recruited = team.includes(id)
@@ -273,7 +286,7 @@ export function Game() {
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
-      setBuild((b) => (b.pct >= 100 ? b : { ...b, pct: Math.max(0, b.pct - dt * 7) }))
+      setBuild((b) => (b.pct >= 100 ? b : { ...b, pct: Math.max(0, b.pct - dt * diffRef.current.drain) }))
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
@@ -317,7 +330,7 @@ export function Game() {
   function presentHit() {
     setPg((p) => {
       if (p.hits >= 3) return p
-      const good = Math.abs(p.pos - p.target) < 0.11
+      const good = Math.abs(p.pos - p.target) < diffRef.current.tolerance
       if (good) {
         const hits = p.hits + 1
         return { ...p, hits, target: 0.18 + Math.random() * 0.64, feedback: hits >= 3 ? "SHIPPED IT!" : "NAILED IT!" }
@@ -334,7 +347,7 @@ export function Game() {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       setPg((p) => {
-        let pos = p.pos + p.dir * dt * 0.85
+        let pos = p.pos + p.dir * dt * diffRef.current.speed
         let dir = p.dir
         if (pos >= 1) {
           pos = 1
@@ -404,8 +417,11 @@ export function Game() {
     function boothAt(tx: number, ty: number) {
       return room.booths?.find((b) => b.x === tx && b.y === ty) ?? null
     }
+    function npcActive(n: { id: string; fromStep?: number }) {
+      return !recruitedRef.current.has(n.id) && (!n.fromStep || stepRef.current >= n.fromStep)
+    }
     function npcAt(tx: number, ty: number) {
-      return room.npcs.find((n) => n.x === tx && n.y === ty && !recruitedRef.current.has(n.id)) ?? null
+      return room.npcs.find((n) => n.x === tx && n.y === ty && npcActive(n)) ?? null
     }
     // a workable table (only on the 2nd floor, where you sit down to build)
     function tableAt(tx: number, ty: number) {
@@ -633,9 +649,9 @@ export function Game() {
         ctx.textAlign = "left"
       }
 
-      // NPCs (skip recruited — they're following now)
+      // NPCs (skip recruited — they're following now — and not-yet-arrived crowd)
       for (const n of room.npcs) {
-        if (recruitedRef.current.has(n.id)) continue
+        if (!npcActive(n)) continue
         const def = NPCS[n.id]
         if (!def) continue
         const bob = Math.floor(anim / 26 + n.x + n.y) % 2
@@ -862,6 +878,8 @@ export function Game() {
   }, [bountyId])
 
   const step = QUEST[stepIdx]
+  const difficulty = difficultyOf(bountyId)
+  const dparams = DIFFICULTY[difficulty]
 
   return (
     <div className="flex flex-col items-center gap-1.5">
@@ -933,7 +951,9 @@ export function Game() {
       {coding ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[rgba(6,8,14,0.9)] px-4 font-mono leading-normal text-[#f4f0e4]">
           <div className="text-[11px] font-bold tracking-[2px] text-[#7ee36b]">HEADS DOWN — BUILD</div>
-          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">Mash CODE to ship the build.</div>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">
+            {BOUNTIES.find((b) => b.id === bountyId)?.sponsor ?? "SPONSOR"} · {difficulty} · mash CODE
+          </div>
           <div className="relative h-4 w-[85%] max-w-[320px] overflow-hidden border border-[rgba(244,240,228,0.4)] bg-[rgba(0,0,0,0.5)]">
             <div className="absolute inset-y-0 left-0 bg-[rgba(126,227,107,0.6)]" style={{ width: `${build.pct}%` }} />
           </div>
@@ -953,11 +973,14 @@ export function Game() {
       {present ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[rgba(6,8,14,0.9)] px-4 font-mono leading-normal text-[#f4f0e4]">
           <div className="text-[11px] font-bold tracking-[2px] text-[#8fd3f2]">PRESENT TO THE JUDGES</div>
-          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">Hit the green zone — 3 times.</div>
+          <div className="text-[10px] tracking-[1px] text-[rgba(244,240,228,0.7)]">
+            {BOUNTIES.find((b) => b.id === bountyId)?.sponsor ?? "SPONSOR"} · {difficulty} · hit the green zone 3×
+          </div>
+          <div className="text-[9px] tracking-[1px] text-[rgba(244,240,228,0.5)]">🧑‍⚖️🧑‍⚖️ the judges lean in…</div>
           <div className="relative h-4 w-[85%] max-w-[320px] overflow-hidden border border-[rgba(244,240,228,0.4)] bg-[rgba(0,0,0,0.5)]">
             <div
               className="absolute inset-y-0 bg-[rgba(126,227,107,0.55)]"
-              style={{ left: `${Math.max(0, pg.target - 0.11) * 100}%`, width: `${0.22 * 100}%` }}
+              style={{ left: `${Math.max(0, pg.target - dparams.tolerance) * 100}%`, width: `${dparams.tolerance * 2 * 100}%` }}
             />
             <div className="absolute inset-y-0 w-[3px] bg-[#ffcf33]" style={{ left: `calc(${pg.pos * 100}% - 1px)` }} />
           </div>
