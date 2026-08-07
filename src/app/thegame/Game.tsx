@@ -659,6 +659,15 @@ export function Game() {
         blit(def.sprite, n.x * TILE, n.y * TILE - bob)
       }
 
+      // silent spectators packing the stadium for the presentation phase
+      if (room.crowd && stepRef.current >= 5)
+        for (const [cx2, cy2] of room.crowd) {
+          const t = (cx2 + cy2) % 4
+          const bob = Math.floor(anim / 24 + cx2 * 2 + cy2) % 2
+          shadow(cx2 * TILE + 8, cy2 * TILE + 14)
+          blit(`npc${t}` as SpriteName, cx2 * TILE, cy2 * TILE - bob)
+        }
+
       // followers (behind player)
       const party = partyRef.current
       for (let i = 0; i < followers.length; i++) {
