@@ -9,6 +9,7 @@ const LINKS: [string, string][] = [
   ["SCHEDULE", "/schedule"],
   ["GET INVOLVED", "/get-involved"],
   ["SPONSOR", "/sponsor"],
+  ["VIBE CODING 101", "/vibe-coding"],
   ["HOW TO HACK", "/how-to-hack"],
   ["RUBRIC", "/rubric"],
 ]
