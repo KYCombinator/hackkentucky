@@ -2,41 +2,22 @@
 
 import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
-
-type Row = [time: string, title: string, desc?: string]
-
-const FRIDAY: Row[] = [
-  ["16:00", "Doors open", "Check-in & team formation"],
-  ["17:00", "Learn-a-thon", "5 parallel tracks · 5 rooms · 35-min sessions"],
-  ["19:00", "Dinner", "Papa Johns"],
-  ["23:00", "Doors close", "No all-nighter — venue closes overnight"],
-]
-
-const SATURDAY: Row[] = [
-  ["08:00", "Doors open", "Grazing breakfast · hacking begins"],
-  ["10:00", "Guest speakers", "Career & startup tracks in parallel, until 15:00"],
-  ["12:00", "Lunch", "Lunch voucher per attendee"],
-  ["17:00", "Judging starts"],
-  ["18:00", "Dinner", "Dinner voucher per attendee"],
-  ["19:00", "Final judging"],
-  ["21:00", "Awards & close"],
-  ["22:00", "Doors close", "Building empty"],
-]
+import { FRIDAY, SATURDAY, FRIDAY_LABEL, SATURDAY_LABEL, type ScheduleRow } from "@/lib/schedule"
 
 const TRACKS: { room: string; name: string; sessions: string[] }[] = [
   { room: "01", name: "SOFTWARE", sessions: ["Intro to Git — Jeff Squyres", "Building swapsgame.com with AI — Dalton Powell"] },
   { room: "02", name: "STARTUPS", sessions: ["Financial Modeling — Steven Plappert", "Moneybot — Kahlil Garmon"] },
-  { room: "03", name: "HARDWARE", sessions: ["Jack Manzella", "Zaid"] },
+  { room: "03", name: "HARDWARE", sessions: ["Jack Manzella"] },
   { room: "04", name: "SUSTAINABLE FASHION", sessions: ["Sessions TBA"] },
   { room: "05", name: "AI", sessions: ["Sessions TBA"] },
 ]
 
-function DayColumn({ label, rows }: { label: string; rows: Row[] }) {
+function DayColumn({ label, rows }: { label: string; rows: ScheduleRow[] }) {
   return (
     <div className="border border-[rgba(242,242,236,.12)] p-5 sm:p-6">
       <div className="mb-4 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">{label}</div>
       <div>
-        {rows.map(([time, title, desc], i) => (
+        {rows.map(({ time, title, note }, i) => (
           <div
             key={`${time}-${title}`}
             className={`flex items-start gap-3 py-2.5 ${i < rows.length - 1 ? "border-b border-[rgba(242,242,236,.1)]" : ""}`}
@@ -46,7 +27,7 @@ function DayColumn({ label, rows }: { label: string; rows: Row[] }) {
             </span>
             <div className="min-w-0">
               <span className="text-[13px] tracking-[1px] text-[#f2f2ec]">{title}</span>
-              {desc ? <p className="m-0 mt-0.5 text-[11px] leading-[1.6] text-[rgba(242,242,236,.55)]">{desc}</p> : null}
+              {note ? <p className="m-0 mt-0.5 text-[11px] leading-[1.6] text-[rgba(242,242,236,.55)]">{note}</p> : null}
             </div>
           </div>
         ))}
@@ -70,8 +51,8 @@ export default function SchedulePage() {
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-14 sm:px-9">
         <SectionHead title="RUN OF SHOW" note="FRI 4PM → SAT 10PM" />
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          <DayColumn label="FRIDAY · 09.11" rows={FRIDAY} />
-          <DayColumn label="SATURDAY · 09.12" rows={SATURDAY} />
+          <DayColumn label={FRIDAY_LABEL} rows={FRIDAY} />
+          <DayColumn label={SATURDAY_LABEL} rows={SATURDAY} />
         </div>
       </section>
 

@@ -117,7 +117,7 @@ export default function SponsorPage() {
       {/* top CTA bar */}
       <section className="flex flex-col gap-4 border-b border-[rgba(201,247,59,.22)] px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-9">
         <span className="text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.55)]">
-          Commit by <span className="text-[#c9f73b]">August 14</span> to make the t-shirt.
+          Four tiers, free to $10K · in-kind welcome · <span className="text-[#c9f73b]">one Purple slot</span>.
         </span>
         <div className="flex flex-wrap gap-3">
           <Link
@@ -161,22 +161,6 @@ export default function SponsorPage() {
           300+ builders, mostly college students, early-career professionals, and high schoolers. Past HackKentuckies
           drew participants from Chicago, Cincinnati, Bowling Green, and Indianapolis.
         </p>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a
-            href={PDF_URL}
-            download
-            className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
-          >
-            ↓ DOWNLOAD THE PROSPECTUS (PDF)
-          </a>
-          <Link
-            href="/get-involved"
-            className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]"
-          >
-            GET INVOLVED →
-          </Link>
-        </div>
       </section>
 
       {/* four reasons */}
@@ -189,16 +173,7 @@ export default function SponsorPage() {
               <p className="mb-0 mt-5 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">{r.body}</p>
             </div>
           ))}
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/get-involved#sponsor" className={ctaPrimary}>
-            START A SPONSOR INQUIRY →
-          </Link>
-          <a href={PDF_URL} download className={ctaGhost}>
-            ↓ PROSPECTUS (PDF)
-          </a>
-        </div>
-      </section>
+        </div>      </section>
 
       {/* the room + format */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
@@ -413,13 +388,7 @@ export default function SponsorPage() {
         </div>
         <p className="mt-8 text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
           Beyond $15K → even bigger prizes, more swag, and keeping registration free for everyone.
-        </p>
-        <div className="mt-8">
-          <Link href="/get-involved#sponsor" className={ctaPrimary}>
-            HELP US HIT $15K — SPONSOR →
-          </Link>
-        </div>
-      </section>
+        </p>      </section>
 
       {/* custom */}
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
@@ -443,8 +412,7 @@ export default function SponsorPage() {
       <section className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
         <SectionHead title="READY TO SPONSOR?" note="NEXT STEP" />
         <p className="mb-10 max-w-[620px] text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">
-          Tell us how you want to be part of Fall 2026 and we&apos;ll follow up. Sponsoring?{" "}
-          <span className="text-[#c9f73b]">Commit by August 14</span> to make the t-shirt. Already confirmed?{" "}
+          Tell us how you want to be part of Fall 2026 and we&apos;ll follow up. Already confirmed?{" "}
           <Link href="/sponsor/intake" className="text-[#c9f73b] underline underline-offset-4">
             Send us your logo →
           </Link>

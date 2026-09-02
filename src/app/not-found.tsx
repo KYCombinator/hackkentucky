@@ -1,8 +1,4 @@
 import Link from "next/link"
-import { Space_Grotesk, Space_Mono } from "next/font/google"
-
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
-const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
 
 const LINKS: [string, string][] = [
   ["OVERVIEW", "/"],
@@ -17,13 +13,8 @@ const LINKS: [string, string][] = [
 export default function NotFound() {
   return (
     <div
-      className={`${spaceGrotesk.variable} ${spaceMono.variable} flex min-h-screen flex-col bg-[#0b0b0b] font-[family-name:var(--font-hk-mono)] text-[#f2f2ec] selection:bg-[#c9f73b] selection:text-[#0b0b0b]`}
+      className="flex min-h-screen flex-col bg-[#0b0b0b] text-[#f2f2ec]"
     >
-      <style>{`
-        @keyframes hk404-blink { 0%, 60% { opacity: 1 } 61%, 100% { opacity: .15 } }
-        @media (prefers-reduced-motion: reduce) { .hk404-cursor { animation: none !important } }
-      `}</style>
-
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-[rgba(201,247,59,.22)] px-5 py-4 sm:px-9">
         <Link
@@ -43,7 +34,7 @@ export default function NotFound() {
 
         <h1 className="m-0 font-[family-name:var(--font-hk-display)] text-[96px] font-bold leading-[.82] tracking-[-4px] text-[#f2f2ec] sm:text-[180px] sm:tracking-[-8px]">
           404
-          <span className="hk404-cursor text-[#c9f73b] [animation:hk404-blink_1s_steps(1)_infinite]">_</span>
+          <span className="hk-blink text-[#c9f73b]">_</span>
         </h1>
 
         <p className="mt-8 max-w-[560px] text-[13px] uppercase leading-[1.9] tracking-[1px] text-[rgba(242,242,236,.65)]">

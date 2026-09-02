@@ -2,6 +2,8 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
+  // Generated/vendored output — not ours to lint.
+  { ignores: [".sst/**", ".open-next/**", ".next/**"] },
   ...nextVitals,
   ...nextTypescript,
   {

@@ -43,7 +43,7 @@ export default function SponsorIntakePage() {
         </div>
         <p className="mt-8 max-w-[640px] text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.5)]">
           Not a sponsor yet?{" "}
-          <Link href="/sponsor#get-involved" className="text-[#c9f73b] underline underline-offset-4">
+          <Link href="/sponsor#tiers" className="text-[#c9f73b] underline underline-offset-4">
             Start on the sponsor page →
           </Link>
         </p>

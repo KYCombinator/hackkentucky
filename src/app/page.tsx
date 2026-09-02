@@ -2,33 +2,14 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Space_Grotesk, Space_Mono } from "next/font/google"
-import { ViewportFixed } from "@/components/viewport-fixed"
 import GlyphWaves from "@/components/glyph-waves"
 import { Fall26Sidebar, Fall26MobileHeader, REGISTER_URL, SLACK_INVITE_URL } from "@/components/fall26-sidebar"
 import { TRACKS, TRACK_KEYS } from "@/lib/involvement"
+import { FRIDAY, SATURDAY, FRIDAY_LABEL, SATURDAY_LABEL, type ScheduleRow } from "@/lib/schedule"
+import { Faq, type FaqItem } from "@/components/faq"
+import { SponsorWall } from "@/components/sponsor-wall"
 
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
-const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
 const TARGET = new Date("2026-09-11T16:00:00-04:00").getTime()
-const TICKER =
-  "TWO DAYS OF BUILD, CHOOSE WISELY — HACKKENTUCKY 2026 — NOT YOUR AVERAGE HACKATHON — SEP 11–12 · GENUINE WORKS · LOUISVILLE KY — FREE ENTRY, FOOD INCLUDED — "
-const FRIDAY = [
-  ["16:00", "DOORS OPEN"],
-  ["17:00", "LEARN-A-THON", "Five optional tracks in five rooms to help attendees get familiar with coding and hackathons."],
-  ["19:00", "DINNER — PAPA JOHNS"],
-  ["23:00", "DOORS CLOSE"],
-]
-const SATURDAY = [
-  ["08:00", "DOORS OPEN"],
-  ["08:00", "BREAKFAST", "Grazing breakfast: food arrives as it is picked up and remains available throughout the day."],
-  ["12:00", "LUNCH", "A lunch voucher for every attendee; an evergreen offering."],
-  ["17:00", "JUDGING STARTS"],
-  ["18:00", "DINNER", "A dinner voucher for every attendee."],
-  ["19:00", "FINAL JUDGING"],
-  ["21:00", "EVENT ENDS"],
-  ["22:00", "DOORS CLOSE — BUILDING EMPTY"],
-]
 
 const GUIDELINES: [string, string[]][] = [
   [
@@ -68,7 +49,7 @@ const GUIDELINES: [string, string[]][] = [
   ],
 ]
 
-const FAQS = [
+const FAQS: FaqItem[] = [
   ["WHO CAN JOIN?", "Anyone. Students and professionals — all skill levels welcome."],
   ["HOW MUCH?", "Free. Food, wifi, and caffeine included the whole event."],
   ["TEAM SIZE?", "Solo or teams up to 4. Form teams at kickoff."],
@@ -78,6 +59,25 @@ const FAQS = [
 ]
 
 const pad = (n: number) => String(n).padStart(2, "0")
+
+function DayList({ label, rows }: { label: string; rows: ScheduleRow[] }) {
+  return (
+    <div>
+      <div className="mb-2 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">{label}</div>
+      {rows.map(({ time, title }, i) => (
+        <div
+          key={`${time}-${title}`}
+          className={`flex items-center gap-4 py-3 ${i < rows.length - 1 ? "border-b border-[rgba(242,242,236,.12)]" : ""}`}
+        >
+          <span className="border border-[rgba(201,247,59,.6)] px-2 py-[3px] text-[12px] tracking-[1px] text-[#c9f73b]">
+            {time}
+          </span>
+          <span className="text-[14px] uppercase tracking-[1px] text-[#f2f2ec]">{title}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function HomePage() {
   const [now, setNow] = useState<number | null>(null)
@@ -95,17 +95,7 @@ export default function HomePage() {
   const ss = now == null ? "--" : pad(Math.floor(diff / 1000) % 60)
 
   return (
-    <div
-      className={`${spaceGrotesk.variable} ${spaceMono.variable} min-h-screen bg-[#0b0b0b] font-[family-name:var(--font-hk-mono)] selection:bg-[#c9f73b] selection:text-[#0b0b0b]`}
-    >
-      <style>{`
-        @keyframes hk-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes hk-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .15; } }
-        @media (prefers-reduced-motion: reduce) {
-          .hk-marquee, .hk-blink { animation: none !important; }
-        }
-      `}</style>
-
+    <div className="min-h-screen bg-[#0b0b0b]">
       {/* ===================== LEFT SIDEBAR ===================== */}
       <Fall26Sidebar />
 
@@ -113,16 +103,8 @@ export default function HomePage() {
       <main id="top" className="min-w-0 pb-24 lg:ml-[280px]">
         <Fall26MobileHeader />
 
-        {/* ticker */}
-        <div className="overflow-hidden border-b border-[rgba(201,247,59,.22)] py-3">
-          <div className="hk-marquee flex w-max whitespace-nowrap [animation:hk-marquee_38s_linear_infinite]">
-            <span className="pr-10 text-[12px] tracking-[2px] text-[rgba(242,242,236,.6)]">{TICKER}</span>
-            <span aria-hidden className="pr-10 text-[12px] tracking-[2px] text-[rgba(242,242,236,.6)]">{TICKER}</span>
-          </div>
-        </div>
-
         {/* hero */}
-        <div className="relative h-[600px] overflow-hidden border-b border-[rgba(201,247,59,.22)]">
+        <div id="hero" className="relative h-[600px] overflow-hidden border-b border-[rgba(201,247,59,.22)]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-90">
             <GlyphWaves />
           </div>
@@ -131,92 +113,49 @@ export default function HomePage() {
             <div className="mb-[18px] inline-block border border-[#c9f73b] bg-[#0b0b0b] px-3.5 py-2 text-[11px] tracking-[3px] text-[#c9f73b]">
               ⌁ REGISTRATION_OPEN — SEP 11–12, 2026
             </div>
-            <h1 className="m-0 inline-block bg-[#0b0b0b] pb-0.5 pr-2.5 pt-1.5 font-[family-name:var(--font-hk-display)] text-[56px] font-bold leading-[.84] tracking-[-2px] text-[#f2f2ec] [text-shadow:6px_6px_0_#0b0b0b] sm:text-[110px] sm:tracking-[-4px]">
-              BUILD
+            <h1 className="m-0 inline-block bg-[#0b0b0b] pb-0.5 pr-2.5 pt-1.5 font-[family-name:var(--font-hk-display)] text-[56px] font-bold leading-[.84] tracking-[-2px] text-[#f2f2ec] sm:text-[110px] sm:tracking-[-4px]">
+              BUILD ALL
               <br />
-              ALL NIGHT<span className="text-[#c9f73b]">.</span>
+              WEEKEND<span className="text-[#c9f73b]">.</span>
             </h1>
-          </div>
-
-          <div className="absolute bottom-10 right-[34px] hidden items-end sm:flex">
-            <span className="bg-[#0b0b0b] px-1.5 py-3 text-[11px] font-bold tracking-[3px] text-[#c9f73b] [writing-mode:vertical-rl] rotate-180">
-              INITIATE BUILD LINK
-            </span>
-            <a
-              href="#register"
-              aria-label="Jump to registration"
-              className="inline-flex h-[46px] w-[46px] items-center justify-center bg-[#c9f73b] text-[22px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
-            >
-              ↓
-            </a>
           </div>
         </div>
 
         {/* caption row */}
-        <div className="grid grid-cols-1 items-start gap-5 border-b border-[rgba(201,247,59,.22)] px-5 py-[26px] sm:px-9 md:grid-cols-[1.3fr_1fr] md:gap-10">
-          <p className="m-0 text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
-            A 29-hour build marathon at Genuine Works, Louisville — students, engineers &amp; the perpetually curious.
+        <div className="border-b border-[rgba(201,247,59,.22)] px-5 py-[26px] sm:px-9">
+          <p className="m-0 max-w-[720px] text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
+            A two-day build marathon at Genuine Works, Louisville — students, engineers &amp; the perpetually curious.
             Free entry, food &amp; caffeine included.
           </p>
-          <div className="pt-1 text-[12px] tracking-[2px] text-[#f2f2ec] md:text-right">
-            CHECK THE SCHEDULE,{" "}
-            <a href="#schedule" className="text-[#c9f73b] underline underline-offset-4">
-              DOWNSTAIRS.
-            </a>
-          </div>
         </div>
 
         {/* schedule */}
-        <section id="schedule" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <section id="schedule" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-10 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
               SCHEDULE
             </h2>
             <span className="pt-3 text-[13px] text-[#c9f73b]">FRI 4PM → SAT 10PM</span>
-            <Link
-              href="/schedule"
-              className="ml-auto pt-2 text-[12px] font-bold tracking-[1px] text-[#c9f73b] underline underline-offset-4 hover:text-[#f2f2ec]"
-            >
-              FULL SCHEDULE + LEARN-A-THON TRACKS →
-            </Link>
           </div>
 
-          <div className="mb-2 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">FRIDAY · 09.11</div>
-          {FRIDAY.map(([time, item, description], i) => (
-            <div
-              key={`${time}-${item}`}
-              className={`flex items-center gap-4 py-[15px] ${i < FRIDAY.length - 1 ? "border-b border-[rgba(242,242,236,.12)]" : ""}`}
-            >
-              <span className="border border-[rgba(201,247,59,.6)] px-2 py-[3px] text-[12px] tracking-[1px] text-[#c9f73b]">
-                {time}
-              </span>
-              <div>
-                <span className="text-[14px] tracking-[1px] text-[#f2f2ec]">{item}</span>
-                {description && <p className="m-0 mt-1 text-[12px] leading-[1.6] text-[rgba(242,242,236,.6)]">{description}</p>}
-              </div>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 gap-x-12 gap-y-9 md:grid-cols-2">
+            <DayList label={FRIDAY_LABEL} rows={FRIDAY} />
+            <DayList label={SATURDAY_LABEL} rows={SATURDAY} />
+          </div>
 
-          <div className="mb-2 mt-9 text-[12px] font-bold tracking-[3px] text-[#c9f73b]">SATURDAY · 09.12</div>
-          {SATURDAY.map(([time, item, description], i) => (
-            <div
-              key={`${time}-${item}`}
-              className={`flex items-center gap-4 py-[15px] ${i < SATURDAY.length - 1 ? "border-b border-[rgba(242,242,236,.12)]" : ""}`}
+          <div className="mt-8">
+            <Link
+              href="/schedule"
+              className="inline-block border border-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#c9f73b] transition-colors hover:bg-[#c9f73b] hover:text-[#0b0b0b]"
             >
-              <span className="border border-[rgba(201,247,59,.6)] px-2 py-[3px] text-[12px] tracking-[1px] text-[#c9f73b]">
-                {time}
-              </span>
-              <div>
-                <span className="text-[14px] tracking-[1px] text-[#f2f2ec]">{item}</span>
-                {description && <p className="m-0 mt-1 text-[12px] leading-[1.6] text-[rgba(242,242,236,.6)]">{description}</p>}
-              </div>
-            </div>
-          ))}
+              FULL SCHEDULE + TRACKS →
+            </Link>
+          </div>
         </section>
 
         {/* the space */}
-        <section id="venue" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <section id="venue" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-4 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -260,32 +199,23 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* promo + address */}
-          <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div className="flex items-center justify-center overflow-hidden border border-[rgba(242,242,236,.12)] bg-[#0b0b0b]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/venue/promo.jpg"
-                alt="Lunch downstairs, strategy upstairs — Genuine Work × Mashup Food Hall"
-                loading="lazy"
-                className="max-h-[420px] w-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col justify-center border border-[#c9f73b] p-8 sm:p-10">
+          {/* address */}
+          <div className="mt-3 flex flex-col items-start justify-between gap-6 border border-[#c9f73b] p-8 sm:p-10 md:flex-row md:items-center">
+            <div>
               <div className="mb-4 text-[11px] font-bold tracking-[3px] text-[#c9f73b]">▚ FIND THE BUILD FLOOR</div>
               <div className="font-[family-name:var(--font-hk-display)] text-[30px] font-bold leading-[1.05] tracking-[-1px] text-[#f2f2ec] sm:text-[42px]">
                 750 EAST JEFFERSON STREET
               </div>
               <div className="mt-3 text-[14px] tracking-[2px] text-[rgba(242,242,236,.7)]">LOUISVILLE, KY 40202</div>
-              <a
-                href="https://maps.google.com/?q=750+E+Jefferson+St,+Louisville,+KY+40202"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-7 inline-block w-fit bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
-              >
-                OPEN IN MAPS →
-              </a>
             </div>
+            <a
+              href="https://maps.google.com/?q=750+E+Jefferson+St,+Louisville,+KY+40202"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block w-fit whitespace-nowrap bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]"
+            >
+              OPEN IN MAPS →
+            </a>
           </div>
 
           <p className="mt-4 text-[11px] tracking-[1px] text-[rgba(242,242,236,.4)]">
@@ -294,7 +224,7 @@ export default function HomePage() {
         </section>
 
         {/* guidelines */}
-        <section id="guidelines" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <section id="guidelines" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-10 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -321,7 +251,7 @@ export default function HomePage() {
         </section>
 
         {/* faq */}
-        <section id="faq" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <section id="faq" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-10 flex items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -329,20 +259,27 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-x-12 gap-y-7 md:grid-cols-2">
-            {FAQS.map(([q, a]) => (
-              <div key={q}>
-                <div className="mb-3 inline-block border border-[rgba(242,242,236,.5)] px-2.5 py-[5px] text-[13px] tracking-[1px] text-[#f2f2ec]">
-                  {q}
-                </div>
-                <p className="m-0 text-[13px] leading-[1.8] text-[rgba(242,242,236,.6)]">{a}</p>
-              </div>
-            ))}
+          <Faq items={FAQS} />
+        </section>
+
+        {/* sponsors */}
+        <section id="sponsors" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+          <div className="mb-4 flex flex-wrap items-center gap-3.5">
+            <span className="text-[16px] text-[#c9f73b]">↳</span>
+            <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
+              SPONSORS
+            </h2>
+            <span className="pt-3 text-[13px] text-[#c9f73b]">THE PEOPLE WHO PAY FOR THE PIZZA</span>
           </div>
+          <p className="mb-10 max-w-[620px] text-[12px] uppercase leading-[1.8] tracking-[1px] text-[rgba(242,242,236,.65)]">
+            Free entry, food, prizes, and t-shirts exist because these teams wrote the check. Logos land here as
+            sponsors confirm.
+          </p>
+          <SponsorWall />
         </section>
 
         {/* how to get involved */}
-        <section id="get-involved" className="relative overflow-hidden border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
+        <section id="get-involved" className="border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">
           <div className="mb-4 flex flex-wrap items-center gap-3.5">
             <span className="text-[16px] text-[#c9f73b]">↳</span>
             <h2 className="m-0 font-[family-name:var(--font-hk-display)] text-[44px] font-bold tracking-[-1px] text-[#f2f2ec]">
@@ -375,19 +312,10 @@ export default function HomePage() {
               )
             })}
           </div>
-
-          <div className="mt-8">
-            <Link
-              href="/get-involved"
-              className="inline-block border border-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#c9f73b] transition-colors hover:bg-[#c9f73b] hover:text-[#0b0b0b]"
-            >
-              ALL WAYS TO GET INVOLVED →
-            </Link>
-          </div>
         </section>
 
         {/* register */}
-        <section id="register" className="relative overflow-hidden bg-[#c9f73b] px-5 py-[70px] sm:px-9">
+        <section id="register" className="bg-[#c9f73b] px-5 py-[70px] sm:px-9">
           <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
             <div>
               <div className="mb-4 text-[11px] font-bold tracking-[3px] text-[#0b0b0b]">
@@ -428,31 +356,21 @@ export default function HomePage() {
       </main>
 
       {/* ===================== BOTTOM STATUS BAR ===================== */}
-      <ViewportFixed>
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between border-t border-[#c9f73b] bg-[#0b0b0b] px-4 py-3 sm:px-6 lg:left-[280px]">
         <div className="flex min-w-0 items-center gap-3.5 overflow-hidden text-[12px] tracking-[2px]">
-          <span className="whitespace-nowrap font-bold text-[#c9f73b]">▼ T–MINUS</span>
+          <span className="whitespace-nowrap font-bold text-[#c9f73b]">▼<span className="hidden sm:inline"> T–MINUS</span></span>
           <span className="whitespace-nowrap font-bold text-[#f2f2ec]" suppressHydrationWarning>
             {dd}D : {hh}H : {mm}M : {ss}S
-            <span className="hk-blink text-[#c9f73b] [animation:hk-blink_1s_steps(1)_infinite]">_</span>
+            <span className="hk-blink text-[#c9f73b]">_</span>
           </span>
         </div>
-        <div className="flex flex-none items-center gap-2.5 text-[12px] tracking-[1px]">
-          <a
-            href="#faq"
-            className="hidden whitespace-nowrap border border-[rgba(242,242,236,.5)] px-3 py-[5px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b] sm:inline-block"
-          >
-            FAQ
-          </a>
-          <a
-            href="#register"
-            className="whitespace-nowrap border border-[#c9f73b] bg-[#c9f73b] px-3 py-[5px] font-bold text-[#0b0b0b] transition-colors hover:border-[#f2f2ec] hover:bg-[#f2f2ec]"
-          >
-            REGISTER →
-          </a>
-        </div>
+        <a
+          href="#register"
+          className="whitespace-nowrap border border-[#c9f73b] bg-[#c9f73b] px-3 py-[5px] text-[12px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:border-[#f2f2ec] hover:bg-[#f2f2ec]"
+        >
+          REGISTER →
+        </a>
       </div>
-      </ViewportFixed>
     </div>
   )
 }
