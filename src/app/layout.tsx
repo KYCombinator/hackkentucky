@@ -1,9 +1,11 @@
 import type { Metadata } from "next"
-import { Cabin } from 'next/font/google'
+import { Space_Grotesk, Space_Mono } from "next/font/google"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import "./globals.css"
 
-const cabin = Cabin({ subsets: ["latin"] })
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://hackkentucky.com"),
   title: "Hack Kentucky Fall 2026",
@@ -42,12 +44,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="stylesheet" href="https://use.typekit.net/ywk2uab.css" />
-      </head>
-      <body className={cabin.className}>
-        <SmoothScroll>{children}</SmoothScroll>
+    <html lang="en" className={`${spaceGrotesk.variable} ${spaceMono.variable}`}>
+      <body>
+        <SmoothScroll />
+        {children}
       </body>
     </html>
   )

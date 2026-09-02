@@ -1,10 +1,6 @@
 "use client"
 
-import { Space_Grotesk, Space_Mono } from "next/font/google"
 import { Fall26Sidebar, Fall26MobileHeader } from "@/components/fall26-sidebar"
-
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hk-display" })
-const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-hk-mono" })
 
 export const tagClass =
   "inline-block border border-[rgba(242,242,236,.5)] px-[9px] py-1 text-[12px] tracking-[1px] text-[#f2f2ec]"
@@ -33,9 +29,7 @@ export function Fall26Shell({
   children: React.ReactNode
 }) {
   return (
-    <div
-      className={`${spaceGrotesk.variable} ${spaceMono.variable} min-h-screen bg-[#0b0b0b] font-[family-name:var(--font-hk-mono)] selection:bg-[#c9f73b] selection:text-[#0b0b0b]`}
-    >
+    <div className="min-h-screen bg-[#0b0b0b]">
       <Fall26Sidebar />
 
       <div className="min-w-0 lg:ml-[280px]">
