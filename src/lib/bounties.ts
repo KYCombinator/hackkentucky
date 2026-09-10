@@ -85,4 +85,94 @@ export const BOUNTIES: Bounty[] = [
     support: "The Bats are willing to reward multiple winning teams.",
     contact: "Carter Davis",
   },
+
+  // --- MLH global prizes: open to every team, judged and awarded by MLH ---
+  {
+    id: "mlh-gemini",
+    organization: "Google Gemini",
+    title: "Best Use of Gemini API",
+    category: "AI · MLH GLOBAL PRIZE",
+    challenge:
+      "It's time to push the boundaries of what's possible with AI using Google Gemini. Build AI-powered apps that make your friends say WHOA — so what can Gemini do for your hackathon project?",
+    reward: "Google Swag Kits",
+    rewardNote: "1 winner.",
+    deliverables: [
+      "Understand language like a human and build a chatbot that gives personalized advice.",
+      "Analyze info like a supercomputer and create an app that summarizes complex research papers.",
+      "Generate creative content like code, scripts, music, and more.",
+    ],
+    support: "Check out the Gemini API to get started. This is an MLH global prize open to every team.",
+    contact: "MLH",
+  },
+  {
+    id: "mlh-elevenlabs",
+    organization: "ElevenLabs",
+    title: "Best Use of ElevenLabs",
+    category: "VOICE AI · MLH GLOBAL PRIZE",
+    challenge:
+      "Deploy natural, human-sounding audio with ElevenLabs. Create realistic, dynamic, and emotionally expressive voices for any project — from interactive AI companions to narrated stories and voice-enabled apps — without actors or complex audio production, using simply the power of AI.",
+    reward: "Wireless Earbuds",
+    rewardNote: "1 winner.",
+    deliverables: [
+      "Give your project a voice — an interactive AI companion, a narrated story, or a voice-enabled app.",
+      "Create realistic, dynamic, and emotionally expressive voices with the ElevenLabs API.",
+      "Integrate a fully autonomous audio experience without the need for actors or complex audio production.",
+    ],
+    support: "Integrate the ElevenLabs API to give your hack a voice. This is an MLH global prize open to every team.",
+    contact: "MLH",
+  },
+  {
+    id: "mlh-vultr",
+    organization: "Vultr",
+    title: "Best Use of Vultr",
+    category: "CLOUD · MLH GLOBAL PRIZE",
+    challenge:
+      "Vultr empowers hackers to bring high-performance projects to life instantly — from one-click deployment and scalable cloud compute to specialized Vultr Cloud GPUs that can power AI-driven applications. Push the limits of what can be built when infrastructure is no longer the bottleneck.",
+    reward: "Portable Screens",
+    rewardNote: "1 winner.",
+    deliverables: [
+      "Deploy your project instantly with Vultr's one-click deployment and scalable cloud compute.",
+      "Power an AI-driven application with specialized Vultr Cloud GPUs.",
+      "Build something that pushes the limits once infrastructure is no longer the bottleneck.",
+    ],
+    support:
+      "Sign up for a Vultr account today and claim your free cloud credits to get started. This is an MLH global prize open to every team.",
+    contact: "MLH",
+  },
+  {
+    id: "mlh-backboard",
+    organization: "Backboard",
+    title: "Best Use of Backboard",
+    category: "AI MEMORY · MLH GLOBAL PRIZE",
+    challenge:
+      "Every AI model API is stateless by default — your app forgets everything the second a session ends. Backboard is a single, unified API built on the world's #1 AI memory: long-term memory, RAG, embeddings, tool calls, model routing across 17,000+ LLMs, and persistent context that stays alive across every page refresh, session, and user. One API, one integration — no stitching together five different services.",
+    reward: "Tile Essentials Pack",
+    rewardNote: "1 winner · each winning team member receives a pack.",
+    deliverables: [
+      "AI-powered travel guide that remembers allergies and preferences from past trips.",
+      "Personalized fitness coach that adjusts workouts based on progress and injury history.",
+      "Smart home controller that learns routines over time to anticipate lighting and climate preferences.",
+    ],
+    support:
+      "Use Backboard for state management, long-term memory, RAG, embeddings, tool calls, and model routing from one API. This is an MLH global prize open to every team.",
+    contact: "MLH",
+  },
+  {
+    id: "mlh-snowflake",
+    organization: "Snowflake",
+    title: "Best Use of Snowflake API",
+    category: "DATA + AI · MLH GLOBAL PRIZE",
+    challenge:
+      "Play with industry-leading LLMs on a single account using the Snowflake APIs. Adding AI capabilities into your application can be as simple as a single CURL command to Snowflake's REST API.",
+    reward: "Raspberry Pi 4",
+    rewardNote: "1 winner.",
+    deliverables: [
+      "Add AI capabilities to your app with a single CURL command to Snowflake's REST API.",
+      "Build a customized application or a RAG-powered chatbot on industry-leading LLMs.",
+      "Embed AI-powered features into your app in half the time with half the hassle.",
+    ],
+    support:
+      "Get started free with a special 120-day student Snowflake trial; a sample repo shows the REST API in action. This is an MLH global prize open to every team.",
+    contact: "MLH",
+  },
 ]
