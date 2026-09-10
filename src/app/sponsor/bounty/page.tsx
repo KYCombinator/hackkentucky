@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Fall26Shell, SectionHead, tagClass } from "@/components/fall26-shell"
 import { VideoCarousel, type CarouselVideo } from "@/components/video-carousel"
+import { BountyBoard } from "@/components/bounty-board"
 
 // Bounty intake runs through the KY Combinator application workstream. The
 // submit button auto-switches to an external link-out for http(s) URLs.
@@ -70,21 +71,24 @@ function SubmitButton({ className, children }: { className: string; children: Re
 export default function BountyPage() {
   return (
     <Fall26Shell
-      tag="⌁ POST_A_BOUNTY"
+      tag="⌁ THE_BOUNTY_BOARD"
       title={
         <>
           BOUNTIES<span className="text-[#c9f73b]">.</span>
         </>
       }
-      intro="A bounty is a problem plus a reward. You define a real challenge, set a reward — cash or in-kind, ~$200 in value is plenty — and give it to the team that solves it best. The problem motivates builders more than the prize. Here's how to write one a room will fight over."
+      intro="Pick a real problem. Build something that matters. Explore the Fall 2026 challenges and rewards below, or bring a challenge of your own for teams to take on."
     >
       {/* top CTA bar */}
       <section className="flex flex-col gap-4 border-b border-[rgba(201,247,59,.22)] px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-9">
         <span className="text-[12px] uppercase tracking-[1px] text-[rgba(242,242,236,.55)]">
-          Cash or in-kind · <span className="text-[#c9f73b]">~$200 in value</span> · stack it on any tier.
+          Real problems · <span className="text-[#c9f73b]">cash + in-kind rewards</span> · your next build.
         </span>
         <div className="flex flex-wrap gap-3">
-          <SubmitButton className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]">
+          <a href="#challenges" className="inline-block bg-[#c9f73b] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#0b0b0b] transition-colors hover:bg-[#f2f2ec]">
+            EXPLORE BOUNTIES ↓
+          </a>
+          <SubmitButton className="inline-block border border-[rgba(242,242,236,.5)] px-6 py-3 text-[13px] font-bold tracking-[1px] text-[#f2f2ec] transition-colors hover:border-[#c9f73b] hover:text-[#c9f73b]">
             ⧫ SUBMIT A BOUNTY →
           </SubmitButton>
           <a
@@ -95,6 +99,8 @@ export default function BountyPage() {
           </a>
         </div>
       </section>
+
+      <BountyBoard />
 
       {/* past participants */}
       <section id="examples" className="scroll-mt-6 border-b border-[rgba(201,247,59,.22)] px-5 py-16 sm:px-9">

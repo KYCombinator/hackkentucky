@@ -355,6 +355,9 @@ export default function SponsorPage() {
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/sponsor/bounty#challenges" className={ctaGhost}>
+            EXPLORE THIS YEAR&apos;S BOUNTIES →
+          </Link>
           <Link href="/sponsor/bounty" className={ctaPrimary}>
             ⧫ POST A BOUNTY →
           </Link>
