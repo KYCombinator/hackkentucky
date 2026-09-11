@@ -85,6 +85,48 @@ export const BOUNTIES: Bounty[] = [
     support: "The Bats are willing to reward multiple winning teams.",
     contact: "Carter Davis",
   },
+  {
+    id: "kyndly",
+    organization: "Kyndly Technologies",
+    title: "Make provider search feel human",
+    category: "HEALTHCARE + SEARCH",
+    challenge:
+      "Finding a doctor shouldn't feel like searching a spreadsheet. Build a fast, friendly tool that helps people find nearby doctors and healthcare facilities, understand their options, and save the providers who matter to them.",
+    reward: "$200 cash + swag",
+    deliverables: [
+      "Let users search for physicians and facilities by name and ZIP code inside Kynd Choice.",
+      "Show useful provider details, including specialty, credentials, location, and NPI.",
+      "Check whether a selected provider participates in each displayed plan's network.",
+      "Clearly distinguish confirmed in-network, out-of-network, and unknown results.",
+      "Add a Recommend a Doc feature when a user selects a plan that does not cover their provider.",
+      "Recommend comparable in-network providers based on specialty, proximity, and other available attributes.",
+      "Explain why each provider was recommended.",
+    ],
+    stretch:
+      "Support provider preferences for an entire household and rank plans by how well their networks cover everyone's preferred care.",
+    support:
+      "This must be built into the Kynd Choice shopping experience, not a HealthSherpa-hosted shopping flow. HealthSherpa ONE can provide provider identity and NPI data. Plan-network participation must come from verified Kyndly network data or another authoritative source — it should never be inferred or presented as confirmed when unknown.",
+    contact: "The Kyndly team",
+  },
+  {
+    id: "swell",
+    organization: "Swell",
+    title: "Dupe Something",
+    category: "PRODUCT + AI",
+    challenge:
+      "Pick a product you use every day — Instagram, Google Calendar, Slack, Linear, Superhuman, whatever. Rebuild the core of it well enough that someone could use it as an MVP and believe in the future of the product. It must work, it must be user-friendly, and it must make at least one critical improvement on the original.",
+    reward: "$200 + an interview",
+    deliverables: [
+      "Pick a product you use every day (Instagram, Google Calendar, Slack, Linear, Superhuman…) and rebuild its core.",
+      "Make it good enough to ship as an MVP — it has to actually work and be user-friendly.",
+      "Make at least one critical improvement on the original.",
+      "Connect a (mock) Swell account and use it to make the product smarter.",
+    ],
+    stretch: "Bonus points: make it smarter with Swell in any way that improves the product.",
+    support:
+      "Swell maps how people's personalities are wired (and evolvable) across 63 traits, predicts repeating behavior patterns from those traits, and uses that to help people change the patterns they want to stop repeating. Connect a (mock) Swell account and use it — think a calendar that knows why your 2pm with Dana always runs long, or a group chat app that shows compatibility across your group. Mock data and shapes provided.",
+    contact: "The Swell team",
+  },
 
   // --- MLH global prizes: open to every team, judged and awarded by MLH ---
   {
